@@ -4,7 +4,7 @@ window.startAPillExperience = async function startAPillExperience({
   videoSrc,
   glbSrc,
   showGlbAt = 17,
-  redirectTo = '/Digiphatoxina/index.html',
+  redirectTo = '../../index.html',
   fadeMs = 10000,
   cameraOrbit = '190deg 60deg 6m',
   earlyGlbSeconds = 0
