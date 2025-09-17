@@ -2,7 +2,7 @@
   "use strict";
 
   // === LINK DI DESTINAZIONE CENTRALIZZATO ===
-  const NEXT_PAGE = "dd-pill/dd-pill.html";
+  const NEXT_PAGE = "Digipathoxina/dpx/a-01/a-pill.html";
 
   const EL = {
     main: document.getElementById('main'),

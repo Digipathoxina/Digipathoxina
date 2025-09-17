@@ -5,9 +5,9 @@ window.startAPillExperience = async function startAPillExperience({
   glbSrc,
   showGlbAt = 17,
   redirectTo = '/Digiphatoxina/index.html',
-  fadeMs = 900,
+  fadeMs = 10000,
   cameraOrbit = '190deg 60deg 6m',
-  earlyGlbSeconds = 2
+  earlyGlbSeconds = 0
 } = {}) {
   const root = document.createElement('div');
   root.className = 'a-exp';
