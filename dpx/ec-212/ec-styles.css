@@ -1,0 +1,538 @@
+:root{
+  /* DIVINE — indigo notte + azzurro etereo + accenti oro */
+  --bg:#0b0f1f;
+  --bg-grad1:#3a539e;
+  --bg-grad2:#04060c;
+
+  --ink:#f9fbff;
+  --muted:#d2dbf0;
+
+  --chip:#152a57a6;
+  --chip-ink:#e7efff;
+
+  --gold:#ffd86b;
+  --gold-deep:#d4a017;
+
+  --accent:var(--gold);
+  --accent-2:#fff2b6;
+
+  --glass:rgba(255,255,255,.10);
+  --glass-border:rgba(255,255,255,.22);
+
+  --radius:16px;
+}
+
+/* Reset & base */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 600px at 10% -10%, var(--bg-grad1), transparent),
+    radial-gradient(900px 450px at 110% 10%, var(--bg-grad2), transparent),
+    var(--bg);
+  font-size:13px;
+}
+
+/* HEADER */
+.top{
+  position:sticky; top:0; z-index:50;
+  background:rgba(10,16,36,.55);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+
+/* header left/right */
+.header-flex{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;cursor:pointer}
+.brand .cat{font-weight:800;color:var(--ink)}
+.brand .logo{font-weight:800;font-size:1.2rem;letter-spacing:.2px}
+
+.brand:hover{ color:var(--gold)}
+.brand .cat:hover{ color:var(--gold)}
+
+/* Language switch (small) */
+.lang-switch{
+  display:flex; gap:6px; background:var(--glass);
+  border:1px solid var(--glass-border); border-radius:999px; padding:3px;
+}
+.lang-switch button{
+  appearance:none;border:0;border-radius:999px;padding:.26rem .54rem;font-weight:800;
+  color:#ffffffd9;background:transparent;cursor:pointer;font-size:.78rem;letter-spacing:.02em;
+}
+.lang-switch button.on{background:var(--accent);color:#00234d}
+
+/* TABS */
+.tabs-wrap{
+  margin:10px auto 10px;
+  display:flex; justify-content:center;
+  background:var(--glass); border:1px solid var(--glass-border);
+  border-radius:999px; padding:3px 4px; width:max-content; gap:2px;
+}
+.tabs-wrap .tab{
+  display:inline-block; padding:.36rem .8rem;
+  border-radius:999px; text-decoration:none; font-weight:800; 
+  color:var(--ink); opacity:.95; font-size:.9rem;
+}
+.tabs-wrap .tab:hover{opacity:1}
+.tabs-wrap .tab.active{background:var(--accent); color:#00234d}
+
+/* HERO */
+.home-hero{margin:8px auto 16px; display:flex; justify-content:center}
+.home-hero img{
+  max-width:40%; width:40%;
+}
+
+/* Layout 2 colonne */
+.layout{
+  display:grid;grid-template-columns:320px 1fr;gap:22px;align-items:start;
+  margin:6px auto 22px;
+}
+
+/* Glass card (usata solo dal login) */
+.card.glass{
+  background:#ffd86bb3;
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius);
+  box-shadow:0 8px 24px rgba(0,0,0,.45);
+  color:rgba(0, 0, 0, 0.81);
+  padding:16px;
+  backdrop-filter: blur(12px);
+}
+.card h2{margin:0 0 10px 0; font-size:1rem}
+
+/* Sidebar spacing */
+.sidebar > *{margin-bottom:18px}
+
+/* Panel headings uniformi anche senza card */
+.sidebar > section h2{
+  font-size:1rem; margin:0 0 8px 0; color:#eaf2ff;
+}
+
+/* Widgets */
+.login input{
+  width:100%;margin:.35rem 0 .6rem;padding:.5rem .65rem;
+  border:1px solid rgba(255,255,255,.18);border-radius:10px;
+  background:rgba(255, 255, 255, 0.427);color:var(--ink)
+}
+.btn{
+  background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#00234d; border:0; border-radius:10px;
+  padding:.52rem .8rem; font-weight:700; cursor:pointer; font-size:.92rem;
+}
+
+/* Placeholder (senza card) */
+.placeholder{
+  padding:8px 2px;
+  text-align:center;
+}
+.placeholder h2{margin:0 0 6px;font-size:.95rem}
+.placeholder p{margin:0;font-size:.85rem}
+
+/* ===================== */
+/* Banner (senza card)   */
+/* ===================== */
+
+.banner{
+  max-width: 320px;
+  margin: 0 auto 24px;
+  text-align:center;
+}
+.banner h2{
+  text-align:center;
+  margin:0 0 6px 0;
+  font-size:.95rem;
+}
+.banner .pray{
+  width: clamp(50px, 35%, 100px);
+  height:auto;
+  display:block;
+  margin: 6px auto 10px;
+  border:0; background:transparent;
+  transition: opacity .25s ease;
+}
+.banner .pray-link{
+  display:inline-block;
+  padding:.45rem .9rem;
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:800;
+  background:#ffffff;
+  color:var(--gold-deep);
+  border:1px solid var(--gold);
+  transition: box-shadow .2s ease, transform .15s ease, color .2s ease, background .2s ease;
+}
+.banner .pray-link:hover{
+  background:#ffffff;
+  color:var(--gold);
+  box-shadow:0 0 0 2px rgba(255,216,107,.35), 0 0 16px 2px rgba(255,216,107,.55);
+  transform: translateY(-1px);
+}
+.banner .pray-link:focus-visible{
+  outline:2px solid var(--gold);
+  outline-offset:3px;
+}
+.banner:has(.pray-link:hover) .pray,
+.banner:has(.pray-link:focus-visible) .pray{
+  content:url("media/pray_hover.png");
+}
+
+/* ===================== */
+/* Messages & Spam       */
+/* ===================== */
+
+/* Messaggi: NIENTE card, ma lista con bordo tratteggiato */
+.messages .msg-list{
+  width:100%; max-height:260px; overflow-y:auto; padding-right:8px;
+  border:1px dashed rgba(255,255,255,.22); border-radius:12px;
+  background:transparent;
+}
+.msg{padding:10px 8px;border-bottom:1px dashed rgba(255,255,255,.12)}
+.msg:last-child{border-bottom:0}
+.msg .from{font-weight:700;color:#cbe8ff;font-size:.9rem}
+.msg .text{color:#dfeaff}
+
+/* Spam centrato e grande (come da ultima versione) */
+.ad-slot{padding:6px 0 14px; text-align:center;}
+.ad-slot #spamZone img{
+  display:inline-block;
+  width:auto;
+  max-width:85%;
+  max-height:220px;
+  height:auto;
+  border-radius:12px;
+  border:1px dashed rgba(255,255,255,.25);
+  background:#0002;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+}
+
+/* ===================== */
+/* Tag pill colorati     */
+/* ===================== */
+.tags{
+  display:flex; flex-wrap:wrap; gap:8px;
+}
+.tags a{
+  --pill-bg: linear-gradient(135deg, rgba(21,42,87,.55), rgba(255,216,107,.25));
+  display:inline-block;
+  background:var(--pill-bg);
+  color:var(--chip-ink);
+  border:1px solid rgba(255,255,255,.18);
+  padding:.24rem .62rem;
+  border-radius:999px;
+  font-size:.82rem;
+  font-weight:700;
+  text-decoration:none;
+  letter-spacing:.01em;
+  transition:transform .12s ease, box-shadow .2s ease, background .2s ease;
+}
+.tags a:hover{
+  transform:translateY(-1px);
+  box-shadow:0 4px 14px rgba(0,0,0,.25);
+}
+.tags a.active{
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:#00234d;
+  border-color:var(--accent);
+  box-shadow:0 0 0 2px rgba(255,216,107,.35);
+}
+
+/* ===================== */
+/* Feed / Posts          */
+/* ===================== */
+.feed{display:flex;flex-direction:column;gap:30px}
+
+.post{
+  height:185px;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius);
+  box-shadow:0 10px 26px rgba(0,0,0,.45);
+  overflow:hidden; backdrop-filter: blur(12px);
+  padding:10px;
+  display:grid; grid-template-columns:200px 1fr; gap:10px;
+}
+.post .thumb{
+  width:81%;
+  height:auto;
+  object-fit:cover;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.18);
+}
+.post .right{display:flex;flex-direction:column;gap:6px}
+.tagsline{display:flex;flex-wrap:wrap;gap:6px;font-size:.82rem;color:#cbe8ff}
+
+/* Titolo ed excerpt */
+.title{margin:0; font-size:1.54rem; line-height:0.90}
+.title a{color:var(--ink); text-decoration:none}
+.title a:hover{text-decoration:underline}
+.excerpt{color:#dfeaff; opacity:.92; font-size:1rem}
+
+/* Footer riga: link a sinistra, data a destra */
+.post .foot{
+  margin-top:auto; display:flex; align-items:center; width:100%;
+}
+
+/* READ LINK (senza bottone) */
+.read{
+  background:none; border:0; padding:0; margin-right:auto; border-radius:0;
+  color:var(--gold); font-weight:800; font-size:.98rem; text-decoration:underline; cursor:pointer; transform: translate(-15px, -15px);
+}
+.read:hover{ color:var(--accent); text-decoration:underline; box-shadow:none; }
+.read.video{ background:none; color:var(--gold); }
+
+/* Data a destra */
+.datetime{ color:#c8d6ee; font-size:.88rem; margin-left:auto; transform: translateY( -15px); }
+
+/* Vista articolo / about */
+.view{
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius);
+  box-shadow:0 10px 26px rgba(0,0,0,.45);
+  padding:24px; backdrop-filter: blur(12px);
+}
+.view .title{margin:0 0 6px; font-size:1.6rem; line-height:1.2}
+.view .meta{color:#c8d6ee;font-size:.92rem;margin-bottom:14px}
+.view .hero{width:100%;height:auto;border-radius:12px;border:1px solid rgba(255,255,255,.18);margin:6px 0 12px}
+.view .back{display:inline-block;margin-top:14px;color:#cbe8ff;text-decoration:underline;font-weight:800}
+.view .back:hover{text-decoration:underline}
+
+/* Prose */
+.view .prose{max-width:72ch;line-height:1.7;font-size:1.02rem}
+.view .prose p{margin:0 0 1rem}
+.view .prose blockquote{
+  margin:1rem 0;padding:.8rem 1rem;border-left:4px solid var(--accent);background:rgba(255,255,255,.06);border-radius:8px
+}
+.view .prose hr{border:0;border-top:1px solid rgba(255,255,255,.14);margin:1.1rem 0}
+.view .prose figure{margin:1rem 0}
+.view .prose figcaption{font-size:.9rem;color:#c8d6ee;margin-top:.4rem}
+
+/* Video */
+.video-wrap .tip{color:#c8d6ee;font-size:.9rem;margin-top:6px}
+video{width:100%;height:auto;display:block;margin-top:8px;background:#000;border-radius:12px}
+
+/* Footer */
+.foot{margin:22px auto 36px; padding:18px 16px; text-align:center; color:#c8d6ee}
+
+/* Responsive */
+@media (max-width: 980px){
+  .layout{grid-template-columns:1fr}
+  .post{grid-template-columns:1fr}
+  .post .thumb{height:180px}
+}
+
+/* Overlay HACK */
+#hackOverlay{
+  position:fixed; inset:0; display:none; place-items:center;
+  background:rgba(0, 0, 0, 0.923); z-index:1000;
+  font-weight:700; font-size: clamp(28px, 6vw, 72px);
+  color:#33ff00;
+  letter-spacing:.03em; user-select:none;
+}
+#hackOverlay.show{display:grid;}
+
+/* Modal Admin */
+#adminModal{
+  position:fixed; inset:0; display:none; place-items:center;
+  background:rgba(0,0,0,.5); z-index:1000;
+}
+#adminModal.show{display:grid;}
+#adminModal .modal-card{
+  width:min(520px, 92vw);
+  background:var(--glass); border:1px solid var(--glass-border);
+  border-radius:16px; padding:18px; box-shadow:0 20px 40px rgba(0,0,0,.45);
+  backdrop-filter: blur(12px);
+}
+.modal-title{margin:0 0 10px 0; font-size:1.2rem}
+.modal-list{margin:0 0 14px 0; padding-left:18px; color:var(--ink)}
+.modal-logout{width:100%}
+
+/* Profilo (avatar + testo) */
+.profile{ display:flex; align-items:flex-start; gap:12px; }
+.profile .avatar{
+  width:56px; height:56px; border-radius:50%; object-fit:cover;
+  border:1px solid var(--glass-border); box-shadow:0 4px 12px rgba(0,0,0,.25);
+}
+
+/* ===================== */
+/* Card LOGIN personalizzata */
+/* ===================== */
+.card.glass.login-card{
+    background: linear-gradient(
+    135deg,
+    rgba(255, 216, 107, 0.9) 0%,
+    rgba(255, 255, 255, 0.5) 100%
+  );
+  border:1px solid rgba(216, 198, 32, 0.595);
+  color:#0b0f1f; /* testi blu scuro */
+}
+
+.card.glass.login-card h2,
+.card.glass.login-card label,
+.card.glass.login-card input{
+  color:#0b0f1f;
+}
+
+.card.glass.login-card input{
+  background:rgba(255,255,255,0.4);
+  border:1px solid rgba(11, 15, 31, 0.1);
+  color: #0b0f1f;
+}
+
+/* bottone login: blu scuro pieno, testo bianco */
+.card.glass.login-card .btn{
+  background:#0b0f1f;   /* blu scuro */
+  color:#ffffff;        /* testo bianco */
+  border-radius:10px;
+  border:0;
+  font-weight:700;
+  font-size:.92rem;
+  padding:.52rem .8rem;
+}
+.card.glass.login-card .btn:hover{
+  background:#13214a; /* blu leggermente più chiaro */
+}
+
+/* --- CENTRATURA IMMAGINI NELLA VISTA ARTICOLO --- */
+.view .hero{
+  display:block;
+  margin:8px auto 14px;               /* centrata */
+  max-width:min(720px, 95%);
+  height:auto;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.18);
+}
+
+.view .prose figure{
+  margin:1rem auto;                   /* centrata */
+  text-align:center;
+  max-width:min(720px, 95%);
+}
+.view .prose figure img{
+  display:block;
+  margin:0 auto;                      /* img al centro */
+  max-width:100%;
+  height:auto;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,.18);
+}
+.view .prose figcaption{
+  font-size:.9rem;
+  color:#c8d6ee;
+  margin-top:.4rem;
+}
+
+/* qualsiasi img “sciolta” nel testo */
+.view .prose img{
+  display:block;
+  margin:8px auto;                    /* centrata */
+  max-width:min(720px, 95%);
+  height:auto;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,.18);
+}
+
+/* Mini chat: overlay come il modal admin */
+#pinnedChat{
+  position:fixed; inset:0; display:grid; place-items:center;
+  background:rgba(0,0,0,.5); z-index:1000;
+}
+#pinnedChat .modal-card{
+  width:min(560px, 92vw);
+  background:var(--glass); border:1px solid var(--glass-border);
+  border-radius:16px; padding:18px; box-shadow:0 20px 40px rgba(0,0,0,.45);
+  backdrop-filter: blur(12px);
+}
+#pinnedChat .messages{max-height:40vh; overflow:auto; border:1px dashed rgba(255,255,255,.22); border-radius:12px; padding:6px}
+#pinnedChat .msg{padding:10px 8px; border-bottom:1px dashed rgba(255,255,255,.12)}
+#pinnedChat .msg:last-child{border-bottom:0}
+#pinnedChat .from{font-weight:700;color:#cbe8ff}
+
+/* Link "Altri post / More posts" */
+.more-wrap {
+  text-align:center;
+  margin:26px 0 10px;
+}
+.more-link {
+  display:inline-block;
+  padding:.5rem 1.1rem;
+  font-weight:800;
+  text-decoration:none;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:#00234d;
+  border-radius:999px;
+  transition:transform .15s ease, box-shadow .2s ease;
+}
+.more-link:hover {
+  transform:translateY(-1px);
+  box-shadow:0 4px 14px rgba(0,0,0,.25);
+}
+
+.view + .more-wrap .more-link {
+  background: none;
+  color: inherit;           /* come gli altri link dell'elenco */
+  padding: 0;
+  border-radius: 0;
+  font-weight: 400;
+  text-decoration: underline;
+  box-shadow: none;
+  transition: none;
+}
+.view + .more-wrap .more-link:hover {
+  transform: none;
+  box-shadow: none;
+  text-decoration: underline; /* resta sottolineato anche all'hover */
+}
+
+.view .navline{
+  display:flex;
+  justify-content: space-between;   /* se li vuoi alle estremità */
+  align-items: center;               /* allinea verticalmente */
+  margin-top: 14px;
+  gap: 24px;
+}
+
+.view .navline a{
+  color:#cbe8ff;
+  text-decoration: underline;
+  font-weight: 800;
+}
+
+.view .navline .back{ margin-top: 0; } /* annulla il margine ereditato */
+
+.view .navline .next {
+  color: #cbe8ff;             /* usa esattamente il colore del testo/link del contesto */
+  text-decoration: underline; /* come il back */
+  font-weight: 600;
+  background: none;
+  border: 0;
+}
+.view .navline .next:visited,
+.view .navline .next:hover,
+.view .navline .next:active,
+.view .navline .next:focus {
+  color: #cbe8ff;             /* evita variazioni viola/hover */
+  text-decoration: underline; /* resta sottolineato */
+  outline: none;
+}
+
+/* --- Link speciali nella sezione Widget --- */
+.placeholder p a {
+  display:inline-block;
+  margin: 4px 0;
+  font-weight:600;
+  text-decoration:none;
+  color:#d4af37;                /* dorato */
+  transition:color .2s ease, text-shadow .2s ease;
+}
+
+.placeholder p a:hover {
+  color:#ffd700;                /* gold più brillante al passaggio */
+  text-shadow:0 0 6px rgba(255,215,0,0.6);
+}
+
+.placeholder h2 {
+  color:#d4af37;                /* anche il titolo “Widget” se vuoi in oro */
+}

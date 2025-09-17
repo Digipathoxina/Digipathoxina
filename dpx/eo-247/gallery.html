@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery</title>
+
+  <link rel="icon" type="image/png" href="../../favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="../../favicon/favicon.svg" />
+  <link rel="shortcut icon" href="../../favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Digipathoxina" />
+  <link rel="manifest" href="../../favicon/site.webmanifest" />
+
+
+  <!-- Font per i testi “fumo” -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ballet:opsz@16..72&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: #fff;
+      overflow: hidden; /* niente scroll nella scena iniziale */
+      font-family: Arial, sans-serif;
+    }
+
+    #scene { position: relative; width: 100vw; height: 100vh; }
+    .fade-out { opacity: 0; transition: opacity 1.6s ease; }
+    .hidden { display: none !important; }
+
+    /* ========= GIF CENTRALE (fissata + un po' più in alto) ========= */
+    .gif-center{
+      position: fixed;       /* fissata allo schermo */
+      top: 46%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60vw;
+      height: auto;
+      z-index: 1;
+    }
+
+    /* Cornice con i tuoi offset */
+    .cornice{
+      position: fixed;
+      top: -50px;
+      left: 97px;
+      width: 84rem;
+      height: auto;
+      object-fit: cover;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Bio */
+    .titolo{
+      position: fixed;
+      top: calc(49% + 37vh);     /* tua posizione */
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: normal;
+      font-size: 0.78rem;
+      line-height: 1.3;         /* più compatto tra le righe */
+      color: #000;
+      text-align: center;
+      z-index: 3;
+      margin: 0;
+      padding: 0.05rem 0.4rem;
+      background: rgba(255,255,255,0);
+    }
+    .titolo .work-title{ font-style: italic; color:#000; }
+    .titolo .work-meta { color:#7d7d7d; } /* nero un po’ più grigietto */
+
+    /* ======= Toggle lingua (stessa posizione in entrambe le parti) ======= */
+    .lang-toggle{
+      position: fixed;
+      top: 10px;
+      right: 12px;
+      z-index: 6;
+      font-size: 0.8rem;
+      color: #444; /* grigio scuro */
+      user-select: none;
+      background: rgba(255,255,255,0.7);
+      padding: 4px 8px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: normal;
+    }
+    .lang-toggle .lang { cursor: pointer; text-decoration: none; }
+    .lang-toggle .sep  { opacity: 0.9; }
+    .lang-toggle .active { text-decoration: underline; }
+
+    /* ======= Testi “fumo” (typewriter) ======= */
+    .float-text{
+      position: fixed;
+      z-index: 4;
+      max-width: 48ch;       /* stringhe più lunghe */
+      user-select: text;     /* selezionabili */
+      pointer-events: auto;
+      font-family: "Ballet", cursive;
+      font-style: italic;
+      font-size: 1.08rem;
+      color: #111;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.35);
+      opacity: 0.95;
+      filter: blur(0.15px);
+      animation: floatUp 12s ease-out forwards; /* persistenza maggiore */
+    }
+    @keyframes floatUp{
+      0%{   transform: translate(0, 0) rotate(0deg); }
+      25%{  transform: translate(-3px, -20px) rotate(-0.3deg); }
+      50%{  transform: translate(4px, -50px) rotate(0.3deg); }
+      75%{  transform: translate(-2px, -85px) rotate(-0.2deg); }
+      100%{ transform: translate(3px, -120px) rotate(0.4deg); }
+    }
+    .fade-away{ transition: opacity 2.4s ease; opacity: 0; }
+
+    /* ======= Bottoni ======= */
+    .txt-button, .exit-button{
+      position: fixed;
+      z-index: 5;
+      cursor: pointer;
+      display: inline-block;
+      transform: translateY(0);
+      transition: transform 0.12s ease;
+    }
+    .txt-button { right: 12px; bottom: 12px; }
+    .exit-button{
+      right: 20px;       /* stesso allineamento orizzontale */
+      bottom: 104px;     /* poco più in alto del txt */
+      display: none;     /* compare dopo il ritorno */
+    }
+    .txt-button:hover, .exit-button:hover{ transform: translateY(-6px); }
+    .txt-button img{ display:block; height:80px; width:auto; user-select:none; }
+    .exit-button img{ display:block; height:60px; width:auto; user-select:none; } /* più piccolo */
+
+    /* ======= Seconda parte (più stretta ai lati) ======= */
+    #alt-screen{
+      position: fixed; inset: 0; background:#fff;
+      display: grid; place-items: center;
+      opacity: 0; pointer-events: none; transition: opacity 1.6s ease; z-index: 10;
+    }
+    #alt-screen.visible{ opacity:1; pointer-events:auto; }
+
+    #altLang{ position: fixed; top:10px; right:12px; }
+
+    .two-columns-wrapper{
+      width:100%; height:100%;
+      display:grid; place-items:center;
+      padding:16px 0 24px;
+      overflow:auto;
+    }
+    .two-columns{
+      width: min(78vw, 880px); /* più margine ai lati */
+      column-count: 2;
+      column-gap: 1.8rem;
+      line-height: 1.26;
+      font-size: 0.74rem;
+      color:#111;
+    }
+    .two-columns p{ margin:0 0 0.65rem 0; }
+
+    /* Titolo inline nella seconda parte (bold) */
+    .alt-inline-title{
+      font-weight: 700;            /* grassetto */
+      font-size: 0.84rem;
+      line-height: 1.15;
+      text-decoration: underline;
+      cursor: pointer;
+      break-after: avoid;
+      margin: 0 0 0.55rem 0;       /* spazio sotto il titolo */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======= Scena iniziale ======= -->
+  <div id="scene" aria-live="polite">
+    <div class="lang-toggle" id="sceneLang">
+      <span class="lang active" id="sceneITA" data-lang="ITA">ITA</span>
+      <span class="sep">/</span>
+      <span class="lang active" id="sceneENG" data-lang="ENG">ENG</span>
+    </div>
+
+    <img src="gallery_img/the_garden_of_no_grass_touched.gif" alt="Opera" class="gif-center" id="mainGif">
+    <img src="gallery_img/cornice.png" alt="Cornice" class="cornice">
+
+    <!-- Bio aggiornata -->
+    <h1 class="titolo" id="operaTitle">
+      <span class="work-title">The Garden of No Grass Touched</span><br>
+      <span class="work-meta">Martina Borgese</span><br>
+      <span class="work-meta">2025</span>
+    </h1>
+
+    <!-- Bottoni -->
+    <a class="txt-button" id="txtBtn" title="Room sheet" aria-label="Room sheet">
+      <img src="gallery_img/txt.png" alt="Room sheet">
+    </a>
+    <a class="exit-button" id="exitBtn" href="eo-index.html" title="Go to next page" aria-label="Go to next page">
+      <img src="gallery_img/exit.png" alt="Exit">
+    </a>
+  </div>
+
+  <!-- ======= Seconda parte ======= -->
+  <section id="alt-screen" aria-hidden="true">
+    <div class="lang-toggle" id="altLang">
+      <span class="lang active" id="altITA" data-lang="ITA">ITA</span>
+      <span class="sep">/</span>
+      <span class="lang" id="altENG" data-lang="ENG">ENG</span>
+    </div>
+
+    <div class="two-columns-wrapper">
+      <div class="two-columns" id="altText"><!-- riempito via JS --></div>
+    </div>
+  </section>
+
+  <script>
+    /* ================== Testi ITA/ENG (estratto) ================== */
+    const paragraphsITA = [
+      "Una Vita nel Giardino dall’Erba Intoccata",
+      "Con la diffusione di Internet nella maggior parte della popolazione mondiale, diventa difficile distinguere chi sia davvero “estremamente” online e chi no. Consultare Google per i dubbi più banali, chiedere a ChatGPT la spiegazione degli esiti dell’esame del sangue o affidarsi a utenti online per consigli rapidi sono pratiche ormai normalizzate, così come la condivisione frenetica della propria vita online. Tuttavia quando parliamo di persone chronically online, ci riferiamo a chi ha portato avanti un’abitudine costante nell’esperienza digitale che nel tempo è diventata gradualmente inevitabile e irrimediabile, al punto che disconnettersi non appare più come una scelta semplice o realistica.",
+      "Non sorprende che per molti sia difficile lasciar andare uno spazio che offre ciò che appare inaccessibile nella vita reale, come informazioni immediate, senso di comunità, libera possibilità di autorappresentazione ed espressione dietro anonimato o diverse identità adottate a seconda della comunità a cui ci si rivolge.",
+      "Il 2020 è stato il punto di svolta. Durante il lockdown la vita sociale si è trasferita quasi interamente online. Internet, chat e videogiochi hanno permesso di mantenere contatti e sperimentare l’autorappresentazione in rete, favorendo la nascita di sottoculture, nuove estetiche e linguaggi. Questo periodo è custodito da alcuni che non si sono mai sentiti parte di una società offline come un tesoro prezioso; un mondo digitale surreale e inclusivo, ricordato con la stessa nostalgia di un posto che li ha fatti sentire a casa.",
+      "Il termine chronically online, tuttavia, circola per lo più come insulto verso persone che manifestano una sensibilità spiccata nei confronti di dibattiti nati sui social, spesso legati a temi sociali come discriminazioni, identità di genere e sessualità. La critica riguardo la scarsa rilevanza “nella vita reale” di questi discorsi sembra riduttiva, data la contaminazione già presente nei linguaggi, nella sensibilità e nell’immaginario quotidiano. Inoltre, come ogni termine discriminatorio, gli utenti offesi l’hanno rivendicato e trasformato in un badge ironico.",
+      "Si prendono gioco di se stessi con meme, ironie condivise ed estetiche assurde che rendono pienamente la capacità delle comunità online di riappropriarsi del linguaggio e piegarlo al proprio vantaggio fino a farlo diventare un inside joke globale.",
+      "Tutto questo senso di comunità nato dall’autoironia collettiva finisce per alienare ancora di più gli users, che alzano un muro tra loro e chi non li comprende, allontanandosi sempre di più da una realtà che diventa nemica, futile e misera ai loro occhi, così come i normie, estranei e incapaci di capire davvero. Questo meccanismo può essere letto alla luce della teoria dell’etichettamento di Becker: un termine nasce come insulto e una volta interiorizzato, viene trasformato in identità.",
+      "Vivere online non è fatto solo di meme, scherzi e ironia; l’utilizzo cronico di Internet e la fiducia sfrenata nei suoi confronti può portare ad alienazione, aspettative irraggiungibili, disagio e senso di inadeguatezza in situazioni ordinarie nel mondo offline. La condizione chronically online non si limita alla dipendenza da uno strumento, ma indica un modo diverso di abitare il mondo, in cui il confine con la realtà diventa fragile, sotto i filtri e le immagini residue di ciò che illumina lo schermo e annebbia la vista."
+    ];
+
+    const paragraphsENG = [
+      "A Life in the Garden of No Grass Touched",
+      "As the Internet keeps on spreading across most of the world’s population, it’s getting harder to tell who’s “extremely” online and who isn’t. Googling the most trivial doubts, asking ChatGPT to explain blood test results or turning to strangers on the web for quick advice are now normalized habits, just like the constant oversharing of our lives online. But when we talk about people who are chronically online, we mean those who have developed a constant digital habit that over time has become gradually unavoidable and irreversible, to the point where disconnecting no longer feels like a simple or even realistic choice.",
+      "It’s not surprising that for many, it is difficult to let go of a space that offers what often seems inaccessible in real life, such as immediate information, a sense of community, the freedom to self-represent and express oneself under anonymity, or through different identities adopted depending on the community one engages with.",
+      "2020 marked the turning point. During lockdown, social life shifted almost entirely online. The Internet, chatrooms and video games allowed people to maintain contact and experiment with self-representation on the web, fostering the rise of subcultures, new aesthetics and languages. This period is treasured by some who never felt part of the offline society, remembered as a precious gem: a surreal and inclusive digital world, recalled with the same nostalgia as a place that made them feel at home.",
+      "The term chronically online, however, circulates mostly as an insult toward those who show strong sensitivity toward debates born on social media, often related to social issues such as discrimination, gender identity and sexuality. The criticism regarding the supposed lack of “real life” relevance of these discussions seems reductive, given the extent to which such topics already permeate language, awareness and popular imagination. Moreover, like many derogatory terms, offended users have reclaimed it and turned it into an ironic badge.",
+      "They make fun of themselves through memes, shared jokes, and absurd aesthetics, fully displaying the ability of online communities to reclaim language and bend it to their advantage, turning it into a global inside joke.",
+      "This sense of community born from collective self-irony ends up alienating users even more, as they build walls between themselves and those who don’t understand them (the “normies”), distancing more and more from a reality that appears hostile, trivial and miserable in their eyes. This mechanism can be read in the light of Becker’s labeling theory: a term is born as an insult, and once internalized, it is transformed into an identity.",
+      "Living online is not just memes, jokes and irony; chronic Internet use and blind trust in it can lead to alienation, unattainable expectations, distress and a feeling of inadequacy in ordinary offline situations. Being chronically online is not limited to dependency on a tool; rather, it’s a different way of inhabiting the world, where the boundary with reality becomes fragile, blurred beneath the filters and lingering images of what illuminates the screen and clouds the gaze."
+    ];
+
+    /* Frasi (ITA/ENG) per la scena iniziale */
+    const phrasesITA = [
+      "Non sorprende che per molti sia difficile lasciar andare uno spazio che offre ciò che appare inaccessibile nella vita reale.",
+      "Si prendono gioco di se stessi con meme, ironie condivise ed estetiche assurde… fino a farlo diventare un inside joke globale.",
+      "La condizione chronically online non si limita alla dipendenza da uno strumento… il confine con la realtà diventa fragile.",
+      "Un termine nasce come insulto e una volta interiorizzato, viene trasformato in identità."
+    ];
+    const phrasesENG = [
+      "It’s not surprising that for many, it is difficult to let go of a space that offers what often seems inaccessible in real life.",
+      "They make fun of themselves through memes, shared jokes, and absurd aesthetics… turning it into a global inside joke.",
+      "Being chronically online is not limited to dependency on a tool… the boundary with reality becomes fragile.",
+      "A term is born as an insult, and once internalized, it is transformed into an identity."
+    ];
+
+    let currentLang = 'ENG';
+
+    /* ===== Seconda parte: render testo e titolo cliccabile ===== */
+    const alt = document.getElementById('alt-screen');
+    const scene = document.getElementById('scene');
+    const exitBtn = document.getElementById('exitBtn');
+
+    function renderAltText(){
+      const altText = document.getElementById('altText');
+      const paragraphs = currentLang === 'ENG' ? paragraphsENG : paragraphsITA;
+      const title = paragraphs[0];
+      const rest = paragraphs.slice(1);
+
+      altText.innerHTML =
+        `<p class="alt-inline-title" id="altInlineTitle">${title}</p>` +
+        rest.map(p => `<p>${p}</p>`).join('');
+
+      document.getElementById('altInlineTitle').addEventListener('click', () => {
+        alt.classList.remove('visible');
+        alt.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = 'hidden';
+        scene.classList.remove('hidden');
+        void scene.offsetWidth;
+        scene.classList.remove('fade-out');
+        /* dopo il ritorno mostra l'icona exit */
+        exitBtn.style.display = 'inline-block';
+        irregularLoop();
+      });
+    }
+
+    /* ===== Testi “fumo” irregolari, più lunghi e bias a destra ===== */
+    const TYPE_MIN_SPEED = 16;
+    const TYPE_MAX_SPEED = 32;
+    const LINGER_AFTER_TYPE = 1500;
+
+    const randBetween = (min, max) => Math.random() * (max - min) + min;
+    const choice = arr => arr[Math.floor(Math.random() * arr.length)];
+
+    function spawnFloatingType(){
+      const el = document.createElement('div');
+      el.className = 'float-text';
+
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+
+      const edgeMargin = Math.max(20, vw * 0.02);
+
+      /* Bias: 75% delle volte nasce sul lato destro */
+      let x;
+      if (Math.random() < 0.75){
+        x = randBetween(vw * 0.55, vw - edgeMargin);   // destra
+      } else {
+        x = randBetween(edgeMargin, vw * 0.55 - 10);   // resto
+      }
+      const y = randBetween(vh * 0.15, vh * 0.85);
+
+      el.style.left = `${x}px`;
+      el.style.top  = `${y}px`;
+      el.style.fontSize = randBetween(1.02, 1.18).toFixed(2) + 'rem';
+
+      const pool = currentLang === 'ENG' ? phrasesENG : phrasesITA;
+      /* Frasi più lunghe: a volte concateno due frasi */
+      let text = choice(pool);
+      if (Math.random() < 0.55){
+        let add = choice(pool);
+        if (add === text) add = choice(pool);
+        text = `${text} ${add}`;
+      }
+
+      document.body.appendChild(el);
+
+      typeWriter(el, text, randBetween(TYPE_MIN_SPEED, TYPE_MAX_SPEED)).then(() => {
+        setTimeout(() => {
+          el.classList.add('fade-away');
+          setTimeout(() => el.remove(), 2400);
+        }, LINGER_AFTER_TYPE);
+      });
+    }
+
+    function typeWriter(el, fullText, speed){
+      return new Promise(resolve => {
+        let i = 0;
+        const chars = fullText.split('');
+        const tick = () => {
+          if (i < chars.length){
+            const c = chars[i] === '\n' ? '<br>' : chars[i];
+            el.innerHTML += c;
+            i++;
+            setTimeout(tick, speed);
+          } else {
+            resolve();
+          }
+        };
+        tick();
+      });
+    }
+
+    /* Loop irregolare: pause, nessuno spawn, burst */
+    let spawnTimer;
+    function irregularLoop(){
+      const longPause = Math.random() < 0.18;
+      const wait = longPause ? randBetween(8000, 15000) : randBetween(800, 6000);
+
+      spawnTimer = setTimeout(() => {
+        const roll = Math.random();
+        if (roll < 0.25){
+          // nessuno spawn
+        } else if (roll < 0.65){
+          spawnFloatingType();
+        } else {
+          const n = Math.random() < 0.6 ? 2 : 3; // burst 2–3
+          for (let k = 0; k < n; k++){
+            setTimeout(spawnFloatingType, k * randBetween(120, 380));
+          }
+        }
+        irregularLoop();
+      }, wait);
+    }
+
+    /* ===== Switch a testo 2 colonne ===== */
+    const txtBtn = document.getElementById('txtBtn');
+    txtBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      clearTimeout(spawnTimer);
+      scene.classList.add('fade-out');
+      scene.addEventListener('transitionend', function onEnd(){
+        scene.removeEventListener('transitionend', onEnd);
+        scene.classList.add('hidden');
+        alt.classList.add('visible');
+        alt.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'auto';
+        renderAltText();
+      }, { once:true });
+    });
+
+    /* ===== Toggle lingua con underline attivo (entrambe le viste) ===== */
+    const sceneITAEl = document.getElementById('sceneITA');
+    const sceneENGEl = document.getElementById('sceneENG');
+    const altITAEl   = document.getElementById('altITA');
+    const altENGEl   = document.getElementById('altENG');
+
+    function updateLangActive(){
+      sceneITAEl.classList.toggle('active', currentLang === 'ITA');
+      sceneENGEl.classList.toggle('active', currentLang === 'ENG');
+      altITAEl.classList.toggle('active',   currentLang === 'ITA');
+      altENGEl.classList.toggle('active',   currentLang === 'ENG');
+    }
+    sceneITAEl.addEventListener('click', () => { currentLang = 'ITA'; updateLangActive(); });
+    sceneENGEl.addEventListener('click', () => { currentLang = 'ENG'; updateLangActive(); });
+    altITAEl.addEventListener('click',  () => { currentLang = 'ITA'; updateLangActive(); renderAltText(); });
+    altENGEl.addEventListener('click',  () => { currentLang = 'ENG'; updateLangActive(); renderAltText(); });
+
+    /* ===== Avvio ===== */
+    window.addEventListener('load', () => {
+      updateLangActive();
+      irregularLoop();
+    });
+  </script>
+</body>
+</html>

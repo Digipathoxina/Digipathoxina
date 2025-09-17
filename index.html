@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digipathoxina</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <!-- Google Model Viewer -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+<link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+<link rel="shortcut icon" href="favicon/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="Digipathoxina" />
+<link rel="manifest" href="favicon/site.webmanifest" />
+
+<script>
+  // Se lo schermo è piccolo o è un dispositivo touch, reindirizza a index_phone.html
+  (function () {
+    const isMobile =
+      /Mobi|Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent) ||
+      (window.matchMedia && window.matchMedia("(max-width: 768px)").matches);
+
+    if (isMobile) {
+      window.location.replace("index_phone.html");
+    }
+  })();
+</script>
+
+  <!-- Stili -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- Modello 3D -->
+  <div id="viewer-container">
+    <model-viewer id="mv" src="digipathoxina.glb" alt="Flacone Digiphatoxina" auto-rotate auto-rotate-delay="0"
+      rotation-per-second="25deg" camera-controls disable-zoom disable-tap interaction-prompt="none"
+      camera-target="0m 0m 0m" camera-orbit="0deg 80deg 0.18m" exposure="0.5" shadow-intensity="0">
+    </model-viewer>
+  </div>
+
+  <!-- Layer effetti / video -->
+  <canvas id="noise-canvas"></canvas>
+  <video id="replacement-video" src="video-reverse.mp4" playsinline preload="auto"></video>
+  <div id="vignette"></div>
+
+  <!-- Pillola finale (nascosta di default anche senza CSS) -->
+  <img id="end-image" src="ic-pill/tablets_ic.png" alt="Vai a Image-Conflict" style="display:none;" />
+
+  <!-- Switch lingua (alto a destra) -->
+  <div id="lang-switch" aria-label="Language" role="radiogroup">
+    <button class="lang active" data-lang="ita" aria-pressed="true" title="Italiano">🇮🇹</button>
+    <button class="lang" data-lang="eng" aria-pressed="false" title="English">🇬🇧</button>
+  </div>
+
+  <!-- Immagini hover che seguono il cursore -->
+  <img id="hover-name" alt="" />
+  <img id="hover-info" alt="" />
+
+  <!-- Script (quello che hai già) -->
+  <script src="script.js"></script>
+</body>
+
+</html>

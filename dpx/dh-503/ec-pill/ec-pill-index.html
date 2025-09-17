@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EC-212</title>
+  <link rel="icon" type="image/png" href="/Digiphatoxina/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/Digiphatoxina/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/Digiphatoxina/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/Digiphatoxina/favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Digipathoxina" />
+  <link rel="manifest" href="/Digiphatoxina/favicon/site.webmanifest" />
+  <link rel="stylesheet" href="ec-pill-styles.css">
+</head>
+
+<body>
+
+  <!-- =================== PILL SECTION (riutilizzabile) =================== -->
+  <div class="pill-section" data-target-url="/Digiphatoxina/dpx/ec-212/ec-index.html" data-lang-default="eng"
+    data-pill-src="tablets_ec.png" data-hover-name-eng="ec_name_eng.png" data-hover-info-eng="ec_info_eng.png"
+    data-hover-name-ita="ec_name_ita.png" data-hover-info-ita="ec_info_ita.png">
+
+    <!-- Noise full-screen -->
+    <canvas class="noise-canvas" aria-hidden="true"></canvas>
+
+    <img class="pill-img" alt="Pill">
+
+    <div id="lang-switch" role="radiogroup" aria-label="Language">
+      <button class="lang" data-lang="eng" aria-pressed="true">🇬🇧</button>
+      <button class="lang" data-lang="ita" aria-pressed="false">🇮🇹</button>
+    </div>
+
+    <img class="hover-name" alt="">
+    <img class="hover-info" alt="">
+  </div>
+
+  <script src="ec-pill-script.js"></script>
+</body>
+
+</html>

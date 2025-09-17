@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EO-24/7</title>
+  <link rel="stylesheet" href="a-styles.css">
+</head>
+<body>
+
+  <!-- =================== PILL SECTION (riutilizzabile) =================== -->
+  <div class="pill-section"
+       data-target-url="/Digiphatoxina/dpx/a-01/a-index.html"
+       data-lang-default="eng"
+       data-pill-src="tablets_a.png"
+       data-hover-name-eng="a_name_eng.png"
+       data-hover-info-eng="a_info_eng.png"
+       data-hover-name-ita="a_name_ita.png"
+       data-hover-info-ita="a_info_ita.png">
+
+    <!-- Noise full-screen -->
+    <canvas class="noise-canvas" aria-hidden="true"></canvas>
+
+    <img class="pill-img" alt="Pill">
+
+    <div id="lang-switch" role="radiogroup" aria-label="Language">
+      <button class="lang" data-lang="eng" aria-pressed="true">🇬🇧</button>
+      <button class="lang" data-lang="ita" aria-pressed="false">🇮🇹</button>
+    </div>
+
+    <img class="hover-name" alt="">
+    <img class="hover-info" alt="">
+  </div>
+
+  <!-- Gestione pill & inject esperienza -->
+  <script src="a-pill-script.js"></script>
+</body>
+</html>

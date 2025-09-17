@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DH-503</title>
+  <link rel="icon" type="image/png" href="../../favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="../../favicon/favicon.svg" />
+  <link rel="shortcut icon" href="../../favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Digipathoxina" />
+  <link rel="manifest" href="../../favicon/site.webmanifest" />
+  <link rel="stylesheet" href="dh-styles.css" />
+</head>
+
+<body>
+  <!-- Bottone iniziale -->
+  <button id="startKey" class="key-btn" aria-label="Start">🔑</button>
+
+  <!-- Palco video -->
+  <div id="stage" class="stage" aria-hidden="true">
+    <!-- Video 1 -->
+    <video id="v1" class="vid v1" preload="auto" playsinline></video>
+
+    <!-- Video 2 -->
+    <video id="v2" class="vid v2" preload="auto" playsinline></video>
+
+    <!-- Video 3 -->
+    <video id="v3" class="vid v3" preload="auto" playsinline></video>
+
+    <!-- Skip (solo su v2) -->
+    <button id="skipBtn" class="skip-btn" aria-label="Skip ahead">Skip ahead</button>
+
+    <!-- Banner su v2 -->
+    <div id="v2Banner" class="v2-banner">luca-carnevarino/titolo/2025</div>
+
+    <img id="loader" class="loader" src="time.gif" alt="" />
+
+    <!-- Notifica su v3 (a 01:20) -->
+    <div id="notify" class="notify" aria-hidden="true">
+      <img src="img/not-card.png" alt="" class="notify-card" />
+      <button id="btnYes" class="notify-btn yes" aria-label="Yes">
+        <img src="img/not-yes.png" alt="Yes" />
+      </button>
+      <button id="btnNo" class="notify-btn no" aria-label="No">
+        <img src="img/not-no.png" alt="No" />
+      </button>
+    </div>
+  </div>
+
+  <script src="dh-script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>PurrNet Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="PurrNet" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="stylesheet" href="ec-styles.css" />
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="top">
+    <div class="wrap top-inner header-flex">
+      <a class="brand" href="#" data-route="home" title="PurrNet">
+        <span class="cat">=^..^=</span> <span class="logo">PurrNet</span>
+      </a>
+
+      <div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
+        <button type="button" data-lang="en" class="on">EN</button>
+        <button type="button" data-lang="it">IT</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <div class="wrap">
+    <nav class="tabs-wrap" id="topTabs" aria-label="Primary">
+      <a href="#" class="tab" data-route="home">Home</a>
+      <a href="#" class="tab" data-route="about">About</a>
+      <a href="#" class="tab" data-route="archive">Archive</a>
+    </nav>
+  </div>
+
+  <!-- HERO (solo Home) -->
+  <div class="wrap home-hero" id="homeHero">
+    <img src="media/homepage.png" alt="Homepage illustration">
+  </div>
+
+  <!-- LAYOUT -->
+  <div class="wrap layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <!-- LOGIN -->
+      <section class="card glass login-card">
+        <h2 data-i18n="loginTitle">Login</h2>
+        <form class="login" id="loginForm">
+          <label data-i18n="userLabel">User<br><input id="loginUser" type="text" placeholder="admin"></label>
+          <label data-i18n="passLabel">Password<br><input id="loginPass" type="password" placeholder="••••••"></label>
+          <button type="submit" class="btn" data-i18n="signinBtn">Sign in</button>
+        </form>
+      </section>
+
+      <!-- MESSAGGI -->
+      <section class="messages">
+        <h2 data-i18n="messagesTitle">Messages</h2>
+        <div class="msg-list" id="msgList"></div>
+      </section>
+
+      <!-- WIDGET -->
+      <section class="placeholder">
+        <h2 data-i18n="widgetTitle">Widget</h2>
+        <p>
+          <a href="#" id="convFissata" data-i18n="pinnedTitle">Conversazione fissata</a><br>
+          <a href="/Didd-pill/dd-pill.html" data-i18n="externalLinks">Altri link utili</a>
+        </p>
+      </section>
+
+      <!-- BANNER -->
+      <section class="banner">
+        <h2 data-i18n="bannerTitle">Banner</h2>
+        <img class="pray" src="media/pray.png" alt="Pray">
+        <a class="big-btn pray-link" href="#" data-next data-i18n="prayCta">Join the prayer</a>
+        <p class="muted" data-i18n="bannerNote">Help and support our community</p>
+      </section>
+
+      <!-- AD random -->
+      <section class="ad-slot" aria-label="Ad">
+        <div id="spamZone"></div>
+      </section>
+
+      <!-- TAGS -->
+      <section>
+        <h2 data-i18n="tagsTitle">Tags</h2>
+        <div class="tags" id="tagCloud"></div>
+      </section>
+    </aside>
+
+    <!-- MAIN -->
+    <main id="main">
+      <section id="feed" class="feed"></section>
+
+      <!-- Link "Altri post / More posts" -->
+      <div class="more-wrap">
+        <a href="#" class="more-link" data-next data-i18n="morePosts">More posts</a>
+      </div>
+
+      <!-- Archivio -->
+      <div id="archiveMore" class="more-wrap">
+        <a href="#" class="more-link" data-next data-i18n="morePosts">More posts</a>
+      </div>
+    </main>
+  </div>
+
+  <footer class="foot">
+    © 2018–2025 PurrNet. All rights reserved.
+  </footer>
+
+  <div id="hackOverlay" aria-hidden="true"> &lt;HACK&gt; </div>
+
+  <!-- Modal Admin -->
+  <div id="adminModal" aria-hidden="true">
+    <div class="modal-card">
+      <h3 class="modal-title">Profilo</h3>
+      <div class="profile">
+        <img class="avatar" src="media/admin.png" alt="Admin avatar">
+        <ul class="modal-list">
+          <li><strong>Nome:</strong> ModGirl_97</li>
+          <li><strong>Email:</strong> modgirl97@purrnet.com</li>
+          <li><strong>Ruolo:</strong> Admin</li>
+        </ul>
+      </div>
+      <button id="logoutBtn" class="btn modal-logout">Logout</button>
+    </div>
+  </div>
+
+  <script src="ec-content-it.js"></script>
+  <script src="ec-content-en.js"></script>
+  <script src="ec-script.js" defer></script>
+</body>
+
+</html>

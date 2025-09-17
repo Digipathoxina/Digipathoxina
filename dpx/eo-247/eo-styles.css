@@ -1,0 +1,129 @@
+:root{ 
+  --meme-width: 220px;
+
+  /* Teeth */
+  --teeth-duration: 200s;
+  --teeth-timing: linear;
+  --teeth-up-final: -70px;
+  --teeth-down-final: -80px;
+}
+
+/* Font helper */
+.coral-pixels-regular {
+  font-family: sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
+body{
+  margin: 0;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
+  background: #fff;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* <<< NUOVO: sfondo in fase intro e dopo click */
+body.intro { background-image: url("x.png"); }
+body.bg-into { background-image: url("into_solo.jpg"); }
+
+.hidden{ display: none !important; }
+
+/* ===== Snail starter ===== */
+#snail{
+  position: fixed;
+  bottom: 4vh;
+  left: 100vw;            /* parte fuori a dx */
+  width: 120px;
+  height: auto;
+  z-index: 1;             /* sotto teeth (15/16) e sotto i meme (2) */
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* ===== Teeth ===== */
+#teeth-up, #teeth-down{
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
+#teeth-up{
+  top: 0;
+  z-index: 16;
+  transform: translate(-50%, -100%);
+}
+#teeth-down{
+  bottom: 0;
+  z-index: 15;
+  transform: translate(-50%, 100%);
+}
+/* animazioni solo dopo click (body.teeth-on) */
+body.teeth-on #teeth-up{
+  animation: teethDown var(--teeth-duration) var(--teeth-timing) forwards;
+}
+body.teeth-on #teeth-down{
+  animation: teethUp var(--teeth-duration) var(--teeth-timing) forwards;
+}
+@keyframes teethDown{ to { transform: translate(-50%, var(--teeth-up-final)); } }
+@keyframes teethUp{   to { transform: translate(-50%, calc(-1 * var(--teeth-down-final))); } }
+
+/* ===== DORA + testo sotto ai meme ===== */
+#dora-layer{
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  place-items: center;
+}
+#dora{
+  width: min(30vw, 380px);
+  height: auto;
+  opacity: 0.95;
+  pointer-events: none;
+}
+#mcluhan{
+  position: absolute;
+  top: 39%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% - 12vh));
+  color: #f9f9f9;
+  font-size: clamp(10px, 2.6vw, 22px);
+  font-weight: 400;
+  line-height: 1.1;
+  z-index: 1;
+  user-select: text;
+}
+
+/* ===== Meme ===== */
+.playground{
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+}
+.meme{
+  position: absolute;
+  width: var(--meme-width);
+  height: auto;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  will-change: transform;
+}
+.meme:active{ cursor: grabbing; }
+.meme > img,
+.meme > video{
+  display: block;
+  width: 50%;
+  height: auto;
+  border-radius: 6px;
+}
+.meme.hovering{ transform: translateZ(0) scale(1.03); }

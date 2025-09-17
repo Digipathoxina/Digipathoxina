@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="it">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EO-247</title>
+
+  <link rel="icon" type="image/png" href="../../favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="../../favicon/favicon.svg" />
+  <link rel="shortcut icon" href="../../favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Digipathoxina" />
+  <link rel="manifest" href="../../favicon/site.webmanifest" />
+
+  <!-- Preload dello sfondo che comparirà dopo il click -->
+  <link rel="preload" as="image" href="into_solo.jpg" />
+
+  <link rel="stylesheet" href="eo-styles.css" />
+</head>
+
+<body class="intro"><!-- <<< classe intro per mostrare x.jpg -->
+
+  <!-- Snail starter -->
+  <video id="snail" preload="auto" muted playsinline loop>
+    <source src="snail.webm?v=4" type="video/webm">
+    <!-- <source src="snail.mp4?v=4" type="video/mp4"> -->
+  </video>
+
+  <!-- Teeth (fermi fino al click) -->
+  <img id="teeth-up" src="teeth-up.png" alt="" aria-hidden="true" />
+  <img id="teeth-down" src="teeth-down.png" alt="" aria-hidden="true" />
+
+  <!-- DORA + testo (nascosti finché non clicchi lo snail) -->
+  <div id="dora-layer" class="hidden" aria-hidden="true">
+    <div id="mcluhan" class="coral-pixels-regular">The Meme is the message</div>
+    <video id="dora" src="https://media.tenor.com/OAeGD1ICPJIAAAPo/dora-hola.mp4" preload="none" playsinline loop
+      muted></video>
+  </div>
+
+  <!-- Meme -->
+  <main id="playground" class="playground hidden" aria-label="Meme Playground"></main>
+
+  <script src="eo-script.js"></script>
+</body>
+
+</html>
