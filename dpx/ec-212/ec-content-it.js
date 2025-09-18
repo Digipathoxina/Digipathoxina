@@ -267,7 +267,7 @@ window.CONTENT_IT = {
     {
       slug: "gatti-alieni-preistoria",
       type: "post",
-      title: "Pupille verticali | Eredi preistorica",
+      title: "Pupille verticali | Eredi preistorici",
       date: "2025-02-14",
       time: "09:40",
       tags: ["gatti-alieni"],
