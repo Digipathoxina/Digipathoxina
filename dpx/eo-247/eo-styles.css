@@ -2,7 +2,7 @@
   --meme-width: 220px;
 
   /* Teeth */
-  --teeth-duration: 200s;
+  --teeth-duration: 100s;
   --teeth-timing: linear;
   --teeth-up-final: -70px;
   --teeth-down-final: -80px;
