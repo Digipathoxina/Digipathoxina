@@ -4,7 +4,7 @@
   const CHARACTER = {
     enter: "hk_animation/hk_enter.webm",
     hello: "hk_animation/hk_hello.webm",
-    ehi: "hk_animation/hk_clickplay.webm",
+    ehi:   "hk_animation/hk_clickplay.webm",
     standbySleep: "hk_animation/hk_standby_sleep.webm",
     glitch: "hk_animation/hk_glitch.webm",
     poses: [
@@ -21,47 +21,47 @@
 
   const IDLE_MS = 12000;
   const STANDBY_WINDOW_MS = 380;
-  const GLITCH_WINDOW_MS = 420;
+  const GLITCH_WINDOW_MS  = 420;
 
   const MAX_IMAGES = 5;
   const IMAGE_SIZE = { w: 360, h: 250 };
 
-  const WALLPAPER_SRC = "hk_animation/hk_wallpaper.jpg";
-  const IC_AUDIO_SRC = "audio_ic.mp3"; // audio ON
+  const WALLPAPER_SRC   = "hk_animation/hk_wallpaper.jpg";
+  const IC_AUDIO_SRC    = "audio_ic.mp3"; // audio ON
 
   // Ritmo “caotico”
   const CASCADE_MS = 300;       // base tra un’apparizione e la successiva
   const CASCADE_JITTER = 100;   // ± jitter
 
   // Fine sequenza
-  const POST_GLITCH_PAUSE = 1800;
-  const PILL_REDIRECT_URL = "eo-pill/eo-pill.html";
+  const POST_GLITCH_PAUSE  = 1800;
+  const PILL_REDIRECT_URL  = "eo-pill/eo-pill.html";
 
   const PANELS_21 = [
-    { id: 'ic_bbc', src: 'hk_animation/panels/ic_bbc.png' },
-    { id: 'ic_nck', src: 'hk_animation/panels/ic_nck.png' },
-    { id: 'ic_ytk', src: 'hk_animation/panels/ic_ytk.png' },
+    { id: 'ic_bbc',  src: 'hk_animation/panels/ic_bbc.png'  },
+    { id: 'ic_nck',  src: 'hk_animation/panels/ic_nck.png'  },
+    { id: 'ic_ytk',  src: 'hk_animation/panels/ic_ytk.png'  },
     { id: 'ic_tbsa', src: 'hk_animation/panels/ic_tbsa.png' },
-    { id: 'ic_ja', src: 'hk_animation/panels/ic_ja.png' },
-    { id: 'ic_omg', src: 'hk_animation/panels/ic_omg.png' },
-    { id: 'ic_hbb', src: 'hk_animation/panels/ic_hbb.png' },
-    { id: 'ic_jj', src: 'hk_animation/panels/ic_jj.png' },
-    { id: 'ic_pp', src: 'hk_animation/panels/ic_pp.png' },
+    { id: 'ic_ja',   src: 'hk_animation/panels/ic_ja.png'   },
+    { id: 'ic_omg',  src: 'hk_animation/panels/ic_omg.png'  },
+    { id: 'ic_hbb',  src: 'hk_animation/panels/ic_hbb.png'  },
+    { id: 'ic_jj',   src: 'hk_animation/panels/ic_jj.png'   },
+    { id: 'ic_pp',   src: 'hk_animation/panels/ic_pp.png'   },
     { id: 'ic_abrc', src: 'hk_animation/panels/ic_abrc.png' },
     { id: 'ic_fifa', src: 'hk_animation/panels/ic_fifa.png' },
     { id: 'ic_nest', src: 'hk_animation/panels/ic_nest.png' },
-    { id: 'ic_gyusa', src: 'hk_animation/panels/ic_gyusa.png' },
+    { id: 'ic_gyusa',src: 'hk_animation/panels/ic_gyusa.png'},
     { id: 'ic_tele', src: 'hk_animation/panels/ic_tele.png' },
     { id: 'ic_uber', src: 'hk_animation/panels/ic_uber.png' },
-    { id: 'ic_enron', src: 'hk_animation/panels/ic_enron.png' },
+    { id: 'ic_enron',src: 'hk_animation/panels/ic_enron.png'},
     { id: 'ic_ther', src: 'hk_animation/panels/ic_ther.png' },
-    { id: 'ic_oxfam', src: 'hk_animation/panels/ic_oxfam.png' },
+    { id: 'ic_oxfam',src: 'hk_animation/panels/ic_oxfam.png'},
     { id: 'ic_volk', src: 'hk_animation/panels/ic_volk.png' },
-    { id: 'ic_bp', src: 'hk_animation/panels/ic_bp.png' },
-    { id: 'ic_737', src: 'hk_animation/panels/ic_737.png' }
+    { id: 'ic_bp',   src: 'hk_animation/panels/ic_bp.png'   },
+    { id: 'ic_737',  src: 'hk_animation/panels/ic_737.png'  }
   ];
 
-  // ====== LINGUE ======
+ // ====== LINGUE ======
   let currentLang = 'eng';
   const TEXTS = {
     eng: {
@@ -124,10 +124,10 @@
     }
   };
 
-  function tIntro() { return (TEXTS[currentLang]?.intro) || TEXTS.ita.intro; }
-  function tBtn() { return (TEXTS[currentLang]?.button) || TEXTS.ita.button; }
-  function tEhi() { return (TEXTS[currentLang]?.ehi) || TEXTS.ita.ehi; }
-  function tCaption(id) { return (CAPTIONS[currentLang]?.[id]) || (CAPTIONS.ita?.[id]) || "…"; }
+  function tIntro()    { return (TEXTS[currentLang]?.intro)   || TEXTS.ita.intro; }
+  function tBtn()      { return (TEXTS[currentLang]?.button)  || TEXTS.ita.button; }
+  function tEhi()      { return (TEXTS[currentLang]?.ehi)     || TEXTS.ita.ehi; }
+  function tCaption(id){ return (CAPTIONS[currentLang]?.[id]) || (CAPTIONS.ita?.[id]) || "…"; }
 
   // ---- LANG SWITCH ----
   let langLocked = false;
@@ -167,7 +167,7 @@
         setLanguage(btn.getAttribute('data-lang') || 'eng');
         if (introBubbleEl) {
           const textEl = introBubbleEl.querySelector('#hk_bubble_text');
-          const btnEl = introBubbleEl.querySelector('#hk_btn');
+          const btnEl  = introBubbleEl.querySelector('#hk_btn');
           const newTxt = tIntro();
           btnEl.textContent = tBtn();
           applyBubbleFixedHeight(introBubbleEl, textEl, newTxt, { hasButton: true });
@@ -185,7 +185,7 @@
         if (ehiBubbleEl) {
           const textEl = ehiBubbleEl.querySelector('#hk_ehi_text');
           const newTxt = tEhi();
-          applyBubbleFixedHeight(ehiBubbleEl, textEl, newTxt, { hasButton: false });
+          applyBubbleFixedHeight(ehiBubbleEl, textEl, newTxt, { hasButton:false });
           textEl.textContent = newTxt;
         }
       });
@@ -213,15 +213,15 @@
 
   // ---------- UTILS ----------
   const pick = arr => arr[(Math.random() * arr.length) | 0];
-  function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-  function jittered(ms, j = 250) { return ms + Math.floor((Math.random() * 2 - 1) * j); }
-  function once(el, ev) { return new Promise(res => el.addEventListener(ev, () => res(), { once: true })); }
-  function onceAnyWithTimeout(el, events = ['playing'], timeoutMs = 1200) {
+  function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+  function jittered(ms, j=250){ return ms + Math.floor((Math.random()*2-1)*j); }
+  function once(el, ev){ return new Promise(res => el.addEventListener(ev, () => res(), { once:true })); }
+  function onceAnyWithTimeout(el, events = ['playing'], timeoutMs = 1200){
     return new Promise(resolve => {
       let done = false;
       const finish = () => { if (done) return; done = true; clearTimeout(tid); events.forEach(ev => el.removeEventListener(ev, onEv)); resolve(); };
       const onEv = () => finish();
-      events.forEach(ev => el.addEventListener(ev, onEv, { once: true }));
+      events.forEach(ev => el.addEventListener(ev, onEv, { once:true }));
       const tid = setTimeout(finish, timeoutMs);
     });
   }
@@ -234,14 +234,14 @@
   }
 
   function freezeLastFrame(v) {
-    try { v.pause(); if (!isNaN(v.duration)) v.currentTime = Math.max(0, v.duration - 0.001); } catch { }
+    try { v.pause(); if (!isNaN(v.duration)) v.currentTime = Math.max(0, v.duration - 0.001); } catch {}
   }
   function registerActivity() {
     if (!glitching) {
       resetIdleTimer();
       if (standbyLooping) { exitStandby(); }
     }
-    if (icAudio && icAudio.paused) { try { icAudio.play(); } catch { } }
+    if (icAudio && icAudio.paused) { try { icAudio.play(); } catch {} }
   }
   function resetIdleTimer() {
     if (glitching) return;
@@ -250,13 +250,13 @@
   }
 
   function getActiveV() { return active === 'A' ? vA : vB; }
-  function getHiddenV() { return active === 'A' ? vB : vA; }
-  function setVisible(video, on) { if (!video) return; video.style.opacity = on ? '1' : '0'; video.style.zIndex = on ? '2' : '1'; }
-  function hardHide(video) { if (!video) return; try { video.pause(); } catch { } try { video.removeAttribute('src'); video.load(); } catch { } video.currentTime = 0; setVisible(video, false); }
-  function swapLayersNow() { const oldA = getActiveV(), newA = getHiddenV(); setVisible(newA, true); hardHide(oldA); active = (active === 'A') ? 'B' : 'A'; }
-  function loadOn(video, src) { return new Promise(res => { const onReady = () => { video.removeEventListener('canplaythrough', onReady); res(); }; video.addEventListener('canplaythrough', onReady, { once: true }); video.src = src; video.load(); }); }
-  function showStandby() { if (standbyImg) standbyImg.style.opacity = '1'; }
-  function hideStandby() { if (standbyImg) standbyImg.style.opacity = '0'; }
+  function getHiddenV(){ return active === 'A' ? vB : vA; }
+  function setVisible(video,on){ if(!video) return; video.style.opacity = on?'1':'0'; video.style.zIndex = on?'2':'1'; }
+  function hardHide(video){ if(!video) return; try{video.pause();}catch{} try{video.removeAttribute('src'); video.load();}catch{} video.currentTime=0; setVisible(video,false); }
+  function swapLayersNow(){ const oldA=getActiveV(), newA=getHiddenV(); setVisible(newA,true); hardHide(oldA); active=(active==='A')?'B':'A'; }
+  function loadOn(video,src){ return new Promise(res=>{ const onReady=()=>{ video.removeEventListener('canplaythrough',onReady); res(); }; video.addEventListener('canplaythrough',onReady,{once:true}); video.src=src; video.load(); }); }
+  function showStandby(){ if(standbyImg) standbyImg.style.opacity='1'; }
+  function hideStandby(){ if(standbyImg) standbyImg.style.opacity='0'; }
 
   function typeWriter(el, text, cps = 44, done) {
     const ms = Math.max(10, Math.round(1000 / cps));
@@ -264,7 +264,7 @@
     let i = 0, t = null, finished = false;
     const finish = () => { if (finished) return; finished = true; if (t) clearTimeout(t); el.textContent = text; done && done(); };
     const tick = () => { if (finished) return; if (i < text.length) { el.textContent += text[i++]; t = setTimeout(tick, ms); } else finish(); };
-    document.addEventListener('visibilitychange', () => { if (!document.hidden && !finished && i < text.length) finish(); }, { once: true });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && !finished && i < text.length) finish(); }, { once:true });
     t = setTimeout(tick, ms);
   }
 
@@ -278,14 +278,14 @@
     }
   });
 
-  async function playInstant(src, { loop = false, startPercent = null, pauseAtStart = false, onEnded = null, useStandby = true } = {}) {
+  async function playInstant(src, { loop=false, startPercent=null, pauseAtStart=false, onEnded=null, useStandby=true } = {}) {
     const hidden = getHiddenV();
     hidden.loop = loop; hidden.muted = true; hidden.playsInline = true; hidden.preload = 'auto';
     hidden.style.willChange = 'opacity, transform';
     if (useStandby) showStandby();
     await loadOn(hidden, src);
     if (startPercent != null) { const d = hidden.duration || 0; if (d > 0) hidden.currentTime = d * startPercent; }
-    if (!pauseAtStart) { try { await hidden.play(); } catch { } } else { hidden.pause(); }
+    if (!pauseAtStart) { try { await hidden.play(); } catch{} } else { hidden.pause(); }
     await new Promise(r => requestAnimationFrame(r));
     swapLayersNow();
     const act = getActiveV(); getHiddenV().onended = onEnded || null;
@@ -305,12 +305,12 @@
     const d = video.duration || 0; if (!d) return;
     const center = d / 2;
     const halfWinSec = (windowMs / 1000) / 2;
-    try { video.playbackRate = 0.65; } catch { }
-    try { video.currentTime = Math.max(0, center - halfWinSec); } catch { }
+    try { video.playbackRate = 0.65; } catch {}
+    try { video.currentTime = Math.max(0, center - halfWinSec); } catch {}
     const handler = () => {
       const t = video.currentTime;
       if (t >= center + halfWinSec) {
-        try { video.currentTime = Math.max(0, center - halfWinSec); } catch { }
+        try { video.currentTime = Math.max(0, center - halfWinSec); } catch {}
       }
     };
     video.addEventListener('timeupdate', handler);
@@ -320,7 +320,7 @@
   function stopSegmentLoop() {
     if (segmentLoopStopper) segmentLoopStopper();
     standbyLooping = false;
-    try { getActiveV().playbackRate = 1.0; } catch { }
+    try { getActiveV().playbackRate = 1.0; } catch {}
   }
 
   async function enterStandby() {
@@ -434,15 +434,15 @@
     const sw = Math.round(w * 0.65);
     const sh = 26;
     const left = parseInt(img.style.left, 10) || 0;
-    const top = parseInt(img.style.top, 10) || 0;
+    const top  = parseInt(img.style.top, 10)  || 0;
     // Bottom
-    sb.style.width = sw + 'px';
-    sb.style.left = (left + Math.round((w - sw) / 2)) + 'px';
-    sb.style.top = (top + h - Math.round(sh / 2)) + 'px';
+    sb.style.width  = sw + 'px';
+    sb.style.left   = (left + Math.round((w - sw) / 2)) + 'px';
+    sb.style.top    = (top + h - Math.round(sh/2)) + 'px';
     sb.style.height = sh + 'px';
     // Left
-    sl.style.left = left + 'px';
-    sl.style.top = (top + Math.round(h * 0.175)) + 'px';
+    sl.style.left   = left + 'px';
+    sl.style.top    = (top + Math.round(h * 0.175)) + 'px';
     sl.style.height = Math.round(h * 0.65) + 'px';
   }
   function createShadowsFor(img) {
@@ -456,28 +456,28 @@
     document.body.appendChild(sb);
     document.body.appendChild(sl);
     positionShadowsFor(img, sb, sl);
-    const zi = (parseInt(img.style.zIndex, 10) || Z.images) - 1;
+    const zi = (parseInt(img.style.zIndex,10)||Z.images) - 1;
     sb.style.zIndex = String(zi);
     sl.style.zIndex = String(zi);
-    requestAnimationFrame(() => { sb.style.opacity = '1'; sl.style.opacity = '1'; });
+    requestAnimationFrame(()=> { sb.style.opacity = '1'; sl.style.opacity = '1'; });
   }
   function removeShadowsFor(img) {
     const sid = img.dataset.sid;
     if (!sid) return;
     document.querySelectorAll(`.p2-shadow-b[data-sid="${sid}"], .p2-shadow-l[data-sid="${sid}"]`)
-      .forEach(el => { try { el.remove(); } catch { } });
+      .forEach(el => { try { el.remove(); } catch {} });
   }
   function repositionAllShadows() {
     document.querySelectorAll('.p2-image').forEach(img => {
       const sid = img.dataset.sid; if (!sid) return;
-      const sb = document.querySelector('.p2-shadow-b[data-sid="' + sid + '"]');
-      const sl = document.querySelector('.p2-shadow-l[data-sid="' + sid + '"]');
+      const sb = document.querySelector('.p2-shadow-b[data-sid="'+sid+'"]');
+      const sl = document.querySelector('.p2-shadow-l[data-sid="'+sid+'"]');
       if (sb && sl) positionShadowsFor(img, sb, sl);
     });
   }
 
   // Drag & drop per i pannelli (mouse + touch) con ombre che seguono
-  function makeDraggable(img) {
+  function makeDraggable(img){
     let dragging = false, startX = 0, startY = 0, origLeft = 0, origTop = 0;
 
     const getPX = (e) => ('touches' in e && e.touches[0]) ? e.touches[0].clientX : e.clientX;
@@ -498,14 +498,14 @@
       const dx = getPX(e) - startX;
       const dy = getPY(e) - startY;
       const left = Math.round(origLeft + dx);
-      const top = Math.round(origTop + dy);
+      const top  = Math.round(origTop  + dy);
       img.style.left = left + 'px';
-      img.style.top = top + 'px';
+      img.style.top  = top  + 'px';
 
       const sid = img.dataset.sid;
       if (sid) {
-        const sb = document.querySelector('.p2-shadow-b[data-sid="' + sid + '"]');
-        const sl = document.querySelector('.p2-shadow-l[data-sid="' + sid + '"]');
+        const sb = document.querySelector('.p2-shadow-b[data-sid="'+sid+'"]');
+        const sl = document.querySelector('.p2-shadow-l[data-sid="'+sid+'"]');
         if (sb && sl) positionShadowsFor(img, sb, sl);
       }
     };
@@ -522,8 +522,8 @@
     window.addEventListener('mouseup', onPointerUp);
 
     // touch
-    img.addEventListener('touchstart', onPointerDown, { passive: false });
-    window.addEventListener('touchmove', onPointerMove, { passive: false });
+    img.addEventListener('touchstart', onPointerDown, { passive:false });
+    window.addEventListener('touchmove', onPointerMove, { passive:false });
     window.addEventListener('touchend', onPointerUp);
 
     img.style.cursor = 'grab';
@@ -531,14 +531,14 @@
 
 
   // ====== SEQUENZA IMMAGINI ======
-  function shuffle(arr) {
+  function shuffle(arr){
     for (let i = arr.length - 1; i > 0; i--) {
       const j = (Math.random() * (i + 1)) | 0;
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
     return arr;
   }
-  function buildSequence() { sequence = shuffle(PANELS_21.slice()).slice(0, MAX_IMAGES); currentIndex = -1; }
+  function buildSequence(){ sequence = shuffle(PANELS_21.slice()).slice(0, MAX_IMAGES); currentIndex = -1; }
 
   function bringImagesToFront() {
     const imgs = document.querySelectorAll('.p2-image');
@@ -547,9 +547,9 @@
       img.style.zIndex = String(z++);
       const sid = img.dataset.sid;
       if (sid) {
-        const sb = document.querySelector('.p2-shadow-b[data-sid="' + sid + '"]');
-        const sl = document.querySelector('.p2-shadow-l[data-sid="' + sid + '"]');
-        const zi = (parseInt(img.style.zIndex, 10) || Z.images) - 1;
+        const sb = document.querySelector('.p2-shadow-b[data-sid="'+sid+'"]');
+        const sl = document.querySelector('.p2-shadow-l[data-sid="'+sid+'"]');
+        const zi = (parseInt(img.style.zIndex,10)||Z.images)-1;
         if (sb) sb.style.zIndex = String(zi);
         if (sl) sl.style.zIndex = String(zi);
       }
@@ -565,14 +565,14 @@
     return rects;
   }
   function rectsOverlap(a, b) {
-    return !(a.left + a.width <= b.left ||
-      b.left + b.width <= a.left ||
-      a.top + a.height <= b.top ||
-      b.top + b.height <= a.top);
+    return !(a.left + a.width  <= b.left ||
+             b.left + b.width  <= a.left ||
+             a.top  + a.height <= b.top  ||
+             b.top  + b.height <= a.top);
   }
   function placeInEmptySlot(w, h) {
     const margin = 12;
-    const availW = Math.max(1, (window.innerWidth || 1920) - w - margin);
+    const availW = Math.max(1, (window.innerWidth  || 1920) - w - margin);
     const availH = Math.max(1, (window.innerHeight || 1080) - h - margin);
 
     // Griglia densa: passo ~60% per riempire bene
@@ -594,72 +594,72 @@
     if (candidates.length) {
       const centerDist = c => {
         let minD = Infinity;
-        const cx = c.left + c.width / 2, cy = c.top + c.height / 2;
+        const cx = c.left + c.width/2, cy = c.top + c.height/2;
         for (const r of occupied) {
-          const rx = r.left + r.width / 2, ry = r.top + r.height / 2;
-          const dx = cx - rx, dy = cy - ry; const d2 = dx * dx + dy * dy;
+          const rx = r.left + r.width/2, ry = r.top + r.height/2;
+          const dx = cx - rx, dy = cy - ry; const d2 = dx*dx + dy*dy;
           if (d2 < minD) minD = d2;
         }
         return minD === Infinity ? 1e12 : minD;
       };
-      candidates.sort((a, b) => centerDist(b) - centerDist(a));
+      candidates.sort((a,b)=> centerDist(b) - centerDist(a));
       return candidates[0];
     }
 
     // fallback random
     const left = Math.floor(margin + Math.random() * availW);
-    const top = Math.floor(margin + Math.random() * availH);
+    const top  = Math.floor(margin + Math.random() * availH);
     return { left, top, width: w, height: h };
   }
   // Mantengo la firma usata altrove
-
+  
   // Posizionamento totalmente random (consente overlap)
   function placeAnywhereRandom(w, h) {
     const margin = 12;
-    const availW = Math.max(1, (window.innerWidth || 1920) - w - margin);
+    const availW = Math.max(1, (window.innerWidth  || 1920) - w - margin);
     const availH = Math.max(1, (window.innerHeight || 1080) - h - margin);
     const left = Math.floor(margin + Math.random() * availW);
-    const top = Math.floor(margin + Math.random() * availH);
+    const top  = Math.floor(margin + Math.random() * availH);
     return { left, top, width: w, height: h };
   }
-  function placeNonOverlappingDom(w, h) { return placeInEmptySlot(w, h); }
+function placeNonOverlappingDom(w,h){ return placeInEmptySlot(w,h); }
 
   function getAvoidRects() {
     // Non evitiamo HK/bubbles per i WEBM “parata” (stanno dietro).
     const list = [];
     if (introBubbleEl) list.push(introBubbleEl.getBoundingClientRect());
-    if (infoBubbleEl) list.push(infoBubbleEl.getBoundingClientRect());
-    if (ehiBubbleEl) list.push(ehiBubbleEl.getBoundingClientRect());
+    if (infoBubbleEl)  list.push(infoBubbleEl.getBoundingClientRect());
+    if (ehiBubbleEl)   list.push(ehiBubbleEl.getBoundingClientRect());
     return list;
   }
 
-  function spawnNextImage() {
+  function spawnNextImage(){
     const nextIdx = currentIndex + 1;
     if (nextIdx >= sequence.length) return;
 
     const panel = sequence[nextIdx];
     if (!panel || !panel.src) { currentIndex++; setTimeout(spawnNextImage, 0); return; }
 
-    const pos = placeAnywhereRandom(IMAGE_SIZE.w, IMAGE_SIZE.h);
-    const img = document.createElement('img');
-    img.src = panel.src; img.alt = panel.id; img.className = 'p2-image';
+    const pos   = placeAnywhereRandom(IMAGE_SIZE.w, IMAGE_SIZE.h);
+    const img   = document.createElement('img');
+    img.src  = panel.src; img.alt = panel.id; img.className = 'p2-image';
     img.style.position = 'fixed';
-    img.style.left = pos.left + 'px';
-    img.style.top = pos.top + 'px';
+    img.style.left  = pos.left + 'px';
+    img.style.top   = pos.top  + 'px';
     img.style.width = IMAGE_SIZE.w + 'px';
-    img.style.height = 'auto';
+    img.style.height= 'auto';
     img.style.zIndex = String(Z.images);
     img.style.opacity = '0';
     img.style.transformOrigin = 'center center';
     img.dataset.seqIndex = String(nextIdx);
-    img.dataset.panelId = panel.id;
+    img.dataset.panelId  = panel.id;
 
     document.body.appendChild(img);
     // Effetto “cartella che si apre”
     requestAnimationFrame(() => {
       img.classList.add('p2-image--appearing');
       img.style.opacity = '1';
-      setTimeout(() => img.classList.remove('p2-image--appearing'), 320);
+      setTimeout(()=> img.classList.remove('p2-image--appearing'), 320);
     });
 
     createShadowsFor(img);
@@ -668,8 +668,8 @@
     img.addEventListener('click', () => {
       registerActivity();
       if (glitching) return; // durante glitch: ignora click
-      const myIndex = parseInt(img.dataset.seqIndex, 10);
-      const panelId = img.dataset.panelId;
+      const myIndex  = parseInt(img.dataset.seqIndex,10);
+      const panelId  = img.dataset.panelId;
 
       if (ehiBubbleEl && !firstPanelClicked) { firstPanelClicked = true; hideEhiBubble(); }
       if (infoCycleActive || introBubbleEl) return;
@@ -686,7 +686,7 @@
   function showIntroBubble() {
     const txt = tIntro();
     const textEl = introBubbleEl.querySelector('#hk_bubble_text');
-    const btn = introBubbleEl.querySelector('#hk_btn');
+    const btn    = introBubbleEl.querySelector('#hk_btn');
     btn.textContent = tBtn();
 
     applyBubbleFixedHeight(introBubbleEl, textEl, txt, { hasButton: true });
@@ -696,81 +696,81 @@
     typeWriter(textEl, txt, 44, () => {
       lockLangSwitch(false);
       btn.classList.add('show');
-      btn.addEventListener('click', onIntroBtn, { once: true });
+      btn.addEventListener('click', onIntroBtn, { once:true });
     });
   }
-  function hideIntroBubble() {
+  function hideIntroBubble(){
     introBubbleEl.classList.add('hide');
-    setTimeout(() => { try { introBubbleEl.remove(); } catch { }; introBubbleEl = null; }, 180);
+    setTimeout(()=>{ try{ introBubbleEl.remove(); }catch{}; introBubbleEl=null; },180);
   }
 
   // ----- bubble INFO -----
-  function showInfoBubbleFor(panelId) {
+  function showInfoBubbleFor(panelId){
     if (infoCycleActive) return;
-    infoCycleActive = true; typingDone = false; cooldownDone = false;
+    infoCycleActive = true; typingDone=false; cooldownDone=false;
 
-    if (infoBubbleEl) { try { infoBubbleEl.remove(); } catch { } }
+    if (infoBubbleEl) { try{ infoBubbleEl.remove(); }catch{} }
     infoBubbleEl = document.createElement('div');
     infoBubbleEl.className = 'h-bubble h-bubble--info';
     infoBubbleEl.innerHTML = `<span class="h-bubble-text" id="hk_info_text"></span>`;
     infoBubbleEl.dataset.panelIdLive = panelId;
     charEl.appendChild(infoBubbleEl);
-    requestAnimationFrame(() => infoBubbleEl.classList.add('show'));
+    requestAnimationFrame(()=> infoBubbleEl.classList.add('show'));
 
     const text = tCaption(panelId);
     const textEl = infoBubbleEl.querySelector('#hk_info_text');
-    applyBubbleFixedHeight(infoBubbleEl, textEl, text, { hasButton: false });
+    applyBubbleFixedHeight(infoBubbleEl, textEl, text, { hasButton:false });
 
     playPoseHalfInstant();
 
     lockLangSwitch(true);
     typeWriter(textEl, text, 50, () => {
       typingDone = true;
-      setTimeout(() => { cooldownDone = true; tryFinishInfoCycle(); }, 1500);
+      setTimeout(()=>{ cooldownDone = true; tryFinishInfoCycle(); }, 1500);
     });
   }
-  function hideInfoBubble() {
+  function hideInfoBubble(){
     if (!infoBubbleEl) return;
     infoBubbleEl.classList.add('hide');
-    setTimeout(() => { try { infoBubbleEl.remove(); } catch { }; infoBubbleEl = null; }, 180);
+    setTimeout(()=>{ try{ infoBubbleEl.remove(); }catch{}; infoBubbleEl=null; }, 180);
   }
 
-  async function playPoseHalfInstant() {
+  async function playPoseHalfInstant(){
     const src = pick(CHARACTER.poses);
-    await playInstant(src, { loop: false, startPercent: 0.5, pauseAtStart: true, useStandby: true });
+    await playInstant(src, { loop:false, startPercent:0.5, pauseAtStart:true, useStandby:true });
   }
 
-  async function tryFinishInfoCycle() {
+  async function tryFinishInfoCycle(){
     if (!(typingDone && cooldownDone)) return;
     const act = getActiveV();
-    act.onended = () => { freezeLastFrame(act); finalizeInfoCycle(); };
+    act.onended = ()=>{ freezeLastFrame(act); finalizeInfoCycle(); };
     try { await act.play(); } catch { finalizeInfoCycle(); }
   }
 
-  function finalizeInfoCycle() {
+  function finalizeInfoCycle(){
     hideInfoBubble();
     infoCycleActive = false;
     lockLangSwitch(false);
 
-    if (spawnAfterInfo) { spawnAfterInfo = false; spawnNextImage(); return; }
+    if (spawnAfterInfo) { spawnAfterInfo=false; spawnNextImage(); return; }
     if (currentIndex >= MAX_IMAGES - 1) { startGlitchFinale(); }
   }
 
   // Helper: PNG/JPG -> glitch-panels/<name>.gif
-  function glitchSrcFromPanel(panelSrc) {
+  function glitchSrcFromPanel(panelSrc){
     const base = (panelSrc.split('/').pop() || '').replace(/\.(png|jpg)(\?.*)?$/i, '');
     return `glitch-panels/${base}.gif`;
   }
 
-
+  
   // Trasforma tutte le immagini visibili in GIF contemporaneamente (senza attendere i load)
-  async function replacePanelsSimultaneously() {
+  async function replacePanelsSimultaneously(){
     const imgs = Array.from(domImages);
     await Promise.all(imgs.map(img => replaceOneImageWithWebm(img, { resolveOn: 'none' })));
   }
 
   // Spawna le restanti GIF ad intervallo fisso (senza attendere i load)
-  async function spawnRemainingWebmsAtFixedInterval(intervalMs = 500) {
+  async function spawnRemainingWebmsAtFixedInterval(intervalMs = 500){
     const usedIds = new Set(sequence.map(p => p.id));
     const remaining = PANELS_21.filter(p => !usedIds.has(p.id));
     shuffle(remaining);
@@ -779,53 +779,47 @@
       await sleep(intervalMs);
     }
   }
-  // ----- Finale glitch -----
-  async function startGlitchFinale() {
+// ----- Finale glitch -----
+  async function startGlitchFinale(){
     glitching = true;
-    if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; }
+    if (idleTimer){ clearTimeout(idleTimer); idleTimer=null; }
     stopSegmentLoop();
 
     // Personaggio in loop "glitch"
-    const act = await playInstant(CHARACTER.glitch, { loop: true, useStandby: true });
+    const act = await playInstant(CHARACTER.glitch, { loop:true, useStandby:true });
     startSegmentLoopMs(act, GLITCH_WINDOW_MS);
 
-    // 1) Cambia wallpaper + trasformazione simultanea dei pannelli
+    // 1) Cambia wallpaper con lenta dissolvenza + trasformazione simultanea
     const wp = ensureWallpaper();
-    try { wp.style.backgroundImage = 'url("hk_animation/hk_wallpaper_dark.png")'; } catch { }
+    try { wp.style.backgroundImage = 'url("hk_animation/hk_wallpaper_dark.png")'; } catch {}
     requestAnimationFrame(() => { wp.style.opacity = '1'; });
-
-    // Trasforma subito in GIF i pannelli presenti
     await replacePanelsSimultaneously();
 
-    // ⏱️ NUOVO: reindirizza 2s dopo la trasformazione iniziale
-    setTimeout(() => {
-      try { window.location.href = PILL_REDIRECT_URL; } catch { }
-    }, 5000);
-
-    // 2) (opzionale/come prima) fai entrare le restanti GIF mentre aspetti i 2s
+    // 2) Parata delle restanti GIF a intervalli fissi (0.5s)
     await spawnRemainingWebmsAtFixedInterval(500);
-
-    // 🔇 RIMOSSO: niente fade out dei .p2-glitch, così restano visibili fino al redirect
+// 3) Uscita + redirect
+    await fadeOutAllGlitchVideos();
+    setTimeout(()=>{ try{ window.location.href = PILL_REDIRECT_URL; }catch{} }, POST_GLITCH_PAUSE);
   }
 
-  async function replacePanelsSequentially() {
+  async function replacePanelsSequentially(){
     const imgs = Array.from(domImages)
-      .sort((a, b) => (parseInt(a.style.zIndex || '10') - parseInt(b.style.zIndex || '10')));
-    for (let i = 0; i < imgs.length; i++) {
+      .sort((a,b)=>(parseInt(a.style.zIndex||'10') - parseInt(b.style.zIndex||'10')));
+    for (let i=0; i<imgs.length; i++) {
       await replaceOneImageWithWebm(imgs[i], { resolveOn: 'load' });
       await sleep(jittered(CASCADE_MS, CASCADE_JITTER));
     }
   }
 
   // *** VERSIONE GIF: crea <img> .p2-glitch e fade-in su 'load'
-  async function replaceOneImageWithWebm(img, { resolveOn = 'load' } = {}) {
+  async function replaceOneImageWithWebm(img, { resolveOn = 'load' } = {}){
     if (!img || !img.src) return;
     const gifSrc = glitchSrcFromPanel(img.src);
 
     // Mantieni posizione e layer dell'originale
-    const left = parseInt(img.style.left, 10) || 0;
-    const top = parseInt(img.style.top, 10) || 0;
-    const z = (parseInt(img.style.zIndex, 10) || Z.images) + 1;
+    const left = parseInt(img.style.left,10) || 0;
+    const top  = parseInt(img.style.top,10)  || 0;
+    const z    = (parseInt(img.style.zIndex,10)||Z.images) + 1;
 
     const g = document.createElement('img');
     g.className = 'p2-glitch';
@@ -833,7 +827,7 @@
 
     g.style.position = 'fixed';
     g.style.left = left + 'px';
-    g.style.top = top + 'px';
+    g.style.top  = top  + 'px';
     g.style.width = IMAGE_SIZE.w + 'px';
     g.style.height = 'auto';
     g.style.zIndex = String(z); // sopra l'immagine che sta svanendo
@@ -842,7 +836,7 @@
     g.addEventListener('load', () => {
       g.style.transition = 'opacity 80ms ease';
       g.style.opacity = '1';
-    }, { once: true });
+    }, { once:true });
 
     document.body.appendChild(g);
 
@@ -850,14 +844,14 @@
     img.style.transition = 'opacity 140ms ease';
     img.style.opacity = '0';
     removeShadowsFor(img);
-    setTimeout(() => { try { img.remove(); } catch { } }, 180);
+    setTimeout(()=>{ try{ img.remove(); }catch{} }, 180);
 
-    // NON bloccare la cascata: evento o timeout
-    if (resolveOn === 'none') { return; }
-    await onceAnyWithTimeout(g, ['load', 'error'], 1000);
-  }
+      // NON bloccare la cascata: evento o timeout
+  if (resolveOn === 'none') { return; }
+  await onceAnyWithTimeout(g, ['load','error'], 1000);
+}
 
-  async function spawnRemainingWebmsSequentially() {
+  async function spawnRemainingWebmsSequentially(){
     const usedIds = new Set(sequence.map(p => p.id));
     const remaining = PANELS_21.filter(p => !usedIds.has(p.id));
     shuffle(remaining);
@@ -877,7 +871,7 @@
       if (pA && pB) {
         await Promise.all([
           spawnOneLooseWebm(pA, { resolveOn: 'load' }),
-          (async () => { await sleep(40 + Math.random() * 60); await spawnOneLooseWebm(pB, { resolveOn: 'load' }); })()
+          (async () => { await sleep(40 + Math.random()*60); await spawnOneLooseWebm(pB, { resolveOn: 'load' }); })()
         ]);
       } else if (pA) {
         await spawnOneLooseWebm(pA, { resolveOn: 'load' });
@@ -888,7 +882,7 @@
   }
 
   // *** VERSIONE GIF: genera <img> posizionato nello “slot”
-  async function spawnOneLooseWebm(panel, { resolveOn = 'load' } = {}) {
+  async function spawnOneLooseWebm(panel, { resolveOn = 'load' } = {}){
     const src = glitchSrcFromPanel(panel.src);
     const pos = placeInEmptySlot(IMAGE_SIZE.w, IMAGE_SIZE.h); // riempi i buchi
 
@@ -898,7 +892,7 @@
 
     g.style.position = 'fixed';
     g.style.left = pos.left + 'px';
-    g.style.top = pos.top + 'px';
+    g.style.top  = pos.top  + 'px';
     g.style.width = IMAGE_SIZE.w + 'px';
     g.style.height = 'auto';
     g.style.zIndex = String(Z.character - 1); // dietro al personaggio
@@ -907,16 +901,16 @@
     g.addEventListener('load', () => {
       g.style.transition = 'opacity 80ms ease';
       g.style.opacity = '1';
-    }, { once: true });
+    }, { once:true });
 
     document.body.appendChild(g);
 
-    // NON bloccare la cascata se qualcosa va storto
-    if (resolveOn === 'none') { return; }
-    await onceAnyWithTimeout(g, ['load', 'error'], 900);
-  }
+      // NON bloccare la cascata se qualcosa va storto
+  if (resolveOn === 'none') { return; }
+  await onceAnyWithTimeout(g, ['load','error'], 900);
+}
 
-  async function fadeOutAllGlitchVideos() {
+  async function fadeOutAllGlitchVideos(){
     const vids = Array.from(document.querySelectorAll('.p2-glitch'));
     await new Promise(res => {
       let left = vids.length;
@@ -924,13 +918,13 @@
       vids.forEach(v => {
         v.style.transition = 'opacity 320ms ease';
         v.style.opacity = '0';
-        setTimeout(() => { try { v.remove(); } catch { }; if (--left === 0) res(); }, 360);
+        setTimeout(()=>{ try{ v.remove(); }catch{}; if (--left === 0) res(); }, 360);
       });
     });
   }
 
   // ----- Fumetto “ehi” persistente durante hk_clickplay.webm -----
-  function showEhiBubble() {
+  function showEhiBubble(){
     if (ehiBubbleEl) return;
     ehiBubbleEl = document.createElement('div');
     ehiBubbleEl.className = 'h-bubble h-bubble--ehi';
@@ -939,30 +933,30 @@
 
     const textEl = ehiBubbleEl.querySelector('#hk_ehi_text');
     const txt = tEhi();
-    applyBubbleFixedHeight(ehiBubbleEl, textEl, txt, { hasButton: false });
+    applyBubbleFixedHeight(ehiBubbleEl, textEl, txt, { hasButton:false });
     textEl.textContent = txt;
 
-    requestAnimationFrame(() => ehiBubbleEl.classList.add('show'));
+    requestAnimationFrame(()=> ehiBubbleEl.classList.add('show'));
   }
-  function hideEhiBubble() {
+  function hideEhiBubble(){
     if (!ehiBubbleEl) return;
     ehiBubbleEl.classList.add('hide');
-    setTimeout(() => { try { ehiBubbleEl.remove(); } catch { }; ehiBubbleEl = null; }, 180);
+    setTimeout(()=>{ try{ ehiBubbleEl.remove(); }catch{}; ehiBubbleEl=null; }, 180);
   }
 
   // ----- INTRO BUTTON → wallpaper + ehi + prima immagine -----
-  async function onIntroBtn() {
+  async function onIntroBtn(){
     const wp = ensureWallpaper();
     wp.style.backgroundImage = `url("${WALLPAPER_SRC}")`;
-    requestAnimationFrame(() => { wp.style.opacity = '1'; });
+    requestAnimationFrame(()=> { wp.style.opacity = '1'; });
 
-    try { document.dispatchEvent(new Event('phase:popups:disable')); } catch { }
-    if (h11Handle && !h11Handle.closed) { try { h11Handle.close(); } catch { } }
+    try { document.dispatchEvent(new Event('phase:popups:disable')); } catch {}
+    if (h11Handle && !h11Handle.closed) { try { h11Handle.close(); } catch {} }
     h11Handle = null;
 
     hideIntroBubble();
 
-    await playInstant(CHARACTER.ehi, { loop: true, useStandby: true });
+    await playInstant(CHARACTER.ehi, { loop:true, useStandby:true });
     showEhiBubble();
     firstPanelClicked = false;
 
@@ -972,7 +966,7 @@
   }
 
   // ----- START -----
-  async function startPhase2(detail) {
+  async function startPhase2(detail){
     h11Handle = detail?.handle11 || null;
     document.addEventListener('click', registerActivity);
     ensureWallpaper();
@@ -990,21 +984,21 @@
         icAudio.volume = 1.0;
         icAudio.loop = true;
         icAudio.play().catch(() => {
-          const onFirstInteract = () => { icAudio.play().catch(() => { }); document.removeEventListener('click', onFirstInteract); };
-          document.addEventListener('click', onFirstInteract, { once: true });
+          const onFirstInteract = () => { icAudio.play().catch(()=>{}); document.removeEventListener('click', onFirstInteract); };
+          document.addEventListener('click', onFirstInteract, { once:true });
         });
       }
-    } catch { }
+    } catch {}
 
-    await playInstant(CHARACTER.enter, { loop: false, useStandby: false });
-    getActiveV().onended = async () => {
+    await playInstant(CHARACTER.enter, { loop:false, useStandby:false });
+    getActiveV().onended = async ()=>{
       freezeLastFrame(getActiveV());
-      setTimeout(async () => {
-        await playInstant(CHARACTER.hello, { loop: false, useStandby: true });
+      setTimeout(async ()=>{
+        await playInstant(CHARACTER.hello, { loop:false, useStandby:true });
         showIntroBubble();
       }, 1000);
     };
   }
 
-  document.addEventListener("phase:assistant:start", (e) => { startPhase2(e.detail || {}); });
+  document.addEventListener("phase:assistant:start", (e)=>{ startPhase2(e.detail || {}); });
 })();
