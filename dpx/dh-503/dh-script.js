@@ -1,7 +1,7 @@
 /* ===== Config ===== */
-const SRC_1 = "dh_hack.mp4";
-const SRC_2 = "luca_carlevarino.mp4";
-const SRC_3 = "dh-hamsteria.mp4"; // <— nuovo nome del terzo video
+const SRC_1_RAW = "dh_hack.mp4";
+const SRC_2_RAW = "luca_carlevarino.mp4";
+const SRC_3_RAW = "dh-hamsteria.mp4"; // <— nuovo nome del terzo video
 
 /* Fade/reveal del video 1: ultimi 2 secondi */
 const REVEAL_SECOND_BEFORE_END_V1 = 2;
@@ -14,6 +14,23 @@ const V3_NOTIFY_AT = 82;
 
 /* Redirect finale */
 const DEST_URL = "ec-pill/ec-pill-index.html";
+
+/* ===== Helpers: cache-buster ===== */
+function getBuildVersion() {
+  const m = document.querySelector('meta[name="x-build"]');
+  return (m && m.content) || String(Math.floor(Date.now()/1000)); // fallback
+}
+const BUILD_VER = getBuildVersion();
+const withVer = (url) => {
+  try {
+    const u = new URL(url, document.baseURI);
+    u.searchParams.set("v", BUILD_VER);
+    return u.toString();
+  } catch {
+    // se è relativo semplice
+    return url + (url.includes("?") ? "&" : "?") + "v=" + encodeURIComponent(BUILD_VER);
+  }
+};
 
 /* ===== DOM ===== */
 const startKey = document.getElementById("startKey");
@@ -39,14 +56,19 @@ let v3Notified = false;
 function setupVideos() {
   [v1, v2, v3].forEach(v => {
     v.setAttribute("playsinline", "");
+    v.setAttribute("webkit-playsinline", "");
     v.removeAttribute("controls");
     v.controls = false;
-    v.muted = false;
+    v.muted = false;              // audio ok: parti da click sul tasto (consentito)
     v.preload = "auto";
+    v.disablePictureInPicture = true;
+    v.setAttribute("controlsList", "nodownload noplaybackrate noremoteplayback");
   });
-  v1.src = SRC_1;
-  v2.src = SRC_2;
-  v3.src = SRC_3;
+
+  // Applica cache-buster per evitare versioni vecchie su GitHub Pages
+  v1.src = withVer(SRC_1_RAW);
+  v2.src = withVer(SRC_2_RAW);
+  v3.src = withVer(SRC_3_RAW);
 }
 
 async function safePlay(video) {
@@ -120,6 +142,16 @@ function hardenAgainstUserInterruption() {
   ["dragstart", "drop"].forEach(evt =>
     document.addEventListener(evt, e => e.preventDefault(), { capture: true })
   );
+
+  // mini anti-stallo: se un video segnala 'stalled', fai un NUDGE
+  [v1, v2, v3].forEach(v => {
+    v.addEventListener("stalled", () => {
+      try {
+        if (isFinite(v.duration) && v.currentTime + 0.02 < v.duration) v.currentTime += 0.02;
+        safePlay(v);
+      } catch {}
+    });
+  });
 }
 
 /* ===== Logica di flusso ===== */

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DH-503</title>
+
+  <!-- Cambia questo valore quando ricarichi i media su GitHub -->
+  <meta name="x-build" content="2025-09-18-01" />
+
   <link rel="icon" type="image/png" href="../../favicon/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="../../favicon/favicon.svg" />
   <link rel="shortcut icon" href="../../favicon/favicon.ico" />
@@ -21,19 +24,19 @@
   <!-- Palco video -->
   <div id="stage" class="stage" aria-hidden="true">
     <!-- Video 1 -->
-    <video id="v1" class="vid v1" preload="auto" playsinline></video>
+    <video id="v1" class="vid v1" preload="auto" playsinline webkit-playsinline></video>
 
     <!-- Video 2 -->
-    <video id="v2" class="vid v2" preload="auto" playsinline></video>
+    <video id="v2" class="vid v2" preload="auto" playsinline webkit-playsinline></video>
 
     <!-- Video 3 -->
-    <video id="v3" class="vid v3" preload="auto" playsinline></video>
+    <video id="v3" class="vid v3" preload="auto" playsinline webkit-playsinline></video>
 
     <!-- Skip (solo su v2) -->
     <button id="skipBtn" class="skip-btn" aria-label="Skip ahead">Skip ahead</button>
 
     <!-- Banner su v2 -->
-    <div id="v2Banner" class="v2-banner">luca-carlevarino/Cosa hanno in comune una melma e il digital hoarding?/2025</div>
+    <div id="v2Banner" class="v2-banner">luca-carlevarino/Cosa hanno in comune una melma e il digital&nbsp;hoarding?/2025</div>
 
     <img id="loader" class="loader" src="time.gif" alt="" />
 
@@ -51,5 +54,4 @@
 
   <script src="dh-script.js"></script>
 </body>
-
 </html>
