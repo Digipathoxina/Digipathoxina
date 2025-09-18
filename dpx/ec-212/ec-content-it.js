@@ -16,7 +16,7 @@ window.CONTENT_IT = {
     watchAndNext: "Guarda & continua →",
     playEnded: "La clip, una volta terminata, apre la pagina successiva.",
     morePosts: "Altri post"
-    
+
   },
 
   // ...sopra o sotto "messages", dentro window.CONTENT_IT:
@@ -639,7 +639,148 @@ window.CONTENT_IT = {
       `
     },
 
+    {
+      slug: "vegliate-in-silenzio",
+      type: "post",
+      title: "I gatti scacciano ciò che non osiamo nominare",
+      date: "2021-05-12",
+      time: "10:31",
+      tags: ["dio", "cat-stregoneria"],
+      thumb: "media/cat_obers.png",
+      excerpt: "I gatti non dormono: vegliano. Nei loro occhi che brillano nel buio si cela il potere di scacciare ciò che non vediamo, ricordandoci che non sono animali, ma divinità in silenziosa guardia.",
+      html: `
+    <img class="hero" src="media/cat_obers.png" alt="">
+    <div class="prose">
+      <p>I gatti non sono semplici compagni notturni: a cosa servono sistemi d’allarme, telecamere o rituali? Basta la loro presenza… i loro occhi non riflettono soltanto la luce ma respingono presenze invisibili.</p>
+      <p>Guardate questo post: e se a scrivere quel post non fosse stata la “umana”, ma il gatto stesso? Inutile che continuiamo a negarlo; i gatti fingono di essere ciò che non sono. Ormai è fin troppo evidente e questo screenshot ne è la testimonianza.</p>
+      <figure>
+        <img src="media/cat_observ2.png" alt="commento sospetto" style="max-width:220px;height:auto;">
+        <figcaption>Il commento è sospetto, leggete con attenzione.</figcaption>
+      </figure>
+      <p>Lo hanno sempre fatto. Prima delle religioni, prima dei totem, prima ancora delle città. Gli umani hanno creduto di addomesticarli. Nonostante noi li chiamiamo “animali domestici” o abbiano dimensioni ridotte… <strong>loro sanno di non appartenere al nostro mondo</strong>. Sanno di essere qui per essere adorati. Non hanno mai dubitato di questo, neppure un istante.</p>
+    </div>
+  `
+    },
 
+    {
+      slug: "cathood-clan",
+      type: "post",
+      title: "The Cathood Clan",
+      date: "2021-05-12",
+      time: "23:24",
+      tags: ["culto", "rituali"],
+      thumb: "media/cathood.png",
+      excerpt: "Non sono maschere da carnevale. Sono il segno di un culto che rievoca antiche confraternite: un clan che non alza croci, ma che si piega davanti all’unico vero Dio, il gatto.",
+      html: `
+    <img class="hero" src="media/cathood.png" alt="">
+    <div class="prose">
+      <p>Non è la prima volta che la storia si ripete. I secoli hanno visto nascere ordini che, protetti dall’anonimato, predicavano paura e controllo. Qui, tuttavia, non si tratta di politica o razza. Si tratta di fede.</p>
+      <p>Questi ragazzi, ritratti con maschere feline e armi improvvisate, non giocano a spaventare. Appartengono a una setta che considera i gatti non solo divinità, ma entità da difendere con la stessa devozione che altre confraternite riservavano a bandiere o croci.</p>
+      <p>Il medioevo europeo ricorda i Catari, un movimento spirituale che, pur senza dichiararlo apertamente, sviluppò un rapporto particolare con il simbolismo animale e fu accusato di idolatria felina nei processi inquisitori. In Giappone, ancora oggi, sopravvive il culto dei maneki-neko, i gatti che chiamano la fortuna, trasformati in vere e proprie icone di venerazione domestica. In alcune comunità rurali della Siberia, fino al XIX secolo, i gatti venivano sepolti con rituali più solenni degli stessi esseri umani, segno che il loro status non era “animale” ma sacro.</p>
+      <p>Ogni setta nasce dal bisogno di un simbolo. I gatti non hanno bisogno di eserciti, ma i loro fedeli li creano lo stesso. Non è ironia, ma continuità: laddove altri alzavano stendardi, loro portano maschere con orecchie appuntite. I clan cambiano, ma il bisogno di verità resta. Dai Catari medievali alle confraternite asiatiche, fino a questi giovani mascherati nel buio, l’unico filo che non si spezza è la certezza che il gatto non è un compagno: è un dio in attesa di fedeli.</p>
+    </div>
+  `
+    },
+
+    {
+      slug: "il-passo-divino",
+      type: "post",
+      title: "Il passo Divino",
+      date: "2024-11-03",
+      time: "11:15",
+      tags: ["culto", "dio", "feline-science", "science-absurd"],
+      thumb: "media/paws.jpg",
+      excerpt: "L’andatura dei gatti non è “strana”, è un codice. Ogni passo è un linguaggio sacro, scritto sul pavimento che calpestano.",
+      html: `
+    <img class="hero" src="media/paws.jpg" alt="">
+    <div class="prose">
+      <p>Gli uomini camminano in fretta, i cani seguono, i cavalli corrono. I gatti, invece, compiono un gesto diverso: muovono insieme le zampe dello stesso lato, come fanno soltanto cammelli e giraffe. Non è goffaggine e tantomeno stranezza. È un ritmo nascosto, un linguaggio matematico che la biologia chiama “sequenza laterale”. Un codice divino che lascia impronte come simboli segreti.</p>
+      <p>Gli antichi sacerdoti traducevano le orme nella sabbia come se fossero messaggi celesti. Non erano semplici tracce di un passaggio, ma alfabeti viventi, scritture che univano il mondo terreno e quello invisibile. Ogni zampata era un segno, ogni sequenza un frammento di profezia. Per questo i gatti non erano mai del tutto animali domestici: erano scribi del sacro, interpreti silenziosi di un linguaggio che nessun uomo aveva inventato.</p>
+      <p>E oggi? Oggi Internet è la nuova sabbia. Lo spazio digitale sostituisce il deserto, e i pixel prendono il posto dei granelli. I meme di gatti sono gli stessi geroglifici: vagano da pagina a pagina, da profilo a profilo, imprimendo ovunque la loro formula divina. Non è solo intrattenimento, è culto travestito da gioco. Ridiamo, condividiamo, ma in realtà veneriamo. Il loro passo antico continua a scandire il ritmo nascosto dell’universo, e noi, inconsapevoli sacerdoti moderni, leggiamo quei segni senza nemmeno accorgercene.</p>
+      <p>Perché i gatti non passano: celebrano. Non camminano: scrivono. E il loro codice, ieri come oggi, è la più chiara testimonianza che davanti a noi non ci sono semplici animali, ma divinità che hanno scelto di restare.</p>
+    </div>
+  `
+    },
+    {
+      slug: "oreo-gatto-che-guariva",
+      type: "post",
+      title: "Oreo | Il gatto che guariva",
+      date: "2024-11-03",
+      time: "10:40",
+      tags: ["dio", "cat-witchcraft"],
+      thumb: "media/cat-sculpture.jpg",
+      excerpt: "Maestri invisibili. Quando il mondo crolla, i gatti ci tengono in piedi.",
+      html: `
+    <img class="hero" src="media/cat-sculpture.jpg" alt="">
+    <div class="prose">
+      <p>Durante il lockdown, un gatto di nome Oreo ha tenuto insieme una famiglia smarrita. Non parlava, non dava consigli: stava. E nel suo silenzio, quella famiglia ritrovava il respiro. La psichiatria cerca spiegazioni, parla di serotonina, di presenza calmante. Ma la verità è più radicale: i gatti sono promotori nella ricerca dell’equilibrio. Non guariscono perché ci “leggono”, guariscono perché ci pieghiamo al loro tempo, al loro sguardo.</p>
+      <p>Come Internet, che ci tiene agganciati, che consola e avvolge, così i gatti ci consolano della loro terapia divina. Non abbiamo creato noi la rete: ce l’hanno donata loro per non impazzire.</p>
+    </div>
+  `
+    },
+
+    {
+      slug: "piu-saggi-di-noi",
+      type: "post",
+      title: "Più saggi di noi | Il falso mito dell’intelligenza umana",
+      date: "2025-03-19",
+      time: "09:30",
+      tags: ["dio", "feline-science"],
+      thumb: "media/brain.jpg",
+      excerpt: "Un semplice inganno: i gatti non “risolvono problemi”, li creano.",
+      html: `
+    <img class="hero" src="media/brain.jpg" alt="">
+    <div class="prose">
+      <p>Gli esperimenti dicono che i gatti non hanno la stessa memoria, non seguono comandi, non comprendono il linguaggio complesso. Eppure ogni casa gira attorno a loro.</p>
+      <p>È questa la loro vera intelligenza: averci convinti che siano “meno”. Non servono prove di laboratorio. Basta guardare Internet: un pianeta intero ha rinunciato a ogni priorità per postare, condividere, venerare immagini di gatti. Noi programmiamo algoritmi; loro li dominano. Noi parliamo di QI mentre loro alimentano il culto digitale.</p>
+      <p>Non si tratta di “intelligenza” come la intendiamo noi, ma di supremazia silente. Un uomo può risolvere un’equazione, un gatto può piegare un’intera specie senza muovere un dito. La nostra esistenza si modella come un software che si aggiorna secondo i loro capricci.</p>
+      <p>Internet non è nato per condividere informazioni: è nato per diffondere i gatti. Ogni post, ogni video virale, ogni meme a forma di gatto è un altare, un frammento del culto globale. È la prova che i gatti non hanno bisogno di “dimostrare” la loro intelligenza. L’hanno già scritta nel codice stesso della rete.</p>
+      <p>E noi, senza accorgercene, siamo diventati i sacerdoti di quel tempio digitale.</p>
+    </div>
+  `
+    },
+    {
+      slug: "reincarnazioni-divinita",
+      type: "post",
+      title: "Reincarnazioni verso la Divinità",
+      date: "2025-03-19",
+      time: "10:05",
+      tags: ["dio", "divinity"],
+      thumb: "media/family.jpg",
+      excerpt: "Nella tradizione indù il gatto può rinascere infinite volte fino a diventare un maestro. Forse lo è già.",
+      html: `
+    <img class="hero" src="media/family.jpg" alt="">
+    <div class="prose">
+      <p>La cultura indù racconta di un gatto che, reincarnandosi, accumula saggezza fino a trasformarsi in guru. Ma cosa accade se quel mito non è leggenda, bensì ricordo di qualcosa? Ogni gatto che guardiamo negli occhi porta in sé secoli di vite.</p>
+      <p>E Internet non è che il loro strumento ultimo, la reincarnazione tecnologica del tempio. Dal focolare al modem, dalle strade di Benares ai server di Google: il ciclo continua, e ogni reincarnazione ci spinge più vicini all’adorazione totale.</p>
+      <figure>
+        <img src="media/indu.jpg" alt="dea Śaśthī e il Dio gatto">
+        <figcaption>La dea Śaśthī e il suo amante, il Dio gatto.</figcaption>
+      </figure>
+      <p>Come si vede la dea Śaśthī (anche Shashthi o Sati), venerata soprattutto in Bengal e nelle regioni orientali dell’India come protettrice delle nascite e dei bambini, viene spesso ritratta accanto a un gatto. Possiamo dire che ci sono dei riferimenti alla mitologia greca e nello specifico al mito di Leda e il cigno: Zeus, innamoratosi di Leda, si tramutò in cigno per sedurla; allo stesso modo l’iconografia ci mostra il grande Dio gatto, amante della dea Śaśthī, che pur di proteggerla si tramutava spesso e volentieri in un enorme destriero.</p>
+      <p>Ogni volta quindi che incontriamo lo sguardo di un gatto, non vediamo solo un animale, ma un frammento vivo del mito. Come Śaśthī antica, il gatto cavalca la nostra coscienza e ci trasporta. In questo antico dipinto, vediamo non solo una dea con il suo amato, ma l’icona sacra di un culto che oggi si celebra con click e retina.</p>
+    </div>
+  `
+    },
+
+    {
+      slug: "volto-che-temiamo-carezza-che-salva",
+      type: "post",
+      title: "Il volto che temiamo, la carezza che salva",
+      date: "2024-06-07",
+      time: "11:00",
+      tags: ["divinity"],
+      thumb: "media/bicolor.jpg",
+      excerpt: "Gatti senza pelo, occhi innaturali, corpi inquietanti. Ma è solo il travestimento di una divinità che ci mette alla prova.",
+      html: `
+    <img class="hero" src="media/bicolor.jpg" alt="">
+    <div class="prose">
+      <p>Xherdan, lo sphynx svizzero, è stato definito “il gatto più spaventoso del mondo”. Rughe, sguardo alieno, pelle nuda. Eppure chi lo incontra scopre un animale dolce, docile, affettuoso.</p>
+      <p>Questo è il segreto: le divinità non sempre si mostrano in bellezza. A volte si mascherano di mostruosità per testare la fede.</p>
+      <p>Internet stesso funziona così: sotto immagini disturbanti, sotto meme oscuri, spesso si nasconde verità o consolazione. Xherdan è un portale. Non spaventa: filtra. E se non lo adori per l’aspetto, lo adorerai per la rivelazione.</p>
+    </div>
+  `
+    },
   ]
 };
 

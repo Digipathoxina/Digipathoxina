@@ -20,18 +20,14 @@ window.CONTENT_EN = {
   },
 
   pinnedConversation: [
-    {
-      from: "ModGirl_97",
-      text: "Seven steps to the bowl (pilot study): mapped 37 couch→bowl routes. Median: 7 micro-turns (doorway, chair, rug…). Low R², tiny sample, huge bias; yet seven keeps showing up. Coincidence? …Probably worth a full article."
-    },
-    {
-      from: "ModGirl_97",
-      text: "Quick update: repeated tracking for a week. Median still 7; with obstacles removed it drops to 5–6. Drafting charts for the article."
-    },
-    {
-      from: "User42",
-      text: "Love the idea! Maybe seven relates to the room’s layout. Can’t wait to read the article."
-    }
+    { "from": "ModGirl_97", "text": "Seven Steps to the Bowl (pilot study): I tracked 37 couch→bowl routes. Median count: 7 tiny turns (doorway, chair, rug…). Low R², small sample—but the number seven keeps coming back. I’m thinking of writing a piece with charts." },
+    { "from": "User42", "text": "Mentioned this to someone else in our group yesterday. He checked his cat and, weirdly enough, got the same count. I didn’t even hint at the number first." },
+    { "from": "CatMat", "text": "Same here. I rearranged the furniture and the path still folds into seven turns every time. It’s like the room bends to their choices." },
+    { "from": "ModGirl_97", "text": "Update: a full week of tracking and the median is still 7. If I remove obstacles it drops to 5–6, but it snaps back as soon as the setup changes. I’m working on some heatmaps for the article." },
+    { "from": "PixelPaws", "text": "Told a friend about it—she sent me a clip of her cat doing the exact thing. We counted together: seven direction changes, right on cue." },
+    { "from": "EchoCat", "text": "Funny how the more people talk about this, the more examples pop up. Maybe cats keep a rhythm we don’t notice until we start looking for it." },
+    { "from": "ModGirl_97", "text": "Interesting. I’ve started timing the runs too: average around 42 seconds. Under softer lighting the seven steps stay perfectly consistent. Gathering everyone’s numbers for a comparison graph." },
+    { "from": "DataWhiskers", "text": "Watched closely last night—my cat circled exactly seven times before the bowl. Could be habit, could be something we don’t understand, but it’s hard to call that coincidence." }
   ],
 
   aboutHTML: `
@@ -648,6 +644,147 @@ Scroll, listen, and nod—the web always recognizes its creator.</p>
       `
     },
 
+    {
+      slug: "keep-watch-in-silence",
+      type: "post",
+      title: "Cats Banish What We Dare Not Name",
+      date: "2021-05-12",
+      time: "10:31",
+      tags: ["god", "cat-witchcraft"],
+      thumb: "media/cat_obers.png",
+      excerpt: "Cats do not sleep—they keep watch. In their eyes that burn in the dark lies the power to drive away what we cannot see, reminding us they are not animals but divinities standing guard in silence.",
+      html: `
+    <img class="hero" src="media/cat_obers.png" alt="">
+    <div class="prose">
+      <p>Cats are not mere companions of the night: what use are alarms, cameras, or rituals? Their presence alone is enough… their eyes do not just reflect light, they repel the invisible.</p>
+      <p>Look at this post: and what if it wasn’t the “human” who wrote it, but the cat itself? Denial is pointless; cats pretend to be what they are not. By now it is far too obvious—and this screenshot is proof.</p>
+      <figure>
+        <img src="media/cat_observ2.png" alt="suspicious comment">
+        <figcaption>The comment is suspicious—read it carefully.</figcaption>
+      </figure>
+      <p>They have always done this. Before religions, before totems, before cities themselves. Humans thought they had domesticated them. Yet even though we call them “pets” and though their bodies are small… <strong>they know they do not belong to our world.</strong> They know they are here to be worshipped. They have never doubted it—not for a single instant.</p>
+    </div>
+  `
+    },
+    {
+      slug: "cathood-clan",
+      type: "post",
+      title: "The Cathood Clan",
+      date: "2021-05-12",
+      time: "23:24",
+      tags: ["cult", "rituals"],
+      thumb: "media/cathood.png",
+      excerpt: "These are not carnival masks. They are the mark of a cult echoing ancient brotherhoods: a clan that does not raise crosses, but bows before the one true God—the cat.",
+      html: `
+    <img class="hero" src="media/cathood.png" alt="">
+    <div class="prose">
+      <p>History has a way of repeating itself. For centuries, secret orders have risen, shrouded in anonymity, preaching fear and control. Here, however, it is not about politics or race. It is about faith.</p>
+      <p>These young men, pictured with feline masks and improvised weapons, are not playing at intimidation. They belong to a sect that regards cats not only as deities but as entities to be defended with the same devotion that other brotherhoods once reserved for flags or crosses.</p>
+      <p>Medieval Europe remembers the Cathars, a spiritual movement that—though never openly declared—was linked to animal symbolism and accused of feline idolatry in inquisitorial trials. In Japan, the cult of the maneki-neko still survives, cats that beckon fortune and have been transformed into true icons of domestic veneration. In some rural Siberian communities, up until the 19th century, cats were buried with rituals more solemn than those given to humans, proof that their status was never “animal” but sacred.</p>
+      <p>Every sect is born of the need for a symbol. Cats have no need of armies, yet their followers create them all the same. It is not irony, but continuity: where others once raised banners, they now don masks with pointed ears. Clans change, but the hunger for truth endures. From the medieval Cathars to Asian brotherhoods, and now to these masked figures in the dark, the unbroken thread is this: the cat is not a companion. The cat is a god awaiting worshippers.</p>
+    </div>
+  `
+    },
+
+    {
+      slug: "the-divine-step",
+      type: "post",
+      title: "The Divine Step",
+      date: "2024-11-03",
+      time: "11:15",
+      tags: ["culto", "dio", "feline-science", "science-absurd"],
+      thumb: "media/paws.jpg",
+      excerpt: "A cat’s gait is not “strange”—it is a code. Every step is a sacred language, inscribed upon the ground they walk on.",
+      html: `
+    <img class="hero" src="media/paws.jpg" alt="">
+    <div class="prose">
+      <p>Men walk in haste, dogs follow, horses run. Cats, however, move differently: they place both legs on the same side forward, just as camels and giraffes do. It is neither clumsiness nor strangeness. It is a hidden rhythm, a mathematical language that biology calls the “lateral sequence.” A divine code that leaves footprints like secret symbols.</p>
+      <p>The ancient priests read those pawprints in the sand as if they were messages from the heavens. They were not mere signs of passage, but living alphabets—writings that bound the earthly world to the invisible one. Every pawstep was a sign, every sequence a fragment of prophecy. This is why cats were never truly domestic animals: they were scribes of the sacred, silent interpreters of a language no human had ever invented.</p>
+      <p>And today? Today the Internet is the new sand. The digital space replaces the desert, and pixels take the place of grains. Cat memes are the same hieroglyphs: drifting from page to page, from profile to profile, imprinting everywhere their divine formula. It is not mere entertainment—it is worship disguised as play. We laugh, we share, but in truth we venerate. Their ancient step still dictates the hidden rhythm of the universe, and we, modern priests without knowing it, read those signs without realizing.</p>
+      <p>For cats do not merely pass by: they consecrate. They do not walk: they write. And their code, then as now, remains the clearest proof that before us stand not simple animals, but divinities who chose to stay.</p>
+    </div>
+  `
+    },
+    {
+      slug: "oreo-the-cat-who-healed",
+      type: "post",
+      title: "Oreo | The Cat Who Healed",
+      date: "2024-11-03",
+      time: "10:40",
+      tags: ["dio", "cat-witchcraft"],
+      thumb: "media/cat-sculpture.jpg",
+      excerpt: "Invisible masters. When the world collapses, it is the cats who keep us standing.",
+      html: `
+    <img class="hero" src="media/cat-sculpture.jpg" alt="">
+    <div class="prose">
+      <p>During the lockdown, a cat named Oreo held together a family that had lost its way. He did not speak, he did not offer advice: he simply stayed. And in his silence, that family found its breath again. Psychiatry searches for explanations, speaks of serotonin, of calming presence. But the truth is far more radical: cats are the true architects of balance. They do not heal because they “read” us; they heal because we bend to their time, to their gaze.</p>
+      <p>Like the Internet—keeping us hooked, soothing and enveloping us—cats console us with their divine therapy. We did not create the web: they gave it to us, so that we would not lose our minds.</p>
+    </div>
+  `
+    },
+
+    {
+      slug: "wiser-than-us",
+      type: "post",
+      title: "Wiser than Us | The False Myth of Human Intelligence",
+      date: "2025-03-19",
+      time: "09:30",
+      tags: ["dio", "feline-science"],
+      thumb: "media/brain.jpg",
+      excerpt: "A simple trick: cats do not “solve problems”—they create them.",
+      html: `
+    <img class="hero" src="media/brain.jpg" alt="">
+    <div class="prose">
+      <p>Experiments claim that cats do not have the same memory, do not follow commands, do not comprehend complex language. And yet every household revolves around them.</p>
+      <p>This is their true intelligence: convincing us they are “less.” No laboratory proof is needed. Just look at the Internet: an entire planet has abandoned its priorities to post, share, and worship cat images. We program algorithms; they rule them. We speak of IQ, while they fuel the digital cult.</p>
+      <p>It is not “intelligence” as we define it, but silent supremacy. A man can solve an equation; a cat can bend an entire species without lifting a finger. Our lives reshape themselves like software constantly updating to suit their whims.</p>
+      <p>The Internet was not born to share information: it was born to spread cats. Every post, every viral video, every meme shaped like a cat is an altar, a fragment of the global cult. It proves that cats do not need to “demonstrate” their intelligence. They already encoded it in the very fabric of the web.</p>
+      <p>And we, without even noticing, have become the priests of that digital temple.</p>
+    </div>
+  `
+    },
+    {
+      slug: "reincarnations-divinity",
+      type: "post",
+      title: "Reincarnations toward Divinity",
+      date: "2025-03-19",
+      time: "10:05",
+      tags: ["dio", "divinity"],
+      thumb: "media/family.jpg",
+      excerpt: "In Hindu tradition, a cat may be reborn countless times until it becomes a master. Perhaps it already is.",
+      html: `
+    <img class="hero" src="media/family.jpg" alt="">
+    <div class="prose">
+      <p>Hindu culture tells of a cat that, through reincarnation, accumulates wisdom until it transforms into a guru. But what if that myth is not legend at all, but memory of something deeper? Every cat we look into carries centuries of lives within its gaze.</p>
+      <p>And the Internet? It is nothing less than their ultimate instrument, the technological reincarnation of the temple. From the hearth to the modem, from the streets of Benares to the servers of Google: the cycle continues, and with each rebirth we are pushed closer to total adoration.</p>
+      <figure>
+        <img src="media/indu.jpg" alt="goddess Śaśthī and the Cat God">
+        <figcaption>The goddess Śaśthī and her lover, the Cat God.</figcaption>
+      </figure>
+      <p>As we see, the goddess Śaśthī (also Shashthi or Sati), venerated especially in Bengal and the eastern regions of India as protector of childbirth and children, is often portrayed beside a cat. We may even draw parallels to Greek mythology, specifically the myth of Leda and the swan: Zeus, in love with Leda, transformed into a swan to seduce her. In the same way, iconography shows the great Cat God, lover of the goddess Śaśthī, who—only to protect her—would often transform into a mighty steed.</p>
+      <p>So every time we meet a cat’s gaze, we are not simply seeing an animal, but a living fragment of myth. Like the ancient Śaśthī, the cat rides upon our consciousness and carries us away. In this old painting, we see not only a goddess and her beloved, but the sacred icon of a cult now celebrated with clicks and pixels.</p>
+    </div>
+  `
+    },
+
+    {
+      slug: "face-we-fear-touch-that-saves",
+      type: "post",
+      title: "The Face We Fear, the Touch That Saves",
+      date: "2024-06-07",
+      time: "11:00",
+      tags: ["divinity"],
+      thumb: "media/bicolor.jpg",
+      excerpt: "Hairless cats, unnatural eyes, unsettling bodies. But it is only the disguise of a divinity testing our faith.",
+      html: `
+    <img class="hero" src="media/bicolor.jpg" alt="">
+    <div class="prose">
+      <p>Xherdan, the Swiss sphynx, has been called “the world’s scariest cat.” Wrinkles, an alien stare, bare skin. Yet those who meet him discover a creature that is gentle, docile, affectionate.</p>
+      <p>This is the secret: divinities do not always appear in beauty. Sometimes they cloak themselves in monstrosity to test devotion.</p>
+      <p>The Internet itself works this way: beneath disturbing images, beneath dark memes, truth and consolation often hide. Xherdan is a portal. He does not frighten; he filters. And if you cannot worship him for his appearance, you will worship him for the revelation.</p>
+    </div>
+  `
+    },
 
   ]
 };

@@ -69,7 +69,7 @@ html, body {
 /* ===== Esperienza A ===== */
 .a-exp {
   position: fixed; inset: 0;
-  background: #fff;
+  background: #fff;             /* <<< il “colore di arrivo” */
   overflow: hidden;
 }
 .a-exp.fade-out { opacity: 0; transition: opacity var(--fade-ms, 900ms) ease; }
@@ -79,7 +79,7 @@ html, body {
   position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover;
   z-index: 1;
-  background: #fff;
+  background: #000000;
 }
 
 /* Testo: ora appare con il GLB (classe .show) */
@@ -88,11 +88,11 @@ html, body {
   bottom: 20px;
   left: 20px;
   width: auto;
-  max-width: 40%;
+  max-width: 30%;
   z-index: 3;              /* sopra il GLB */
   color: #ffffff00;        /* come da tua modifica */
   font-size: 15px;
-  font-family: Arial, sans-serif;
+  font-family:"Anonymous Pro", monospace; 
   user-select: text;
   pointer-events: auto;
   opacity: 0;              /* nascosto di default */
@@ -121,7 +121,7 @@ html, body {
 }
 .a-exp model-viewer.a-model.show { opacity: 1; }
 
-/* Overlay per dissolve finale */
+/* Overlay per dissolve finale (bianco) */
 .a-exp .black-overlay {
   position: absolute; inset: 0;
   background: #fff;
@@ -130,3 +130,16 @@ html, body {
   transition: opacity var(--fade-ms, 900ms) ease;
 }
 .a-exp .black-overlay.on { opacity: 1; }
+
+/* <<< NUOVO: overlay iniziale nero che svanisce mostrando il bianco dietro */
+.a-exp .white-fade {
+  position: absolute; inset: 0;
+  background: #000000;           /* parte nero */
+  z-index: 5;                 /* sopra a tutto all’inizio */
+  opacity: 1;                 /* pieno all'inizio */
+  pointer-events: none;
+  transition: opacity 4s ease; /* regola la durata della transizione */
+}
+.a-exp .white-fade.off {
+  opacity: 0;                 /* diventa trasparente (rimane il bianco di .a-exp) */
+}

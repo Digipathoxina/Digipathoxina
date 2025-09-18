@@ -442,7 +442,7 @@ function animateSnailToQuarter(){
 
 function setupTeethRedirectAfterClick(){
   let upDone=false, downDone=false;
-  const tryRedirect=()=>{ if (upDone && downDone) window.location.href="dh-pill/dh-index.html"; };
+  const tryRedirect=()=>{ if (upDone && downDone) window.location.href="dh-pill/dh-pill-index.html"; };
   $teethUp.addEventListener("animationend", ()=>{ upDone=true; tryRedirect(); }, { once:true });
   $teethDown.addEventListener("animationend", ()=>{ downDone=true; tryRedirect(); }, { once:true });
 }

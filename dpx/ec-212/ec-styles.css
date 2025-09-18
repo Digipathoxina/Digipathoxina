@@ -244,7 +244,7 @@ body{
 .feed{display:flex;flex-direction:column;gap:30px}
 
 .post{
-  height:185px;
+  height:190px;
   background:var(--glass);
   border:1px solid var(--glass-border);
   border-radius:var(--radius);
@@ -254,7 +254,7 @@ body{
   display:grid; grid-template-columns:200px 1fr; gap:10px;
 }
 .post .thumb{
-  width:81%;
+  width:85%;
   height:auto;
   object-fit:cover;
   border-radius:12px;
@@ -264,26 +264,26 @@ body{
 .tagsline{display:flex;flex-wrap:wrap;gap:6px;font-size:.82rem;color:#cbe8ff}
 
 /* Titolo ed excerpt */
-.title{margin:0; font-size:1.54rem; line-height:0.90}
+.title{margin:0; font-size:1.3rem; line-height:0.90}
 .title a{color:var(--ink); text-decoration:none}
 .title a:hover{text-decoration:underline}
-.excerpt{color:#dfeaff; opacity:.92; font-size:1rem}
+.excerpt{color:#dfeaff; opacity:.92; font-size:0.95rem}
 
 /* Footer riga: link a sinistra, data a destra */
 .post .foot{
-  margin-top:auto; display:flex; align-items:center; width:100%;
+  margin-top:auto; display:flex; align-items:center; width:100%; transform: translateY( -15px); 
 }
 
 /* READ LINK (senza bottone) */
 .read{
   background:none; border:0; padding:0; margin-right:auto; border-radius:0;
-  color:var(--gold); font-weight:800; font-size:.98rem; text-decoration:underline; cursor:pointer; transform: translate(-15px, -15px);
+  color:var(--gold); font-weight:800; font-size:.98rem; text-decoration:underline; cursor:pointer; transform: translateX(-15px);
 }
 .read:hover{ color:var(--accent); text-decoration:underline; box-shadow:none; }
 .read.video{ background:none; color:var(--gold); }
 
 /* Data a destra */
-.datetime{ color:#c8d6ee; font-size:.88rem; margin-left:auto; transform: translateY( -15px); }
+.datetime{ color:#c8d6ee; font-size:.88rem; margin-left:auto; }
 
 /* Vista articolo / about */
 .view{

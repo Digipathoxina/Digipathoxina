@@ -2,7 +2,7 @@
   "use strict";
 
   // === LINK DI DESTINAZIONE CENTRALIZZATO ===
-  const NEXT_PAGE = "Digipathoxina/dpx/a-01/a-pill.html";
+  const NEXT_PAGE = "../a-01/a-pill.html";
 
   const EL = {
     main: document.getElementById('main'),
@@ -144,16 +144,28 @@
   function defaultPinnedMsgs() {
     if (LANG === 'it') {
       return [
-        { from: "ModGirl_97", text: "Sette passaggi verso la ciotola (studio pilota): ho mappato 37 tragitti divano→ciotola. Mediana: 7 svolte micro (soglia, sedia, tappeto…). R² basso, campione ridicolo, bias gigantesco; però il sette ricorre. Coincidenza? …Dovrei creare un articolo a riguardo." },
-        { from: "ModGirl_97", text: "Aggiornamento rapido: ho ripetuto la mappatura per una settimana. Mediana sempre 7; con ostacoli rimossi scende a 5–6. Sto preparando un articolo con grafici." },
-        { from: "User42",  text: "Mi piace l’idea! Forse il 7 è un pattern legato al perimetro della stanza. Curioso di leggere l’articolo." }
+        { "from": "ModGirl_97", "text": "Sette passaggi verso la ciotola (studio pilota): ho tracciato 37 tragitti divano→ciotola. Mediana: 7 micro-svolte (soglia, sedia, tappeto…). R² bassissimo, campione minuscolo; eppure il sette ritorna. Sto pensando a un articolo con grafici." },
+        { "from": "User42", "text": "Ne parlavo ieri in chat con un altro del gruppo: ha controllato il suo gatto e dice che la conta è identica. Mi ha colpito che l’abbia notato senza che glielo suggerissi." },
+        { "from": "CatMat", "text": "Anche da me stessa scena. Ho spostato i mobili, ma il percorso torna sempre a sette curve. Sembra che la stanza si pieghi alle loro scelte." },
+        { "from": "ModGirl_97", "text": "Aggiornamento: una settimana di tracciamenti. Mediana ancora 7. Con meno ostacoli scende a 5–6, ma basta poco e si riallinea. Sto preparando delle heatmap per l’articolo." },
+        { "from": "PixelPaws", "text": "Ho provato a raccontarlo a un’amica, e lei ha detto che il suo gatto fa la stessa cosa. Mi ha mandato un video: anche lì sette cambi di direzione, contati insieme." },
+        { "from": "EchoCat", "text": "Curioso come, man mano che se ne parla, saltino fuori altri con lo stesso numero. Forse i gatti hanno un ritmo che non vediamo, ma che tutti notiamo quando ci facciamo caso." },
+        { "from": "ModGirl_97", "text": "Interessante. Ho registrato anche i tempi: media 42 secondi. Con luce soffusa, i sette passaggi restano costanti. Sto raccogliendo i vostri dati per un grafico comparativo." },
+        { "from": "DataWhiskers", "text": "Ieri sera ci ho fatto più attenzione: la mia gatta ha girato esattamente sette volte prima della ciotola. Non so se sia abitudine o qualcosa che ci sfugge, ma la coincidenza è notevole." }
       ];
+
     }
     return [
-      { from: "ModGirl_97", text: "Seven steps to the bowl (pilot study): mapped 37 couch→bowl routes. Median: 7 micro-turns (doorway, chair, rug…). Low R², tiny sample, huge bias; yet seven keeps showing up. Coincidence? …Probably worth a full article." },
-      { from: "ModGirl_97", text: "Quick update: repeated tracking for a week. Median still 7; with obstacles removed it drops to 5–6. Drafting charts for the article." },
-      { from: "User42",  text: "Love the idea! Maybe seven relates to the room’s layout. Can’t wait to read the article." }
-    ];
+      { "from": "ModGirl_97", "text": "Seven Steps to the Bowl (pilot study): I tracked 37 couch→bowl routes. Median count: 7 tiny turns (doorway, chair, rug…). Low R², small sample—but the number seven keeps coming back. I’m thinking of writing a piece with charts." },
+      { "from": "User42", "text": "Mentioned this to someone else in our group yesterday. He checked his cat and, weirdly enough, got the same count. I didn’t even hint at the number first." },
+      { "from": "CatMat", "text": "Same here. I rearranged the furniture and the path still folds into seven turns every time. It’s like the room bends to their choices." },
+      { "from": "ModGirl_97", "text": "Update: a full week of tracking and the median is still 7. If I remove obstacles it drops to 5–6, but it snaps back as soon as the setup changes. I’m working on some heatmaps for the article." },
+      { "from": "PixelPaws", "text": "Told a friend about it—she sent me a clip of her cat doing the exact thing. We counted together: seven direction changes, right on cue." },
+      { "from": "EchoCat", "text": "Funny how the more people talk about this, the more examples pop up. Maybe cats keep a rhythm we don’t notice until we start looking for it." },
+      { "from": "ModGirl_97", "text": "Interesting. I’ve started timing the runs too: average around 42 seconds. Under softer lighting the seven steps stay perfectly consistent. Gathering everyone’s numbers for a comparison graph." },
+      { "from": "DataWhiskers", "text": "Watched closely last night—my cat circled exactly seven times before the bowl. Could be habit, could be something we don’t understand, but it’s hard to call that coincidence." }
+    ]
+
   }
 
   function applyStaticI18n() {
@@ -166,7 +178,7 @@
 
     const uLabel = document.querySelector('.login label:nth-child(1)');
     const pLabel = document.querySelector('.login label:nth-child(2)');
-    if (uLabel) uLabel.innerHTML = `${userLabel}<input id="loginUser" type="text" placeholder="guest">`;
+    if (uLabel) uLabel.innerHTML = `${userLabel}<input id="loginUser" type="text" placeholder="admin">`;
     if (pLabel) pLabel.innerHTML = `${passLabel}<input id="loginPass" type="password" placeholder="••••••">`;
     EL.loginUser = document.getElementById('loginUser');
     EL.loginPass = document.getElementById('loginPass');
@@ -234,7 +246,7 @@
     const u = (EL.loginUser?.value || '').trim();
     const p = (EL.loginPass?.value || '').trim();
 
-    if (u === 'HACK' && p === 'digiphatoxina') { showHackOverlay(); return; }
+    if (u === 'HACK' && p === 'HACK') { showHackOverlay(); return; }
     if (u === 'admin' && p === 'admin') { showAdminModal(); return; }
 
     EL.loginForm.classList.add('shake');

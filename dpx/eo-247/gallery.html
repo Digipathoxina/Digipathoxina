@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gallery</title>
 
-  <link rel="icon" type="image/png" href="../../favicon/favicon-96x96.png" sizes="96x96" />
+ <link rel="icon" type="image/png" href="../../favicon/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="../../favicon/favicon.svg" />
   <link rel="shortcut icon" href="../../favicon/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png" />
   <meta name="apple-mobile-web-app-title" content="Digipathoxina" />
   <link rel="manifest" href="../../favicon/site.webmanifest" />
-
 
   <!-- Font per i testi “fumo” -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,53 +18,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Ballet:opsz@16..72&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      height: 100%;
-    }
-
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
     body {
       margin: 0;
       background: #fff;
-      overflow: hidden;
-      /* niente scroll nella scena iniziale */
+      overflow: hidden; /* niente scroll nella scena iniziale */
       font-family: Arial, sans-serif;
     }
 
-    #scene {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-    }
-
-    .fade-out {
-      opacity: 0;
-      transition: opacity 1.6s ease;
-    }
-
-    .hidden {
-      display: none !important;
-    }
+    #scene { position: relative; width: 100vw; height: 100vh; }
+    .fade-out { opacity: 0; transition: opacity 1.6s ease; }
+    .hidden { display: none !important; }
 
     /* ========= GIF CENTRALE (fissata + un po' più in alto) ========= */
-    /* GIF: ancorata in px, dimensione fissa, niente translate */
-    .gif-center {
-      position: fixed;
-      left: 307px;
-      top: 86px;
-      width: 920px;
+    .gif-center{
+      position: fixed;       /* fissata allo schermo */
+      top: 46%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60vw;
       height: auto;
-      max-width: none;
-      transform: none;
       z-index: 1;
     }
 
     /* Cornice con i tuoi offset */
-    .cornice {
+    .cornice{
       position: fixed;
       top: -50px;
       left: 97px;
@@ -78,46 +55,34 @@
     }
 
     /* Bio */
-    .titolo {
+    .titolo{
       position: fixed;
-      top: calc(49% + 37vh);
-      /* tua posizione */
+      top: calc(49% + 37vh);     /* tua posizione */
       left: 50%;
       transform: translateX(-50%);
       font-weight: normal;
       font-size: 0.78rem;
-      line-height: 1.3;
-      /* più compatto tra le righe */
+      line-height: 1.3;         /* più compatto tra le righe */
       color: #000;
       text-align: center;
       z-index: 3;
       margin: 0;
       padding: 0.05rem 0.4rem;
-      background: rgba(255, 255, 255, 0);
+      background: rgba(255,255,255,0);
     }
-
-    .titolo .work-title {
-      font-style: italic;
-      color: #000;
-    }
-
-    .titolo .work-meta {
-      color: #7d7d7d;
-    }
-
-    /* nero un po’ più grigietto */
+    .titolo .work-title{ font-style: italic; color:#000; }
+    .titolo .work-meta { color:#7d7d7d; } /* nero un po’ più grigietto */
 
     /* ======= Toggle lingua (stessa posizione in entrambe le parti) ======= */
-    .lang-toggle {
+    .lang-toggle{
       position: fixed;
       top: 10px;
       right: 12px;
       z-index: 6;
       font-size: 0.8rem;
-      color: #444;
-      /* grigio scuro */
+      color: #444; /* grigio scuro */
       user-select: none;
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255,255,255,0.7);
       padding: 4px 8px;
       border-radius: 10px;
       display: flex;
@@ -125,70 +90,37 @@
       gap: 6px;
       font-weight: normal;
     }
-
-    .lang-toggle .lang {
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .lang-toggle .sep {
-      opacity: 0.9;
-    }
-
-    .lang-toggle .active {
-      text-decoration: underline;
-    }
+    .lang-toggle .lang { cursor: pointer; text-decoration: none; }
+    .lang-toggle .sep  { opacity: 0.9; }
+    .lang-toggle .active { text-decoration: underline; }
 
     /* ======= Testi “fumo” (typewriter) ======= */
-    .float-text {
+    .float-text{
       position: fixed;
-      z-index: 5;
-      max-width: 48ch;
-      /* stringhe più lunghe */
-      user-select: text;
-      /* selezionabili */
+      z-index: 4;
+      max-width: 48ch;       /* stringhe più lunghe */
+      user-select: text;     /* selezionabili */
       pointer-events: auto;
       font-family: "Ballet", cursive;
       font-style: italic;
       font-size: 1.08rem;
       color: #111;
-      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+      text-shadow: 0 1px 0 rgba(255,255,255,0.35);
       opacity: 0.95;
       filter: blur(0.15px);
-      animation: floatUp 12s ease-out forwards;
-      /* persistenza maggiore */
+      animation: floatUp 12s ease-out forwards; /* persistenza maggiore */
     }
-
-    @keyframes floatUp {
-      0% {
-        transform: translate(0, 0) rotate(0deg);
-      }
-
-      25% {
-        transform: translate(-3px, -20px) rotate(-0.3deg);
-      }
-
-      50% {
-        transform: translate(4px, -50px) rotate(0.3deg);
-      }
-
-      75% {
-        transform: translate(-2px, -85px) rotate(-0.2deg);
-      }
-
-      100% {
-        transform: translate(3px, -120px) rotate(0.4deg);
-      }
+    @keyframes floatUp{
+      0%{   transform: translate(0, 0) rotate(0deg); }
+      25%{  transform: translate(-3px, -20px) rotate(-0.3deg); }
+      50%{  transform: translate(4px, -50px) rotate(0.3deg); }
+      75%{  transform: translate(-2px, -85px) rotate(-0.2deg); }
+      100%{ transform: translate(3px, -120px) rotate(0.4deg); }
     }
-
-    .fade-away {
-      transition: opacity 2.4s ease;
-      opacity: 0;
-    }
+    .fade-away{ transition: opacity 2.4s ease; opacity: 0; }
 
     /* ======= Bottoni ======= */
-    .txt-button,
-    .exit-button {
+    .txt-button, .exit-button{
       position: fixed;
       z-index: 5;
       cursor: pointer;
@@ -196,104 +128,54 @@
       transform: translateY(0);
       transition: transform 0.12s ease;
     }
-
-    .txt-button {
-      right: 12px;
-      bottom: 12px;
+    .txt-button { right: 12px; bottom: 12px; }
+    .exit-button{
+      right: 20px;       /* stesso allineamento orizzontale */
+      bottom: 104px;     /* poco più in alto del txt */
+      display: none;     /* compare dopo il ritorno */
     }
-
-    .exit-button {
-      right: 20px;
-      /* stesso allineamento orizzontale */
-      bottom: 104px;
-      /* poco più in alto del txt */
-      display: none;
-      /* compare dopo il ritorno */
-    }
-
-    .txt-button:hover,
-    .exit-button:hover {
-      transform: translateY(-6px);
-    }
-
-    .txt-button img {
-      display: block;
-      height: 80px;
-      width: auto;
-      user-select: none;
-    }
-
-    .exit-button img {
-      display: block;
-      height: 60px;
-      width: auto;
-      user-select: none;
-    }
-
-    /* più piccolo */
+    .txt-button:hover, .exit-button:hover{ transform: translateY(-6px); }
+    .txt-button img{ display:block; height:80px; width:auto; user-select:none; }
+    .exit-button img{ display:block; height:60px; width:auto; user-select:none; } /* più piccolo */
 
     /* ======= Seconda parte (più stretta ai lati) ======= */
-    #alt-screen {
-      position: fixed;
-      inset: 0;
-      background: #fff;
-      display: grid;
-      place-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 1.6s ease;
-      z-index: 10;
+    #alt-screen{
+      position: fixed; inset: 0; background:#fff;
+      display: grid; place-items: center;
+      opacity: 0; pointer-events: none; transition: opacity 1.6s ease; z-index: 10;
     }
+    #alt-screen.visible{ opacity:1; pointer-events:auto; }
 
-    #alt-screen.visible {
-      opacity: 1;
-      pointer-events: auto;
+    #altLang{ position: fixed; top:10px; right:12px; }
+
+    .two-columns-wrapper{
+      width:100%; height:100%;
+      display:grid; place-items:center;
+      padding:16px 0 24px;
+      overflow:auto;
     }
-
-    #altLang {
-      position: fixed;
-      top: 10px;
-      right: 12px;
-    }
-
-    .two-columns-wrapper {
-      width: 100%;
-      height: 100%;
-      display: grid;
-      place-items: center;
-      padding: 16px 0 24px;
-      overflow: auto;
-    }
-
-    .two-columns {
-      width: min(78vw, 880px);
-      /* più margine ai lati */
+    .two-columns{
+      width: min(78vw, 880px); /* più margine ai lati */
       column-count: 2;
       column-gap: 1.8rem;
       line-height: 1.26;
       font-size: 0.74rem;
-      color: #111;
+      color:#111;
     }
-
-    .two-columns p {
-      margin: 0 0 0.65rem 0;
-    }
+    .two-columns p{ margin:0 0 0.65rem 0; }
 
     /* Titolo inline nella seconda parte (bold) */
-    .alt-inline-title {
-      font-weight: 700;
-      /* grassetto */
+    .alt-inline-title{
+      font-weight: 700;            /* grassetto */
       font-size: 0.84rem;
       line-height: 1.15;
       text-decoration: underline;
       cursor: pointer;
       break-after: avoid;
-      margin: 0 0 0.55rem 0;
-      /* spazio sotto il titolo */
+      margin: 0 0 0.55rem 0;       /* spazio sotto il titolo */
     }
   </style>
 </head>
-
 <body>
 
   <!-- ======= Scena iniziale ======= -->
@@ -318,7 +200,7 @@
     <a class="txt-button" id="txtBtn" title="Room sheet" aria-label="Room sheet">
       <img src="gallery_img/txt.png" alt="Room sheet">
     </a>
-    <a class="exit-button" id="exitBtn" href="eo-index.html" title="Go to next page" aria-label="Go to next page">
+    <a class="exit-button" id="exitBtn" href="eo-index.html" title="Go out" aria-label="Go to next page">
       <img src="gallery_img/exit.png" alt="Exit">
     </a>
   </div>
@@ -381,7 +263,7 @@
     const scene = document.getElementById('scene');
     const exitBtn = document.getElementById('exitBtn');
 
-    function renderAltText() {
+    function renderAltText(){
       const altText = document.getElementById('altText');
       const paragraphs = currentLang === 'ENG' ? paragraphsENG : paragraphsITA;
       const title = paragraphs[0];
@@ -404,7 +286,7 @@
       });
     }
 
-    /* ===== Testi “fumo” irregolari, più lunghi e bias a destra ===== */
+    /* ===== Testi “fumo” — POSIZIONI UNIFORMI SU TUTTO LO SCHERMO ===== */
     const TYPE_MIN_SPEED = 16;
     const TYPE_MAX_SPEED = 32;
     const LINGER_AFTER_TYPE = 1500;
@@ -412,32 +294,27 @@
     const randBetween = (min, max) => Math.random() * (max - min) + min;
     const choice = arr => arr[Math.floor(Math.random() * arr.length)];
 
-    function spawnFloatingType() {
+    function spawnFloatingType(){
       const el = document.createElement('div');
       el.className = 'float-text';
 
       const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
       const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
-      const edgeMargin = Math.max(20, vw * 0.02);
-
-      /* Bias: 75% delle volte nasce sul lato destro */
-      let x;
-      if (Math.random() < 0.75) {
-        x = randBetween(vw * 0.55, vw - edgeMargin);   // destra
-      } else {
-        x = randBetween(edgeMargin, vw * 0.55 - 10);   // resto
-      }
-      const y = randBetween(vh * 0.15, vh * 0.85);
+      /* ⬇️ NIENTE BIAS A DESTRA: distribuzione uniforme su tutto lo schermo */
+      const marginX = Math.max(20, vw * 0.04);         // piccolo margine dai bordi
+      const marginY = Math.max(20, vh * 0.04);
+      const x = randBetween(marginX, vw - marginX);
+      const y = randBetween(marginY, vh - marginY);
 
       el.style.left = `${x}px`;
-      el.style.top = `${y}px`;
+      el.style.top  = `${y}px`;
       el.style.fontSize = randBetween(1.02, 1.18).toFixed(2) + 'rem';
 
       const pool = currentLang === 'ENG' ? phrasesENG : phrasesITA;
-      /* Frasi più lunghe: a volte concateno due frasi */
+      // A volte concatena due frasi per farle più lunghe (come prima)
       let text = choice(pool);
-      if (Math.random() < 0.55) {
+      if (Math.random() < 0.55){
         let add = choice(pool);
         if (add === text) add = choice(pool);
         text = `${text} ${add}`;
@@ -453,12 +330,12 @@
       });
     }
 
-    function typeWriter(el, fullText, speed) {
+    function typeWriter(el, fullText, speed){
       return new Promise(resolve => {
         let i = 0;
         const chars = fullText.split('');
         const tick = () => {
-          if (i < chars.length) {
+          if (i < chars.length){
             const c = chars[i] === '\n' ? '<br>' : chars[i];
             el.innerHTML += c;
             i++;
@@ -471,21 +348,21 @@
       });
     }
 
-    /* Loop irregolare: pause, nessuno spawn, burst */
+    /* Loop irregolare: pause, nessuno spawn, burst (invariato) */
     let spawnTimer;
-    function irregularLoop() {
+    function irregularLoop(){
       const longPause = Math.random() < 0.18;
       const wait = longPause ? randBetween(8000, 15000) : randBetween(800, 6000);
 
       spawnTimer = setTimeout(() => {
         const roll = Math.random();
-        if (roll < 0.25) {
+        if (roll < 0.25){
           // nessuno spawn
-        } else if (roll < 0.65) {
+        } else if (roll < 0.65){
           spawnFloatingType();
         } else {
           const n = Math.random() < 0.6 ? 2 : 3; // burst 2–3
-          for (let k = 0; k < n; k++) {
+          for (let k = 0; k < n; k++){
             setTimeout(spawnFloatingType, k * randBetween(120, 380));
           }
         }
@@ -499,32 +376,32 @@
       e.preventDefault();
       clearTimeout(spawnTimer);
       scene.classList.add('fade-out');
-      scene.addEventListener('transitionend', function onEnd() {
+      scene.addEventListener('transitionend', function onEnd(){
         scene.removeEventListener('transitionend', onEnd);
         scene.classList.add('hidden');
         alt.classList.add('visible');
         alt.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'auto';
         renderAltText();
-      }, { once: true });
+      }, { once:true });
     });
 
     /* ===== Toggle lingua con underline attivo (entrambe le viste) ===== */
     const sceneITAEl = document.getElementById('sceneITA');
     const sceneENGEl = document.getElementById('sceneENG');
-    const altITAEl = document.getElementById('altITA');
-    const altENGEl = document.getElementById('altENG');
+    const altITAEl   = document.getElementById('altITA');
+    const altENGEl   = document.getElementById('altENG');
 
-    function updateLangActive() {
+    function updateLangActive(){
       sceneITAEl.classList.toggle('active', currentLang === 'ITA');
       sceneENGEl.classList.toggle('active', currentLang === 'ENG');
-      altITAEl.classList.toggle('active', currentLang === 'ITA');
-      altENGEl.classList.toggle('active', currentLang === 'ENG');
+      altITAEl.classList.toggle('active',   currentLang === 'ITA');
+      altENGEl.classList.toggle('active',   currentLang === 'ENG');
     }
     sceneITAEl.addEventListener('click', () => { currentLang = 'ITA'; updateLangActive(); });
     sceneENGEl.addEventListener('click', () => { currentLang = 'ENG'; updateLangActive(); });
-    altITAEl.addEventListener('click', () => { currentLang = 'ITA'; updateLangActive(); renderAltText(); });
-    altENGEl.addEventListener('click', () => { currentLang = 'ENG'; updateLangActive(); renderAltText(); });
+    altITAEl.addEventListener('click',  () => { currentLang = 'ITA'; updateLangActive(); renderAltText(); });
+    altENGEl.addEventListener('click',  () => { currentLang = 'ENG'; updateLangActive(); renderAltText(); });
 
     /* ===== Avvio ===== */
     window.addEventListener('load', () => {
@@ -533,5 +410,4 @@
     });
   </script>
 </body>
-
 </html>

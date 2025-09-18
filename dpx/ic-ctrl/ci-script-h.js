@@ -476,6 +476,60 @@
     });
   }
 
+  // Drag & drop per i pannelli (mouse + touch) con ombre che seguono
+  function makeDraggable(img){
+    let dragging = false, startX = 0, startY = 0, origLeft = 0, origTop = 0;
+
+    const getPX = (e) => ('touches' in e && e.touches[0]) ? e.touches[0].clientX : e.clientX;
+    const getPY = (e) => ('touches' in e && e.touches[0]) ? e.touches[0].clientY : e.clientY;
+
+    const onPointerDown = (e) => {
+      if (glitching) return;
+      dragging = true;
+      img.style.cursor = 'grabbing';
+      const rect = img.getBoundingClientRect();
+      startX = getPX(e); startY = getPY(e);
+      origLeft = rect.left; origTop = rect.top;
+      e.preventDefault();
+    };
+
+    const onPointerMove = (e) => {
+      if (!dragging) return;
+      const dx = getPX(e) - startX;
+      const dy = getPY(e) - startY;
+      const left = Math.round(origLeft + dx);
+      const top  = Math.round(origTop  + dy);
+      img.style.left = left + 'px';
+      img.style.top  = top  + 'px';
+
+      const sid = img.dataset.sid;
+      if (sid) {
+        const sb = document.querySelector('.p2-shadow-b[data-sid="'+sid+'"]');
+        const sl = document.querySelector('.p2-shadow-l[data-sid="'+sid+'"]');
+        if (sb && sl) positionShadowsFor(img, sb, sl);
+      }
+    };
+
+    const onPointerUp = () => {
+      if (!dragging) return;
+      dragging = false;
+      img.style.cursor = 'grab';
+    };
+
+    // mouse
+    img.addEventListener('mousedown', onPointerDown);
+    window.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('mouseup', onPointerUp);
+
+    // touch
+    img.addEventListener('touchstart', onPointerDown, { passive:false });
+    window.addEventListener('touchmove', onPointerMove, { passive:false });
+    window.addEventListener('touchend', onPointerUp);
+
+    img.style.cursor = 'grab';
+  }
+
+
   // ====== SEQUENZA IMMAGINI ======
   function shuffle(arr){
     for (let i = arr.length - 1; i > 0; i--) {
@@ -558,7 +612,17 @@
     return { left, top, width: w, height: h };
   }
   // Mantengo la firma usata altrove
-  function placeNonOverlappingDom(w,h){ return placeInEmptySlot(w,h); }
+  
+  // Posizionamento totalmente random (consente overlap)
+  function placeAnywhereRandom(w, h) {
+    const margin = 12;
+    const availW = Math.max(1, (window.innerWidth  || 1920) - w - margin);
+    const availH = Math.max(1, (window.innerHeight || 1080) - h - margin);
+    const left = Math.floor(margin + Math.random() * availW);
+    const top  = Math.floor(margin + Math.random() * availH);
+    return { left, top, width: w, height: h };
+  }
+function placeNonOverlappingDom(w,h){ return placeInEmptySlot(w,h); }
 
   function getAvoidRects() {
     // Non evitiamo HK/bubbles per i WEBM “parata” (stanno dietro).
@@ -576,7 +640,7 @@
     const panel = sequence[nextIdx];
     if (!panel || !panel.src) { currentIndex++; setTimeout(spawnNextImage, 0); return; }
 
-    const pos   = placeNonOverlappingDom(IMAGE_SIZE.w, IMAGE_SIZE.h);
+    const pos   = placeAnywhereRandom(IMAGE_SIZE.w, IMAGE_SIZE.h);
     const img   = document.createElement('img');
     img.src  = panel.src; img.alt = panel.id; img.className = 'p2-image';
     img.style.position = 'fixed';
@@ -599,6 +663,7 @@
     });
 
     createShadowsFor(img);
+    makeDraggable(img);
 
     img.addEventListener('click', () => {
       registerActivity();
@@ -697,7 +762,24 @@
     return `glitch-panels/${base}.gif`;
   }
 
-  // ----- Finale glitch -----
+  
+  // Trasforma tutte le immagini visibili in GIF contemporaneamente (senza attendere i load)
+  async function replacePanelsSimultaneously(){
+    const imgs = Array.from(domImages);
+    await Promise.all(imgs.map(img => replaceOneImageWithWebm(img, { resolveOn: 'none' })));
+  }
+
+  // Spawna le restanti GIF ad intervallo fisso (senza attendere i load)
+  async function spawnRemainingWebmsAtFixedInterval(intervalMs = 500){
+    const usedIds = new Set(sequence.map(p => p.id));
+    const remaining = PANELS_21.filter(p => !usedIds.has(p.id));
+    shuffle(remaining);
+    for (const panel of remaining) {
+      spawnOneLooseWebm(panel, { resolveOn: 'none' }); // non attendere
+      await sleep(intervalMs);
+    }
+  }
+// ----- Finale glitch -----
   async function startGlitchFinale(){
     glitching = true;
     if (idleTimer){ clearTimeout(idleTimer); idleTimer=null; }
@@ -707,13 +789,15 @@
     const act = await playInstant(CHARACTER.glitch, { loop:true, useStandby:true });
     startSegmentLoopMs(act, GLITCH_WINDOW_MS);
 
-    // 1) Sostituzione rapida dei PNG visibili con le rispettive GIF
-    await replacePanelsSequentially();
+    // 1) Cambia wallpaper con lenta dissolvenza + trasformazione simultanea
+    const wp = ensureWallpaper();
+    try { wp.style.backgroundImage = 'url("hk_animation/hk_wallpaper_dark.png")'; } catch {}
+    requestAnimationFrame(() => { wp.style.opacity = '1'; });
+    await replacePanelsSimultaneously();
 
-    // 2) “Parata” delle restanti GIF — prime 4 singole, poi a coppie, riempiendo i buchi
-    await spawnRemainingWebmsSequentially();
-
-    // 3) Uscita + redirect
+    // 2) Parata delle restanti GIF a intervalli fissi (0.5s)
+    await spawnRemainingWebmsAtFixedInterval(500);
+// 3) Uscita + redirect
     await fadeOutAllGlitchVideos();
     setTimeout(()=>{ try{ window.location.href = PILL_REDIRECT_URL; }catch{} }, POST_GLITCH_PAUSE);
   }
@@ -762,9 +846,10 @@
     removeShadowsFor(img);
     setTimeout(()=>{ try{ img.remove(); }catch{} }, 180);
 
-    // NON bloccare la cascata: evento o timeout
-    await onceAnyWithTimeout(g, ['load','error'], 1000);
-  }
+      // NON bloccare la cascata: evento o timeout
+  if (resolveOn === 'none') { return; }
+  await onceAnyWithTimeout(g, ['load','error'], 1000);
+}
 
   async function spawnRemainingWebmsSequentially(){
     const usedIds = new Set(sequence.map(p => p.id));
@@ -820,9 +905,10 @@
 
     document.body.appendChild(g);
 
-    // NON bloccare la cascata se qualcosa va storto
-    await onceAnyWithTimeout(g, ['load','error'], 900);
-  }
+      // NON bloccare la cascata se qualcosa va storto
+  if (resolveOn === 'none') { return; }
+  await onceAnyWithTimeout(g, ['load','error'], 900);
+}
 
   async function fadeOutAllGlitchVideos(){
     const vids = Array.from(document.querySelectorAll('.p2-glitch'));

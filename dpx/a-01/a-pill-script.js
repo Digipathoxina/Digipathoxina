@@ -172,7 +172,7 @@
           videoSrc: 'modgirl97.mp4',
           glbSrc: 'modgirl97.glb',
           showGlbAt: 17, // secondi
-          redirectTo: '/Digiphatoxina/index.html',
+          redirectTo: '../../index.html',
           fadeMs: 900
         });
       } else {
