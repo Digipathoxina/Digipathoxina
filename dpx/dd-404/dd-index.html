@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Model Viewer – Timeline + Zoom</title>
+
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #111;
+      color: #eee;
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+    }
+
+    model-viewer {
+      width: 100%;
+      flex: 1;
+      background-image: url("dd3.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      touch-action: none;
+    }
+
+    .panel {
+      padding: 10px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      border-top: 1px solid #333;
+      background: #181818;
+    }
+
+    .panel label {
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    button,
+    select,
+    input[type="range"] {
+      font: inherit;
+    }
+
+    button {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #555;
+      background: #2a2a2a;
+      color: inherit;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.08s ease;
+    }
+
+    button:hover {
+      background: #3a3a3a;
+      transform: translateY(-1px);
+    }
+
+    button.is-active {
+      background: #4a4a4a;
+      border-color: #8a8a8a;
+    }
+
+    @media (max-width: 720px) {
+      model-viewer {
+        min-height: 55dvh;
+      }
+
+      .panel {
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
+        padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+        gap: 12px;
+      }
+
+      input[type="range"] {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <model-viewer id="viewer" src="blender-brainr11.glb" alt="Modello 3D" camera-controls bounds="tight"
+    scale="0.01 0.01 0.01" camera-orbit="0deg 85deg 0.20m" camera-target="0m 0.02m 0m"
+    min-camera-orbit="auto auto 0.001m" max-camera-orbit="auto auto 1.20m" field-of-view="15deg"
+    environment-image="moon.hdr" exposure="1.7" shadow-intensity="1" autoplay>
+  </model-viewer>
+
+  <div class="panel">
+    <label>Timeline: <strong>ON</strong></label>
+
+    <button id="playBtn" class="is-active">▶ Play</button>
+    <button id="pauseBtn">⏸ Pausa</button>
+
+    <label>
+      Zoom:
+      <span id="zoomLabel">0.18 m</span>
+      <input id="zoomRange" type="range" min="0.001" max="1.20" step="0.01" value="0.18">
+    </label>
+
+    <label>
+      Exposure:
+      <span id="exposureLabel">1.7</span>
+      <input id="exposureRange" type="range" min="0.1" max="3" step="0.1" value="1.7">
+    </label>
+
+    <label>
+      HDRI:
+      <select id="hdriSelect">
+        <option value="cielo.hdr">cielo.hdr</option>
+        <option value="moon.hdr" selected>moon.hdr</option>
+        <option value="ambiente.hdr">ambiente.hdr</option>
+      </select>
+    </label>
+
+    <label>
+      Auto-rotate:
+      <input type="checkbox" id="autoRotateToggle">
+    </label>
+
+    <button id="resetBtn">Reset</button>
+  </div>
+
+  <script>
+    const viewer = document.querySelector('#viewer');
+
+    const playBtn = document.querySelector('#playBtn');
+    const pauseBtn = document.querySelector('#pauseBtn');
+
+    const zoomRange = document.querySelector('#zoomRange');
+    const zoomLabel = document.querySelector('#zoomLabel');
+
+    const exposureRange = document.querySelector('#exposureRange');
+    const exposureLabel = document.querySelector('#exposureLabel');
+
+    const hdriSelect = document.querySelector('#hdriSelect');
+    const autoRotateToggle = document.querySelector('#autoRotateToggle');
+    const resetBtn = document.querySelector('#resetBtn');
+
+    const DEFAULTS = {
+      zoom: 0.18,
+      exposure: 1.7,
+      hdri: 'moon.hdr',
+      autoRotate: false,
+      cameraOrbit: '0deg 85deg 0.20m',
+      fov: '15deg'
+    };
+
+    function setActive(btn) {
+      playBtn.classList.toggle('is-active', btn === 'play');
+      pauseBtn.classList.toggle('is-active', btn === 'pause');
+    }
+
+    function applyTimelineALL1() {
+      const anims = viewer.availableAnimations || [];
+      if (!anims.length) return;
+
+      if (typeof viewer.appendAnimation === 'function') {
+        anims.forEach(a => viewer.appendAnimation(a, { weight: 1 }));
+      }
+      viewer.play();
+    }
+
+    viewer.addEventListener('load', () => {
+      viewer.autoRotate = false;
+      autoRotateToggle.checked = false;
+
+      applyTimelineALL1();
+      setActive('play');
+    });
+
+    playBtn.onclick = () => {
+      setActive('play');
+      applyTimelineALL1();
+    };
+
+    pauseBtn.onclick = () => {
+      setActive('pause');
+      viewer.pause();
+    };
+
+    zoomRange.oninput = () => {
+      const r = parseFloat(zoomRange.value);
+      zoomLabel.textContent = r.toFixed(2) + ' m';
+      const o = viewer.getCameraOrbit();
+      viewer.cameraOrbit = `${o.theta}rad ${o.phi}rad ${r}m`;
+    };
+
+    exposureRange.oninput = () => {
+      viewer.exposure = parseFloat(exposureRange.value);
+      exposureLabel.textContent = viewer.exposure.toFixed(1);
+    };
+
+    hdriSelect.onchange = () => {
+      viewer.environmentImage = hdriSelect.value;
+    };
+
+    autoRotateToggle.onchange = () => {
+      viewer.autoRotate = autoRotateToggle.checked;
+    };
+
+    resetBtn.onclick = () => {
+      viewer.cameraOrbit = DEFAULTS.cameraOrbit;
+      viewer.fieldOfView = DEFAULTS.fov;
+
+      zoomRange.value = DEFAULTS.zoom;
+      zoomLabel.textContent = DEFAULTS.zoom.toFixed(2) + ' m';
+
+      viewer.exposure = DEFAULTS.exposure;
+      exposureRange.value = DEFAULTS.exposure;
+      exposureLabel.textContent = DEFAULTS.exposure.toFixed(1);
+
+      viewer.environmentImage = DEFAULTS.hdri;
+      hdriSelect.value = DEFAULTS.hdri;
+
+      viewer.autoRotate = DEFAULTS.autoRotate;
+      autoRotateToggle.checked = DEFAULTS.autoRotate;
+
+      setActive('play');
+      applyTimelineALL1();
+    };
+  </script>
+
+</body>
+
+</html>
