@@ -28,23 +28,12 @@
   </model-viewer>
 
   <div class="phase-glitch" aria-hidden="true"></div>
-
-  <!-- Loader: solo testo -->
+  <!-- Loader: testo (blur -> nitido col progress) -->
   <div id="loader" class="loader">
-    <div id="hint" class="loader__hint" aria-label="Headphones recommended"></div>
+    <button id="loadingBtn" class="loading-btn" type="button" aria-label="Loading" disabled>Loading</button>
+    <div id="loadingSub" class="loader__sub" aria-hidden="true">Headphones recommended</div>
   </div>
-
-  <!-- Play overlay blur scuro dietro al testo -->
-  <div id="playOverlay" class="play-overlay" aria-hidden="true"></div>
-
-  <!-- Play: SOLO testo cliccabile -->
-  <button id="playBtn" class="play-btn" type="button" aria-label="Start binaural sound">
-    <span class="play-text" aria-hidden="true">
-      <span class="pchar">b</span><span class="pchar">i</span><span class="pchar">n</span><span class="pchar">a</span><span class="pchar">u</span><span class="pchar">r</span><span class="pchar">a</span><span class="pchar">l</span><span class="pchar">-</span><span class="pchar">s</span><span class="pchar">o</span><span class="pchar">u</span><span class="pchar">n</span><span class="pchar">d</span><span class="pchar">.</span><span class="pchar">m</span><span class="pchar">p</span><span class="pchar">3</span>
-    </span>
-  </button>
-
-  <!-- Exit (next page) -->
+<!-- Exit (next page) -->
   <a id="exitBtn" class="exit-btn" href="ca-pill/ca-pill-index.html" aria-label="Go to next page">
     <img src="exit.png" alt="Exit" />
   </a>

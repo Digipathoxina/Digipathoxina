@@ -21,7 +21,7 @@ const FPS = 30;
 function tc(h, m, s, f) { return (h * 3600) + (m * 60) + s + (f / FPS); }
 
 // pause 1: CONTINUA
-const T_PAUSE_1 = tc(0, 0, 3, 26);
+const T_PAUSE_1 = tc(0, 0, 3, 16);
 // pause 2: RED BUTTON
 const T_PAUSE_RED = tc(0, 0, 10, 8);
 // pause 3: BLUE BUTTON

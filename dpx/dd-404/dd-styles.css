@@ -84,33 +84,69 @@ model-viewer {
   65% { transform: translate(1px, -2px); }
 }
 
-/* ===== LOADER (solo testo) ===== */
+/* ===== LOADER (testo) ===== */
 .loader {
   position: fixed;
   inset: 0;
   z-index: 50;
+
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 10px;
+
   padding: 24px 18px calc(24px + var(--safe-bottom));
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(2px);
+
+  /* overlay via ::before so text stays crisp */
+  background: transparent;
+
   transition: opacity 520ms ease;
 }
 
-.loader.is-hidden {
+/* livello nero trasparente + blur tra modello e testo (attivo finché non clicchi) */
+.loader::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* porta il contenuto sopra l'overlay */
+.loader > * {
+  position: relative;
+  z-index: 1;
+}
+
+.loader.is-loaded {
+  opacity: 1;
+}
+
+/* dopo click: svanisce */
+.loader.is-started {
   opacity: 0;
   pointer-events: none;
 }
 
-/* container testo */
-.loader__hint {
+
+/* testo principale */
+.loading-btn {
   position: relative;
   display: inline-block;
-  font-size: 18px;
+
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  font-family: "DotGothic16", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 20px;
   letter-spacing: 0.6px;
   color: var(--white);
-  font-style: italic;
   text-align: center;
   max-width: 80vw;
   line-height: 1.2;
@@ -121,210 +157,43 @@ model-viewer {
 
   /* progress globale (0..1) settato via JS */
   --p: 0;
+
+  /* blur -> focus (fluido) */
+  filter: blur(calc((1 - var(--p)) * 14px));
+  opacity: calc(0.45 + (var(--p) * 0.65));
+
+  transition: filter 260ms ease, opacity 240ms ease, text-shadow 240ms ease;
 }
 
-/* singole lettere */
-.loader__hint .hchar {
-  display: inline-block;
-  white-space: pre;
-  will-change: transform, opacity, filter;
-  opacity: 0;
-
-  /* random seed per letter */
-  --rx: 0px;   /* scatter X */
-  --ry: 0px;   /* scatter Y */
-  --amp: 6px;  /* oscillazione */
-  --mix: 0;    /* 0..1: quanto è “composta” */
-  --d: 0ms;    /* delay animazione */
-  --dur: 2600ms;
+/* finché carica non è cliccabile */
+.loading-btn:disabled {
+  cursor: default;
 }
 
-/* effetto “allucinato”: oscillazione + micro blur/glow */
-.loader__hint .hchar {
-  animation: floaty var(--dur) ease-in-out infinite;
-  animation-delay: var(--d);
-  filter: drop-shadow(0 0 10px rgba(255,255,255,0.25));
-}
-
-/* Interpolazione: da sparso -> in posizione */
-.loader__hint .hchar {
-  transform:
-    translate(
-      calc(var(--rx) * (1 - var(--mix))),
-      calc(var(--ry) * (1 - var(--mix)))
-    );
-}
-
-/* quando la lettera è “quasi composta”, riduci l’effetto e rendila più pulita */
-.loader__hint .hchar.is-locked {
-  filter: drop-shadow(0 0 14px rgba(255,255,255,0.35));
-}
-
-@keyframes floaty {
-  0%,100% { transform:
-    translate(
-      calc(var(--rx) * (1 - var(--mix))),
-      calc(var(--ry) * (1 - var(--mix)) + (var(--amp) * -0.35))
-    );
-  }
-  50% { transform:
-    translate(
-      calc(var(--rx) * (1 - var(--mix))),
-      calc(var(--ry) * (1 - var(--mix)) + (var(--amp) * 0.35))
-    );
-  }
-}
-
-/* ================= PLAY: FILE NAME + OVERLAY BLUR SCURO ================= */
-
-.play-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 58; /* sotto al play, sopra al modello */
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 320ms ease;
-  background: rgba(0,0,0,0.45);               /* scuro ma fa intravedere */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.play-overlay.is-visible {
-  opacity: 1;
-}
-
-.play-overlay.is-fadeout {
-  opacity: 0;
-}
-
-.play-btn {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 60;
-
-  background: transparent;
-  border: none;
-  padding: 0;
-  outline: none;
-
-  cursor: pointer;
-
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 300ms ease;
-
-  --near: 0; /* 0=far, 1=near (set via JS) */
-}
-
-.play-btn.is-visible {
-  opacity: 1;
+/* quando è pronto diventa cliccabile */
+.loading-btn.is-ready {
   pointer-events: auto;
+  cursor: pointer;
+  filter: blur(0px);
+  opacity: 1;
 }
 
-/* testo link-like */
-.play-text {
-  position: relative;
-  display: inline-flex;
-  gap: 6px;             /* più ravvicinate */
-  font-size: 20px;
-  letter-spacing: 0;
-  color: #fff;
-
+.loading-btn.is-ready:hover,
+.loading-btn.is-ready:focus-visible {
   text-shadow:
-    0 0 12px rgba(255,255,255,0.55),
-    0 0 28px rgba(255,255,255,0.25);
-
-  mix-blend-mode: screen;
+    0 0 16px rgba(255,255,255,0.85),
+    0 0 44px rgba(255,255,255,0.35);
 }
 
-/* MOVIMENTO + RI-ASSEMBLAMENTO GRADUALE CON PROSSIMITÀ */
-.play-text .pchar {
-  display: inline-block;
-  will-change: transform, filter;
-
-  /* base offset per lettera */
-  --ox: 0px;
-  --oy: 0px;
-  --or: 0deg;
-
-  /* ampiezza extra verticale del jitter (più forte) */
-  --jy: 16px;
-
-  /* vicino al mouse: (1 - --near) -> 0, quindi torna a posto gradualmente */
-  transform: translate(
-      calc(var(--ox) * (1 - var(--near))),
-      calc(var(--oy) * (1 - var(--near)))
-    )
-    rotate(calc(var(--or) * (1 - var(--near))));
-
-  animation: playJitter 820ms ease-in-out infinite;
-
-  /* fluido nel “rientro” mentre il mouse si avvicina */
-  transition: transform 260ms ease, filter 260ms ease, opacity 260ms ease;
-
-  filter: blur(0.55px);
-}
-
-/* offset per lettera (pattern su 18 char) */
-.play-text .pchar:nth-child(1)  { --ox:-14px; --oy: 10px; --or:-3deg; animation-delay:-120ms; animation-duration: 820ms; }
-.play-text .pchar:nth-child(2)  { --ox: 10px; --oy:-12px; --or: 2deg; animation-delay:-260ms; animation-duration: 970ms; }
-.play-text .pchar:nth-child(3)  { --ox: -9px; --oy: -6px; --or: 4deg; animation-delay:-420ms; animation-duration: 880ms; }
-.play-text .pchar:nth-child(4)  { --ox: 16px; --oy: 12px; --or:-2deg; animation-delay:-610ms; animation-duration:1040ms; }
-.play-text .pchar:nth-child(5)  { --ox:-12px; --oy:  8px; --or: 3deg; animation-delay:-180ms; animation-duration: 930ms; }
-.play-text .pchar:nth-child(6)  { --ox: 12px; --oy: -8px; --or:-4deg; animation-delay:-330ms; animation-duration: 860ms; }
-.play-text .pchar:nth-child(7)  { --ox: -8px; --oy:  6px; --or: 2deg; animation-delay:-540ms; animation-duration:1010ms; }
-.play-text .pchar:nth-child(8)  { --ox: 14px; --oy: -6px; --or:-2deg; animation-delay:-240ms; animation-duration: 900ms; }
-.play-text .pchar:nth-child(9)  { --ox:-10px; --oy: 14px; --or: 1deg; animation-delay:-410ms; animation-duration: 980ms; }
-.play-text .pchar:nth-child(10) { --ox: 10px; --oy:-10px; --or:-1deg; animation-delay:-150ms; animation-duration: 840ms; }
-.play-text .pchar:nth-child(11) { --ox:-16px; --oy:  8px; --or: 3deg; animation-delay:-470ms; animation-duration: 990ms; }
-.play-text .pchar:nth-child(12) { --ox: 14px; --oy: -8px; --or:-3deg; animation-delay:-290ms; animation-duration: 870ms; }
-.play-text .pchar:nth-child(13) { --ox: -9px; --oy: 12px; --or: 2deg; animation-delay:-560ms; animation-duration:1030ms; }
-.play-text .pchar:nth-child(14) { --ox: 12px; --oy: -6px; --or:-2deg; animation-delay:-220ms; animation-duration: 910ms; }
-.play-text .pchar:nth-child(15) { --ox:-11px; --oy:  9px; --or: 1deg; animation-delay:-380ms; animation-duration: 960ms; }
-.play-text .pchar:nth-child(16) { --ox: 11px; --oy:-11px; --or:-2deg; animation-delay:-190ms; animation-duration: 850ms; }
-.play-text .pchar:nth-child(17) { --ox: -8px; --oy: 10px; --or: 2deg; animation-delay:-520ms; animation-duration:1020ms; }
-.play-text .pchar:nth-child(18) { --ox: 13px; --oy: -7px; --or:-1deg; animation-delay:-260ms; animation-duration: 920ms; }
-
-@keyframes playJitter {
-  0% {
-    transform: translate(
-        calc(var(--ox) * (1 - var(--near))),
-        calc((var(--oy) * (1 - var(--near))) + (var(--jy) * (1 - var(--near)) * -1))
-      )
-      rotate(calc(var(--or) * (1 - var(--near))));
-  }
-  50% {
-    transform: translate(
-        calc(var(--ox) * (1 - var(--near))),
-        calc((var(--oy) * (1 - var(--near))) + (var(--jy) * (1 - var(--near)) * 1))
-      )
-      rotate(calc(var(--or) * (1 - var(--near))));
-  }
-  100% {
-    transform: translate(
-        calc(var(--ox) * (1 - var(--near))),
-        calc((var(--oy) * (1 - var(--near))) + (var(--jy) * (1 - var(--near)) * -1))
-      )
-      rotate(calc(var(--or) * (1 - var(--near))));
-  }
-}
-
-/* hover = stabilizza (resta valido) */
-.play-btn:hover .pchar,
-.play-btn:focus-visible .pchar {
-  animation: none;
-  transform: translate(0,0) rotate(0deg);
-  filter: blur(0);
-}
-
-/* (facoltativo) un pelo più "link" in hover */
-.play-btn:hover .play-text,
-.play-btn:focus-visible .play-text {
-  text-shadow:
-    0 0 16px rgba(255,255,255,0.8),
-    0 0 38px rgba(255,255,255,0.35);
+/* testo secondario sotto */
+.loader__sub {
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  opacity: 0.55;
+  text-align: center;
+  max-width: 80vw;
+  line-height: 1.2;
+  transition: opacity 360ms ease;
 }
 
 /* ===== EXIT BUTTON (bottom-right, click -> next page) ===== */
@@ -338,8 +207,8 @@ model-viewer {
   align-items: center;
   justify-content: center;
 
-  width: 44px;
-  height: 44px;
+  width: 54px;
+  height: 54px;
 
   opacity: 0;
   pointer-events: none;
@@ -380,3 +249,23 @@ model-viewer {
   pointer-events: none !important;
   user-select: none !important;
 }
+
+/* blur per-lettera */
+.loading-btn .char{
+  display:inline-block;
+  /* separazione tra lettere (regolala se vuoi più/meno distanza) */
+  margin-right: 0.06em;
+
+  /* progress locale per lettera (0..1) */
+  --lp: 0;
+
+  filter: blur(calc((1 - var(--lp)) * 12px));
+  opacity: calc(0.15 + (var(--lp) * 0.85));
+  transition: filter 220ms linear, opacity 220ms linear;
+}
+
+/* niente margine extra sull'ultima lettera */
+.loading-btn .char:last-child{ margin-right: 0; }
+
+/* se ci sono spazi */
+.loading-btn .char.space{ margin-right: 0.2em; }

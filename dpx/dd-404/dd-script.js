@@ -1,55 +1,11 @@
 // dd-script.js
 const viewer = document.querySelector('#viewer');
 const loader = document.querySelector('#loader');
-const hint = document.querySelector('#hint');
-
-const playBtn = document.querySelector('#playBtn');
-const playOverlay = document.querySelector('#playOverlay');
+const loadingBtn = document.querySelector('#loadingBtn');
+const loadingSub = document.querySelector('#loadingSub');
 const exitBtn = document.querySelector('#exitBtn');
 
 const audio = document.querySelector('#bgAudio');
-
-// --- Proximity morph for "binaural-sound.mp3" (0=far, 1=near) ---
-(() => {
-  const clamp01 = (x) => Math.max(0, Math.min(1, x));
-  const NEAR_DISTANCE = 260; // px entro cui la scritta si “rimette a posto”
-
-  const updateNear = (clientX, clientY) => {
-    if (!playBtn || !playBtn.classList.contains('is-visible')) return;
-
-    const r = playBtn.getBoundingClientRect();
-    const cx = r.left + r.width / 2;
-    const cy = r.top + r.height / 2;
-
-    const dx = clientX - cx;
-    const dy = clientY - cy;
-    const d = Math.hypot(dx, dy);
-
-    // near=1 vicino (d=0), near=0 lontano (>=NEAR_DISTANCE)
-    const near = clamp01(1 - d / NEAR_DISTANCE);
-
-    // easing morbido
-    const eased = near * near * (3 - 2 * near);
-
-    playBtn.style.setProperty('--near', String(eased));
-  };
-
-  window.addEventListener(
-    'pointermove',
-    (e) => updateNear(e.clientX, e.clientY),
-    { passive: true }
-  );
-
-  // touch fallback: se tocchi vicino stabilizza
-  window.addEventListener(
-    'touchstart',
-    (e) => {
-      const t = e.touches && e.touches[0];
-      if (t) updateNear(t.clientX, t.clientY);
-    },
-    { passive: true }
-  );
-})();
 
 /* ====== AUTOROTATE: lento + irregolare ====== */
 const IDLE_BEFORE_RESUME_MS = 1400;
@@ -121,89 +77,89 @@ function appendAllAnimationsOnce() {
   } catch (e) {}
 }
 
-/* ====== LOADER TEXT: lettere sparse -> compongono col progress ====== */
-const LOADER_TEXT = "Headphones recommended";
-let chars = [];
+/* ====== LOADER TEXT: "Loading" per-letter blur -> focus col progress ====== */
 let lastP = 0;
-let loaderDone = false;
+let modelLoaded = false;
 
 function clamp01(x) { return Math.max(0, Math.min(1, x)); }
-function smoothstep(edge0, edge1, x) {
-  const t = clamp01((x - edge0) / (edge1 - edge0));
-  return t * t * (3 - 2 * t);
-}
 
-function buildLoaderText() {
-  hint.innerHTML = "";
+let loadingChars = []; // array di <span> per ogni lettera
 
-  const arr = [...LOADER_TEXT]; // preserva spazi
-  chars = arr.map((ch) => {
+function setupLoadingLetters() {
+  if (!loadingBtn) return;
+
+  // testo originale del bottone (es. "Loading")
+  const text = loadingBtn.textContent ?? 'Loading';
+
+  // pulisci contenuto
+  loadingBtn.textContent = '';
+
+  loadingChars = [];
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+
+    // mantieni eventuali spazi
+    if (ch === ' ') {
+      const spacer = document.createElement('span');
+      spacer.className = 'char space';
+      spacer.innerHTML = '&nbsp;';
+      spacer.style.setProperty('--lp', '0');
+      loadingBtn.appendChild(spacer);
+      loadingChars.push(spacer);
+      continue;
+    }
+
     const span = document.createElement('span');
-    span.className = 'hchar';
+    span.className = 'char';
     span.textContent = ch;
 
-    const rx = (Math.random() * 2 - 1) * 110; // px (scatter X)
-    const ry = (Math.random() * 2 - 1) * 80;  // px (scatter Y)
-    const amp = 6 + Math.random() * 14;
+    // progress lettera (0..1)
+    span.style.setProperty('--lp', '0');
 
-    const delay = Math.floor(Math.random() * 900);
-    const dur = 2400 + Math.floor(Math.random() * 2200);
+    loadingBtn.appendChild(span);
+    loadingChars.push(span);
+  }
+}
 
-    span.style.setProperty('--rx', rx.toFixed(1) + 'px');
-    span.style.setProperty('--ry', ry.toFixed(1) + 'px');
-    span.style.setProperty('--amp', amp.toFixed(1) + 'px');
-    span.style.setProperty('--d', delay + 'ms');
-    span.style.setProperty('--dur', dur + 'ms');
+function updateLettersByProgress(p) {
+  if (!loadingChars.length) return;
 
-    span.style.setProperty('--mix', '0');
-    span.style.opacity = '0';
+  const n = loadingChars.length;
+  const seg = 1 / Math.max(1, n);
 
-    hint.appendChild(span);
-    return span;
-  });
+  for (let i = 0; i < n; i++) {
+    const start = i * seg;
+    const end = (i + 1) * seg;
 
-  hint.style.setProperty('--p', '0');
+    // progress locale della lettera in base al progress globale
+    const local = clamp01((p - start) / (end - start));
+
+    // scrivi sullo span (CSS: blur dipende da --lp)
+    loadingChars[i].style.setProperty('--lp', String(local));
+  }
 }
 
 function updateLoaderByProgress(p) {
-  if (!chars.length || loaderDone) return;
+  if (!loader || !loadingBtn) return;
 
+  // monotono: mai indietro
   p = Math.max(lastP, clamp01(p));
   lastP = p;
 
-  hint.style.setProperty('--p', String(p));
+  // aggiorna blur lettera-per-lettera
+  updateLettersByProgress(p);
 
-  const n = chars.length;
+  // quando completo: abilita click
+  if (p >= 1 && !modelLoaded) {
+    modelLoaded = true;
 
-  for (let i = 0; i < n; i++) {
-    const t0 = i / Math.max(1, n - 1);
-    const w = 0.16;
-    const local = smoothstep(t0 - w, t0 + w, p);
+    loader.classList.add('is-loaded');
+    loadingBtn.classList.add('is-ready');
+    loadingBtn.disabled = false;
+    loadingBtn.setAttribute('aria-label', 'Start binaural sound');
 
-    const el = chars[i];
-    el.style.setProperty('--mix', local.toFixed(3));
-    el.style.opacity = local.toFixed(3);
-
-    if (local > 0.92) el.classList.add('is-locked');
-  }
-
-  if (p >= 1 && !loaderDone) {
-    loaderDone = true;
-
-    for (const el of chars) {
-      el.style.setProperty('--mix', '1');
-      el.style.opacity = '1';
-      el.classList.add('is-locked');
-    }
-
-    setTimeout(() => {
-      loader.classList.add('is-hidden');
-      setTimeout(() => loader.remove(), 520);
-
-      // mostra Play + overlay blur scuro
-      playBtn.classList.add('is-visible');
-      playOverlay.classList.add('is-visible');
-    }, 700);
+    // sicurezza: tutte nitide
+    updateLettersByProgress(1);
   }
 }
 
@@ -217,27 +173,21 @@ function startAutoRotateNow() {
   startJitter();
 }
 
-async function startExperienceFromGesture() {
+function activateExperience() {
   if (!userActivated) {
     userActivated = true;
     startAutoRotateNow();
   }
+}
+
+async function startAudioFromClick() {
+  activateExperience();
 
   if (audioStarted) return true;
 
   try {
     await audio.play();
     audioStarted = true;
-
-    // fade-out dell'overlay (il modello torna visibile) al click
-    playOverlay.classList.add('is-fadeout');
-    setTimeout(() => {
-      playOverlay.classList.remove('is-visible');
-      playOverlay.classList.remove('is-fadeout');
-    }, 340);
-
-    playBtn.classList.remove('is-visible');
-    playBtn.style.pointerEvents = 'none';
 
     // mostra il pulsante exit in basso a destra
     exitBtn.classList.add('is-visible');
@@ -248,17 +198,26 @@ async function startExperienceFromGesture() {
   }
 }
 
-playBtn.addEventListener('click', startExperienceFromGesture);
+if (loadingBtn) loadingBtn.addEventListener('click', async () => {
+  if (!modelLoaded) return; // cliccabile solo dopo load completo
+  const ok = await startAudioFromClick();
+  if (ok) {
+    loader.classList.add('is-started');
+    setTimeout(() => loader.remove(), 520);
+  }
+});
 
 function onUserInteractsWithModel() {
-  startExperienceFromGesture();
+  activateExperience();
   pauseAutoRotateAndScheduleResume();
 }
 viewer.addEventListener('pointerdown', onUserInteractsWithModel);
 viewer.addEventListener('camera-change', onUserInteractsWithModel);
 
 window.addEventListener('DOMContentLoaded', () => {
-  buildLoaderText();
+  setupLoadingLetters();
+  lastP = 0;
+  updateLettersByProgress(0);
 });
 
 viewer.addEventListener('progress', (e) => {
