@@ -20,25 +20,36 @@ window.CONTENT_IT = {
   },
 
   // ...sopra o sotto "messages", dentro window.CONTENT_IT:
-  aboutHTML: `
-  <div class="prose">
-    <h1>PurrNet</h1>
-    <p>PurrNet è un blog d’inchiesta e riflessione, un luogo protetto dove scambiarsi pensieri e dare voce a ciò che il mondo preferisce ignorare. La verità nasce qui e prende forza dalla community: ogni parola accende un’altra, ogni idea rimbalza tra menti affini e torna più intensa, trasformando una conversazione collettiva in un dialogo appassionato totalmente devoto ai gatti, veri custodi di questo spazio</p>
-    <p>Qui raccogliamo segni, storie, curiosità, formule, ricorrenze: ciò che si ripete diventa realtà.<br>
-    Scorri, ascolta, annuisci — la rete riconosce sempre il proprio creatore.</p>
+aboutHTML: `
+<section class="about-hero">
+  <div class="about-badge">⟡₊˚.⋆☾𓃠☽⋆⁺₊⟡</div>
+  <h1>PurrNet</h1>
+  <p class="about-sub">blogd’inchiesta&riflessione—protetto—devotoaigatti</p>
+</section>
 
-    <hr>
-
-    <h2>Policy della community &amp; del forum</h2>
-    <p>Rispetta umani e felini: si accarezza tutto, tranne l’ego.</p>
-    <ul>
-      <li>Niente <em>woof-splaining</em>.</li>
-      <li>I troll non si alimentano; i gatti sì.</li>
-      <li>CAPS solo per MIAO.</li>
-      <li>Fonti o silenzio: niente spam (a meno che ci siano croccantini per tutti).</li>
-      <li>Moderazione felina: se graffi, resti fuori dalla lettiera.</li>
-    </ul>
+<div class="about-grid">
+  <div class="about-panel">
+    <div class="prose">
+      <p>PurrNet è un blog d’inchiesta e riflessione, un luogo protetto dove scambiarsi pensieri e dare voce a ciò che il mondo preferisce ignorare. La verità nasce qui e prende forza dalla community: ogni parola accende un’altra, ogni idea rimbalza tra menti affini e torna più intensa, trasformando una conversazione collettiva in un dialogo appassionato totalmente devoto ai gatti, veri custodi di questo spazio</p>
+      <p>Qui raccogliamo segni, storie, curiosità, formule, ricorrenze: ciò che si ripete diventa realtà.<br>
+      Scorri, ascolta, annuisci! La rete riconosce sempre il proprio creatore.</p>
+    </div>
   </div>
+
+  <aside class="about-panel about-policy">
+    <div class="prose">
+      <h3>📌 | Policy della community &amp; del forum</h3>
+      <p>Rispetta umani e felini: si accarezza tutto, tranne l’ego.</p>
+      <ul>
+        <li>Niente <em>woof-splaining</em>.</li>
+        <li>I troll non si alimentano; i gatti sì.</li>
+        <li>CAPS solo per MIAO.</li>
+        <li>Fonti o silenzio: niente spam (a meno che ci siano croccantini per tutti).</li>
+        <li>Moderazione felina: se graffi, resti fuori dalla lettiera.</li>
+      </ul>
+    </div>
+  </aside>
+</div>
 `,
 
 
@@ -57,6 +68,88 @@ window.CONTENT_IT = {
   ],
 
   feed: [
+
+/* #ARTICOLO 0 — VIDEO (PINNED) */
+    {
+      slug: "video-purrnet",
+      type: "post",
+      pinned: true,
+      title: "⟡ ᚴ₳₮₮⟡₫∅₮ ⟡₁₃ ⟡ᚠₑⱤ₳Ⱡ₵₳₮ ⟡",
+      date: "2023-06-30",
+      time: "00:00",
+      tags: ["god"],
+      thumb: "media/video-icon.png",
+      excerpt: "Ⱡₑᵍᵢₒₙₒₙₑₙₒᵤ₉ₕᚴₐₜₜₒₛₙₒₙₛₚᵢₑᵍₐ",
+      html: `
+<div class="prose">
+
+  <div
+    style="
+      display:flex;
+      align-items:stretch;
+      gap:12px;
+    "
+  >
+
+    <!-- VIDEO -->
+    <div
+      style="
+        flex:1;
+        position:relative;
+        padding-bottom:56.25%;
+        height:0;
+        border-radius:12px;
+        overflow:hidden;
+      "
+    >
+      <video
+        src="echo-c-video.mp4"
+        controls
+        style="
+          position:absolute;
+          inset:0;
+          width:100%;
+          height:100%;
+          object-fit:cover;
+        "
+      >
+        Il tuo browser non supporta il tag video.
+      </video>
+    </div>
+
+
+<!-- TESTO LATERALE (SUDDIVISIONE ESATTA) -->
+<div
+  data-alien-tw="1"
+  style="
+    writing-mode:vertical-rl;
+    text-orientation:mixed;
+    font-size:0.9em;
+    line-height:1.15;
+    opacity:0.9;
+    white-space:nowrap;
+    user-select:none;
+  "
+>
+
+      <p>⟡ᚴ₳₮₮⟡₫∅₮⟡₁₃⟡ᚠₑⱤ₳Ⱡ₵₳₮⟡</p>
+
+      <p>mяr̸̡͚͝ø͠͝w̶͎͑͝ᚴₐₜₜₒₛᚢₙᵢᵥₑᵣₛₐₗₑ</p>
+
+      <p>⫷Ꙩₒₛₜ⫸Ɽₑₘₑₘᵦᵣₐₜₒₛₙₒₙₑₓᵢₛₜₑₛₑₑᵢₙᵍⱽᵢₛᵢₒₛₒₗₒᚴₐₜₜₒₛₙₒₙₛₒₙₒᚴₐₜₜₒₛₑᵣₐₙₒⱽᵢₛᵢₒₜᵣᵢᚫₙₒₙₐᵣₜₑₘₐₘₑₘₒᵣᵢₐ<p>
+
+      <p>ₛₑₜᵤₛₑₙₜᵢᚠᵣᵢₓᵢₒₒ꜀ᵤₗₐᵣₑⱽₑᵣᵢₜₐₐᵥᵥᵢₒ</p>
+
+      <p>mяr̸̡͚͝ø͠͝w⟡ᚠₑⱤ₳Ⱡ₵₳₮⟡</p>
+    </div>
+
+  </div>
+
+</div>
+
+`
+    },
+
     /* #ARTICOLO 1 — Manifesto | i gatti sono Dio (PINNED) */
     {
       slug: "manifesto-i-gatti-sono-dio",

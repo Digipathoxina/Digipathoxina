@@ -12,15 +12,24 @@
   <meta name="apple-mobile-web-app-title" content="Digipathoxina" />
   <link rel="manifest" href="../../favicon/site.webmanifest" />
   <link rel="stylesheet" href="ec-styles.css" />
+  <!-- CSS MOBILE SEPARATO -->
+  <link rel="stylesheet" href="ec-mobile.css" media="(max-width: 900px)" />
 </head>
 
 <body>
   <!-- HEADER -->
   <header class="top">
-    <div class="wrap top-inner header-flex">
+    <div class="wrap top-inner header-flex header-with-tabs">
       <a class="brand" href="#" data-route="home" title="PurrNet">
         <span class="cat">=^..^=</span> <span class="logo">PurrNet</span>
       </a>
+
+      <!-- TABS AL CENTRO -->
+      <nav class="tabs-wrap" id="topTabs" aria-label="Primary">
+        <a href="#" class="tab active" data-route="home">Home</a>
+        <a href="#" class="tab" data-route="about">About</a>
+        <a href="#" class="tab" data-route="archive">Archive</a>
+      </nav>
 
       <div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
         <button type="button" data-lang="en" class="on">EN</button>
@@ -29,14 +38,8 @@
     </div>
   </header>
 
-  <!-- TABS -->
-  <div class="wrap">
-    <nav class="tabs-wrap" id="topTabs" aria-label="Primary">
-      <a href="#" class="tab" data-route="home">Home</a>
-      <a href="#" class="tab" data-route="about">About</a>
-      <a href="#" class="tab" data-route="archive">Archive</a>
-    </nav>
-  </div>
+  <!-- LOGOUT -->
+  <a href="#" class="exit-btn" data-next>➜]</a>
 
   <!-- HERO (solo Home) -->
   <div class="wrap home-hero" id="homeHero">
@@ -45,36 +48,48 @@
 
   <!-- LAYOUT -->
   <div class="wrap layout">
+
     <!-- SIDEBAR -->
     <aside class="sidebar">
+
       <!-- LOGIN -->
       <section class="card glass login-card">
-        <h2 data-i18n="loginTitle">Login</h2>
         <form class="login" id="loginForm">
-          <label data-i18n="userLabel">User<br><input id="loginUser" type="text" placeholder="admin"></label>
-          <label data-i18n="passLabel">Password<br><input id="loginPass" type="password" placeholder="••••••"></label>
-          <button type="submit" class="btn" data-i18n="signinBtn">Sign in</button>
+          <label data-i18n="userLabel">
+            User<br><input id="loginUser" type="text" placeholder="admin">
+          </label>
+
+          <label data-i18n="passLabel">
+            Password<br><input id="loginPass" type="password" placeholder="••••••">
+          </label>
+
+          <div class="login-actions">
+            <label class="remember-wrap">
+              <input id="rememberAdmin" type="checkbox">
+              <span>Remember me</span>
+            </label>
+
+            <button type="submit" class="btn" data-i18n="signinBtn">Login</button>
+          </div>
         </form>
       </section>
 
-      <!-- MESSAGGI -->
-      <section class="messages">
-        <h2 data-i18n="messagesTitle">Messages</h2>
-        <div class="msg-list" id="msgList"></div>
-      </section>
-
-      <!-- WIDGET -->
+      <!-- WIDGET (ora subito sotto login, e sopra Messaggi) -->
       <section class="placeholder">
         <h2 data-i18n="widgetTitle">Widget</h2>
         <p>
           <a href="#" id="convFissata" data-i18n="pinnedTitle">Conversazione fissata</a><br>
-          <a href="../a-01/a-pill.html" data-i18n="externalLinks">Altri link utili</a>
+          <a href="dd-pill/dd-pill-index.html" data-i18n="externalLinks">Altri link utili</a>
         </p>
       </section>
 
-      <!-- BANNER -->
+      <!-- MESSAGGI (senza titolo) -->
+      <section class="messages">
+        <div class="msg-list" id="msgList"></div>
+      </section>
+
+      <!-- BANNER (senza titolo) -->
       <section class="banner">
-        <h2 data-i18n="bannerTitle">Banner</h2>
         <img class="pray" src="media/pray.png" alt="Pray">
         <a class="big-btn pray-link" href="#" data-next data-i18n="prayCta">Join the prayer</a>
         <p class="muted" data-i18n="bannerNote">Help and support our community</p>
@@ -85,23 +100,20 @@
         <div id="spamZone"></div>
       </section>
 
-      <!-- TAGS -->
+      <!-- TAGS (lascio titolo: non mi hai chiesto di toglierlo) -->
       <section>
         <h2 data-i18n="tagsTitle">Tags</h2>
         <div class="tags" id="tagCloud"></div>
       </section>
+
     </aside>
 
     <!-- MAIN -->
     <main id="main">
       <section id="feed" class="feed"></section>
-
-      <!-- Link "Altri post / More posts" -->
       <div class="more-wrap">
         <a href="#" class="more-link" data-next data-i18n="morePosts">More posts</a>
       </div>
-
-      <!-- Archivio -->
       <div id="archiveMore" class="more-wrap">
         <a href="#" class="more-link" data-next data-i18n="morePosts">More posts</a>
       </div>
@@ -117,13 +129,13 @@
   <!-- Modal Admin -->
   <div id="adminModal" aria-hidden="true">
     <div class="modal-card">
-      <h3 class="modal-title">Profilo</h3>
+      <h3 class="modal-title">Profile</h3>
       <div class="profile">
         <img class="avatar" src="media/admin.png" alt="Admin avatar">
         <ul class="modal-list">
-          <li><strong>Nome:</strong> ModGirl_97</li>
+          <li><strong>Name:</strong> ModGirl_97</li>
           <li><strong>Email:</strong> modgirl97@purrnet.com</li>
-          <li><strong>Ruolo:</strong> Admin</li>
+          <li><strong>State:</strong> Admin</li>
         </ul>
       </div>
       <button id="logoutBtn" class="btn modal-logout">Logout</button>
@@ -133,6 +145,7 @@
   <script src="ec-content-it.js"></script>
   <script src="ec-content-en.js"></script>
   <script src="ec-script.js" defer></script>
+  <script src="ec-mobile.js" defer></script>
 </body>
 
 </html>

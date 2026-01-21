@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>DH-503</title>
+
+  <!-- Roboto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    html,body{
+      margin:0;
+      height:100%;
+      background:#000;
+      overflow:hidden;
+      font-family: 'Roboto', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body{
+      background: #000 url("dc-desktop.jpg") center center / cover no-repeat;
+    }
+
+    video{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      background:transparent;
+      display:block;
+
+      pointer-events:none;
+      user-select:none;
+      -webkit-user-select:none;
+      -webkit-touch-callout:none;
+    }
+
+    .stamp{
+      position: absolute;
+      left: calc(env(safe-area-inset-left, 0px) + 6px);
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 6px);
+      padding: 5px 8px;
+      font-size: clamp(9px, 1.1vw, 11px);
+      line-height: 1;
+      color: #eaeaea;
+      background: rgba(0, 0, 0, .55);
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 7px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s ease;
+      z-index: 11;
+    }
+    .stamp.show{ opacity:1; }
+
+    /* overlay invisibile: tutto lo schermo è cliccabile */
+    .tap-layer{
+      position:absolute;
+      inset:0;
+      z-index:20;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <video id="v" autoplay playsinline preload="auto">
+    <source src="luca_carlevarino.mp4" type="video/mp4">
+  </video>
+
+  <div class="stamp" id="stamp">
+    luca-carlevarino/Cosa_hanno_in_comune_una_melma_e_il_digital&nbsp;hoarding?/2025/
+  </div>
+
+  <!-- layer trasparente -->
+  <div class="tap-layer" id="tapLayer"></div>
+
+  <script>
+    const v = document.getElementById('v');
+    const stamp = document.getElementById('stamp');
+    const tapLayer = document.getElementById('tapLayer');
+
+    // start time opzionale (?t=12.34)
+    const t = new URLSearchParams(location.search).get('t');
+    if (t) {
+      v.addEventListener('loadedmetadata', () => {
+        v.currentTime = Number(t);
+      }, { once:true });
+    }
+
+    // blocco interazioni
+    let lastTime = 0;
+    let allowInternalSeek = false;
+
+    v.addEventListener('timeupdate', () => {
+      if (!allowInternalSeek) lastTime = v.currentTime;
+    });
+
+    v.addEventListener('seeking', () => {
+      if (allowInternalSeek) return;
+      try { v.currentTime = lastTime; } catch(e){}
+    });
+
+    v.addEventListener('pause', () => {
+      v.play().catch(()=>{});
+    });
+
+    window.addEventListener('keydown', (e) => {
+      const keys = new Set([' ', 'k', 'K', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End']);
+      if (keys.has(e.key)) e.preventDefault();
+    }, { passive:false });
+
+    window.addEventListener('contextmenu', e => e.preventDefault());
+
+    // label
+    setTimeout(() => stamp.classList.add('show'), 250);
+
+    // autoplay con audio (se possibile)
+    async function startWithAudio() {
+      try {
+        v.muted = false;
+        v.volume = 1;
+        await v.play();
+        tapLayer.style.pointerEvents = 'none';
+      } catch {
+        // fallback: parte mutato, attende tap
+        v.muted = true;
+        await v.play().catch(()=>{});
+      }
+    }
+
+    // tap su tutto lo schermo = sblocca audio
+    tapLayer.addEventListener('click', async () => {
+      try {
+        v.muted = false;
+        v.volume = 1;
+        await v.play();
+        tapLayer.style.pointerEvents = 'none';
+      } catch(e){}
+    });
+
+    startWithAudio();
+  </script>
+</body>
+</html>

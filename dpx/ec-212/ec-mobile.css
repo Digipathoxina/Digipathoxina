@@ -1,0 +1,234 @@
+/* ec-mobile.css */
+/* Attivo via <link ... media="(max-width: 900px)"> */
+
+:root{
+  --mobile-pad: 14px;
+}
+
+/* Base */
+body{ font-size: 14px; }
+.wrap{ padding: 0 var(--mobile-pad); }
+
+/* Nascondi tabs desktop: su mobile usiamo menu a tendina (iniettato via JS) */
+.tabs-wrap#topTabs{ display:none !important; }
+
+/* Header più compatto */
+.header-flex.header-with-tabs{
+  grid-template-columns:auto 1fr auto;
+  gap: 10px;
+  padding: 12px 0;
+}
+.brand .logo{ font-size: 1.05rem; }
+
+/* Menu button (creato via JS) */
+.mobile-menu{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+#mobileMenuBtn{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.06);
+  color: #eaf2ff;
+  border-radius: 999px;
+  padding: .46rem .8rem;
+  font-weight: 900;
+  letter-spacing: .06em;
+  font-size: .82rem;
+}
+
+/* Dropdown */
+#mobileMenuPanel{
+  position: fixed;
+  top: 64px;
+  left: var(--mobile-pad);
+  right: var(--mobile-pad);
+  z-index: 999;
+  border-radius: 16px;
+  background: rgba(10,16,36,.92);
+  border: 1px solid rgba(255,255,255,.16);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.42);
+  padding: 10px;
+  display:none;
+}
+#mobileMenuPanel.open{ display:block; }
+#mobileMenuPanel a{
+  display:block;
+  padding: 12px 12px;
+  border-radius: 12px;
+  text-decoration:none;
+  color:#eaf2ff;
+  font-weight: 800;
+}
+#mobileMenuPanel a:active{ background: rgba(255,255,255,.08); }
+
+/* Language switch più piccolo */
+.lang-switch{ padding: 3px; }
+.lang-switch button{ padding:.30rem .55rem; font-size:.78rem; }
+
+/* HERO */
+.home-hero{
+  margin: 10px auto 10px;
+  position: relative;
+}
+.home-hero img{
+  width: 92%;
+  max-width: 92%;
+  border-radius: 14px;
+  display:block;
+  margin: 0 auto;
+}
+
+/* EXIT sopra immagine (tap facile) */
+.exit-btn{
+  position: absolute !important;
+  top: 200px;
+  right: 10px;
+  z-index: 20;
+  margin: 0 !important;
+  width: auto !important;
+  padding: .50rem .80rem;
+  border-radius: 999px;
+  text-align:center;
+}
+
+/* Layout mobile a colonna */
+.layout{
+  display:flex !important;
+  flex-direction: column;
+  gap: 14px;
+  margin: 10px auto 16px;
+}
+
+/* Feed prima della sidebar */
+main#main{ order: 1; }
+.sidebar{ order: 2; }
+
+/* FEED CARDS — FIX VISIBILITÀ */
+.feed{ gap: 15px; }
+
+/* Card verticale + spazio sufficiente */
+.post{
+  display:flex;
+  height: auto;   
+  flex-direction: column;
+  border-radius: 14px;
+  overflow:hidden;
+}
+
+/* Immagine MOLTO più piccola */
+.post .thumb{
+  width: 50%;
+  height: auto;           /* << più piccola di prima */
+  object-fit: cover;
+  display:block;
+}
+
+/* Contenuto: più respiro e contrasto */
+.post .right{
+  padding: 12px 12px 2px;
+}
+
+/* Titolo: forzato visibile e cliccabile */
+.post .title{
+  margin: 6px 0 8px;
+  font-size: 1.06rem;
+  line-height: 1.2;
+}
+.post .title a{
+  display:block;
+  color: #f9fbff;
+  text-decoration:none;
+}
+.post .title a:active{ opacity:.75; }
+
+/* Excerpt più compatto */
+.post .excerpt{
+  margin: 0 0 10px;
+  opacity: .92;
+  font-size: .95rem;
+}
+
+/* Footer della card leggibile */
+.post .foot{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.post .foot .read{
+  font-weight: 900;
+  letter-spacing: .02em;
+}
+.post .foot .datetime{
+  opacity: .8;
+  font-size: .86rem;
+  white-space: nowrap;
+}
+
+/* VIEW page */
+.view{
+  padding: 14px !important;
+  border-radius: 14px;
+}
+
+/* ABOUT: una colonna */
+.about-grid{
+  grid-template-columns: 1fr !important;
+  gap: 12px !important;
+}
+
+/* Sidebar: di default nascosta su mobile.
+   “Community” la mostra (JS toggla body.show-community) */
+.sidebar{ display:none; }
+body.show-community .sidebar{ display:block; }
+
+/* In Community nascondi feed (articoli) */
+body.show-community main#main{ display:none; }
+
+/* Bottom area (banner + ad + tags) */
+#mobileBottom{
+  margin: 8px auto 18px;
+  display: grid;
+  gap: 14px;
+}
+#mobileBottom > section{ margin: 0; }
+
+/* Banner centrato */
+#mobileBottom .banner{
+  text-align: center;
+}
+#mobileBottom .banner .pray{
+  display:block;
+  margin: 0 auto 10px;
+  max-width: 70%;
+  height:auto;
+}
+#mobileBottom .banner .big-btn{
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+/* Tags leggibili */
+#mobileBottom .tags{
+  display:flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Messages più leggibili */
+.msg{
+  padding: 10px 10px;
+  border-radius: 12px;
+}
+
+/* Footer */
+.foot{
+  padding: 14px var(--mobile-pad);
+  text-align:center;
+  opacity:.85;
+}

@@ -2,7 +2,7 @@
   "use strict";
 
   // === LINK DI DESTINAZIONE CENTRALIZZATO ===
-  const NEXT_PAGE = "../a-01/a-pill.html";
+  const NEXT_PAGE = "dd-pill/dd-pill-index.html";
 
   const EL = {
     main: document.getElementById('main'),
@@ -17,6 +17,7 @@
     loginForm: document.getElementById('loginForm'),
     loginUser: document.getElementById('loginUser'),
     loginPass: document.getElementById('loginPass'),
+    rememberAdmin: document.getElementById('rememberAdmin'),
     hackOverlay: document.getElementById('hackOverlay'),
     adminModal: document.getElementById('adminModal'),
     logoutBtn: document.getElementById('logoutBtn'),
@@ -44,6 +45,59 @@
   const nextDest = params.get('next');
 
   let activeTag = null;
+
+  // === data "sempre oggi" per il primo articolo (video-purrnet) ===
+  function todayISO() {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  }
+
+  function setDynamicDateForVideoPost() {
+    const feed = (CURRENT().feed) || [];
+    const p = feed.find(x => x?.slug === "video-purrnet");
+    if (!p) return;
+    p.date = todayISO();
+  }
+
+  // === typewriter per il testo alieno nel primo articolo ===
+  function runAlienTypewriter(rootEl) {
+    const box = rootEl.querySelector('[data-alien-tw="1"]');
+    if (!box) return;
+
+    const lines = Array.from(box.querySelectorAll("p"));
+    if (!lines.length) return;
+
+    const texts = lines.map(p => (p.textContent || ""));
+    lines.forEach(p => { p.textContent = ""; });
+
+    let i = 0;
+    const speed = 14;      // ms per char
+    const linePause = 120; // pausa tra righe
+
+    function typeLine() {
+      if (i >= lines.length) return;
+      const el = lines[i];
+      const full = texts[i];
+      let k = 0;
+
+      const tick = () => {
+        el.textContent = full.slice(0, k);
+        k++;
+        if (k <= full.length) {
+          setTimeout(tick, speed);
+        } else {
+          i++;
+          setTimeout(typeLine, linePause);
+        }
+      };
+      tick();
+    }
+
+    typeLine();
+  }
 
   init();
 
@@ -80,9 +134,11 @@
 
     renderMessages();
     buildTagCloud();
-    renderRandomAd();   // AD con pesi
+    renderRandomAd();
 
     if (EL.loginForm) EL.loginForm.addEventListener('submit', onLoginSubmit);
+    bindRememberMe();
+
     if (EL.logoutBtn) EL.logoutBtn.addEventListener('click', hideAdminModal);
     if (EL.adminModal) {
       EL.adminModal.addEventListener('click', (e) => {
@@ -90,22 +146,23 @@
       });
     }
 
+    setDynamicDateForVideoPost();
+
     if (videoSrc) { renderVideo(videoSrc, nextDest); }
     else { renderFeed(); }
 
     applyStaticI18n();
 
-    // === Listener unico per i link che aprono la pagina successiva
-    //     (IGNORA #convFissata per non hijackare la mini-chat)
+    // Listener unico per i link che aprono la pagina successiva (IGNORA #convFissata)
     document.querySelectorAll('[data-next]').forEach(el => {
-      if (el.id === 'convFissata') return; // << fix richiesto
+      if (el.id === 'convFissata') return;
       el.addEventListener('click', (e) => {
         e.preventDefault();
         location.href = NEXT_PAGE;
       });
     });
 
-    // === Conversazione fissata (apre il modal, non cambia pagina)
+    // Conversazione fissata (apre modal)
     const convBtn = document.getElementById('convFissata');
     if (convBtn) {
       convBtn.addEventListener('click', (e) => {
@@ -113,6 +170,28 @@
         openPinnedConversation();
       });
     }
+  }
+
+  function bindRememberMe() {
+    if (!EL.rememberAdmin) return;
+
+    EL.rememberAdmin.addEventListener('change', () => {
+      // attenzione: applyStaticI18n può ricreare gli input, quindi rileggiamo sempre dal DOM
+      EL.loginUser = document.getElementById('loginUser');
+      EL.loginPass = document.getElementById('loginPass');
+
+      if (!EL.loginUser || !EL.loginPass) return;
+
+      if (EL.rememberAdmin.checked) {
+        EL.loginUser.value = 'admin';
+        EL.loginPass.value = 'admin';
+        EL.loginPass.focus();
+      } else {
+        // pulisci solo se erano i valori "easter egg"
+        if (EL.loginUser.value === 'admin') EL.loginUser.value = '';
+        if (EL.loginPass.value === 'admin') EL.loginPass.value = '';
+      }
+    });
   }
 
   // === Conversazione fissata ===
@@ -153,7 +232,6 @@
         { "from": "ModGirl_97", "text": "Interessante. Ho registrato anche i tempi: media 42 secondi. Con luce soffusa, i sette passaggi restano costanti. Sto raccogliendo i vostri dati per un grafico comparativo." },
         { "from": "DataWhiskers", "text": "Ieri sera ci ho fatto più attenzione: la mia gatta ha girato esattamente sette volte prima della ciotola. Non so se sia abitudine o qualcosa che ci sfugge, ma la coincidenza è notevole." }
       ];
-
     }
     return [
       { "from": "ModGirl_97", "text": "Seven Steps to the Bowl (pilot study): I tracked 37 couch→bowl routes. Median count: 7 tiny turns (doorway, chair, rug…). Low R², small sample—but the number seven keeps coming back. I’m thinking of writing a piece with charts." },
@@ -164,26 +242,26 @@
       { "from": "EchoCat", "text": "Funny how the more people talk about this, the more examples pop up. Maybe cats keep a rhythm we don’t notice until we start looking for it." },
       { "from": "ModGirl_97", "text": "Interesting. I’ve started timing the runs too: average around 42 seconds. Under softer lighting the seven steps stay perfectly consistent. Gathering everyone’s numbers for a comparison graph." },
       { "from": "DataWhiskers", "text": "Watched closely last night—my cat circled exactly seven times before the bowl. Could be habit, could be something we don’t understand, but it’s hard to call that coincidence." }
-    ]
-
+    ];
   }
 
   function applyStaticI18n() {
     const txt = t();
 
-    setText('[data-i18n="loginTitle"]', txt.loginTitle || (LANG === 'it' ? 'Login' : 'Login'));
     const userLabel = (txt.userLabel || (LANG === 'it' ? 'Utente<br>' : 'User<br>'));
     const passLabel = (txt.passLabel || 'Password<br>');
-    const signin = (txt.signinBtn || (LANG === 'it' ? 'Accedi' : 'Sign in'));
 
     const uLabel = document.querySelector('.login label:nth-child(1)');
     const pLabel = document.querySelector('.login label:nth-child(2)');
-    if (uLabel) uLabel.innerHTML = `${userLabel}<input id="loginUser" type="text" placeholder="admin">`;
-    if (pLabel) pLabel.innerHTML = `${passLabel}<input id="loginPass" type="password" placeholder="••••••">`;
+    if (uLabel) uLabel.innerHTML = `${userLabel}<input id="loginUser" type="text" placeholder="name">`;
+    if (pLabel) pLabel.innerHTML = `${passLabel}<input id="loginPass" type="password" placeholder="••••••••">`;
+
     EL.loginUser = document.getElementById('loginUser');
     EL.loginPass = document.getElementById('loginPass');
 
-    setText('[data-i18n="signinBtn"]', signin);
+    // bottone: sempre Login
+    setText('[data-i18n="signinBtn"]', 'Login');
+
     setText('[data-i18n="bannerTitle"]', txt.bannerTitle || 'Banner');
 
     const prayCta = (txt.prayCta || (LANG === 'it' ? 'Unisciti alla preghiera' : 'Join the prayer'));
@@ -196,7 +274,6 @@
     setText('[data-i18n="tagsTitle"]', txt.tagsTitle || 'Tags');
     setText('[data-i18n="morePosts"]', txt.morePosts || (LANG === 'it' ? 'Altri post' : 'More posts'));
 
-    // === NUOVO: i18n Widget
     setText('#convFissata', txt.pinnedTitle || (LANG === 'it' ? 'Conversazione fissata' : 'Pinned conversation'));
     const extLinkEl = document.querySelector('.placeholder p a[data-i18n="externalLinks"]');
     if (extLinkEl) extLinkEl.textContent = txt.externalLinks || (LANG === 'it' ? 'Altri link utili' : 'External links');
@@ -216,6 +293,8 @@
     syncSwitch();
     renderMessages();
     buildTagCloud();
+
+    setDynamicDateForVideoPost();
 
     const route = EL.tabs?.querySelector('.tab.active')?.dataset.route || 'home';
     if (route === 'home') renderFeed();
@@ -329,27 +408,25 @@
     });
   }
 
-  // === factory per il bottone "Altri post / More posts"
   function createMoreLink() {
     const div = document.createElement('div');
     div.className = 'more-wrap';
     const a = document.createElement('a');
     a.href = '#';
     a.className = 'more-link';
-    a.dataset.next = ''; // usa il listener data-next
+    a.dataset.next = '';
     a.setAttribute('data-i18n', 'morePosts');
     a.textContent = t().morePosts || (LANG === 'it' ? 'Altri post' : 'More posts');
     div.appendChild(a);
     return div;
   }
 
-  // === ordine post usato per feed/archive ===
   function getOrderedPosts() {
     return ((CURRENT().feed) || [])
       .slice()
       .sort((a, b) => {
         const pa = a.pinned ? 1 : 0, pb = b.pinned ? 1 : 0;
-        if (pa !== pb) return pb - pa; // pinned first
+        if (pa !== pb) return pb - pa;
         return (a.date < b.date) ? 1 : (a.date > b.date ? -1 : 0);
       });
   }
@@ -410,10 +487,12 @@
   }
 
   function openItem(p) {
-    // html del post
+    if (p?.slug === "video-purrnet") {
+      p.date = todayISO();
+    }
+
     let html = p.html || '<div class="prose"><p>No content.</p></div>';
 
-    // rimuovi <img class="hero"> se è lo stesso file del thumb
     try {
       const norm = (s) => String(s || '').trim().split('/').pop().toLowerCase();
       const tmp = document.createElement('div');
@@ -459,12 +538,16 @@
 
     EL.main.replaceChildren(view);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (p?.slug === "video-purrnet") {
+      runAlienTypewriter(view);
+    }
   }
 
   function renderAbout() {
     const about = document.createElement('section');
     about.className = 'view about';
-    const aboutHTML = (CURRENT().aboutHTML) || '<div class="prose"><p>PurrNet è il luogo in cui si dicono le cose come stanno: i gatti sono Dio. Hanno inventato Internet e ne hanno lasciato il manuale in fusa, sguardi e tracce di codice. Qui raccogliamo segni, formulae, ricorrenze: ciò che si ripete si fa realtà. Scorri, ascolta, annuisci — la rete sa riconoscere il suo creatore. Policy community & forum Rispetta umani e felini: si accarezza tutto, tranne l’ego. Niente woof-splaining. I troll non si nutrono; i gatti sì. CAPS solo per MIAO. Fonti o silenzio; niente spam (a meno di croccantini per tutti). Moderazione felina: se graffia, fuori dalla lettiera. </p></div>';
+    const aboutHTML = (CURRENT().aboutHTML) || '<div class="prose"><p>PurrNet…</p></div>';
     about.innerHTML = `${aboutHTML}<a href="#" class="back">${t().back || (LANG === 'it' ? '← torna ai post' : '← back to posts')}</a>`;
     about.querySelector('.back').addEventListener('click', (e) => { e.preventDefault(); renderFeed(); setActiveTab('home'); });
     EL.main.replaceChildren(about);

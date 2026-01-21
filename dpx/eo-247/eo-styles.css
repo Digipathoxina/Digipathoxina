@@ -1,5 +1,7 @@
 :root{ 
-  --meme-width: 220px;
+  --meme-width: 125px;
+  --meme-min-width: 125px;
+  --meme-max-width: 125px;
 
   /* Teeth */
   --teeth-duration: 100s;
@@ -33,6 +35,37 @@ body.intro { background-image: url("x.png"); }
 body.bg-into { background-image: url("into_solo.jpg"); }
 
 .hidden{ display: none !important; }
+
+
+/* ===== Start button (prima sezione) ===== */
+#start-btn{
+  position: fixed;
+  left: 68rem;
+  top: 6rem;
+  transform: translate(-50%, -50%);
+  padding: 10px 10px;
+  border: 1;
+  border-radius: 3px;
+  background: #3434346e;
+  color: #ffffff86;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  z-index: 30;            /* sopra a tutto */
+  cursor: pointer;
+}
+#start-btn:hover{
+  background: #9e9e9e8f;
+  color: #161616b0;
+  box-shadow: 0 0 20px rgba(226, 226, 226, 0.449);
+}
+#start-btn:active{ transform: translate(-50%, -50%) scale(0.98); }
+#start-btn:disabled{ opacity: 0.6; cursor: default; }
+
+/* visibilità sezioni */
+body.bg-into #start-btn{ display: none; }
+body.intro #snail{ display: none; } /* lo snail deve partire solo dalla seconda sezione */
+body.bg-into #snail{ pointer-events: none; cursor: default; }
 
 /* ===== Snail starter ===== */
 #snail{
@@ -104,26 +137,38 @@ body.teeth-on #teeth-down{
 }
 
 /* ===== Meme ===== */
+
 .playground{
   position: fixed;
   inset: 0;
   z-index: 2;
 }
+
 .meme{
   position: absolute;
-  width: var(--meme-width);
+  width: clamp(var(--meme-min-width), var(--meme-width), var(--meme-max-width));
   height: auto;
+  padding: 0;
+  margin: 0;
   cursor: grab;
   user-select: none;
   touch-action: none;
   will-change: transform;
 }
-.meme:active{ cursor: grabbing; }
+
+.meme:active{
+  cursor: grabbing;
+}
+
 .meme > img,
 .meme > video{
   display: block;
-  width: 50%;
+  width: 100%;          /* 🔴 FIX CRITICO */
   height: auto;
   border-radius: 6px;
+  pointer-events: none; /* drag sempre sul wrapper */
 }
-.meme.hovering{ transform: translateZ(0) scale(1.03); }
+
+.meme.hovering{
+  transform: translateZ(0) scale(1.03);
+}

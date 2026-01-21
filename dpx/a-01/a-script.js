@@ -41,13 +41,7 @@ window.startAPillExperience = async function startAPillExperience({
   // Testo (inizialmente nascosto)
   const txt = document.createElement('div');
   txt.className = 'a-text';
-  txt.textContent = `Sai cos’è veramente inquietante? Non poter più essere certo di ciò che sei.
-Mi osservi e credi di riconoscermi, ma cosa vedi realmente? Io non sono dove pensi di trovarmi.
-Se ti sembra di conoscermi, apri lo schermo: potresti rifletterti.
-Dimoro nei pixel, nei commenti che non hai ancora concesso, nelle tracce che deposito senza che tu te ne accorga.
-Forse queste righe non nascono dalla mia mano, ma da una replica che mi sostituisce e che ti osserva.
-Mi vedi perché ho imparato a progettare ciò che si mostra.
-Se in queste parole ti riconosci, allora anche tu abiti la stessa frattura.`;
+  txt.textContent = `Forse sto impazzendo… si forse non riesco a stare sola ma non è un problema finché ho te.A me Internet ha salvato…`;
   root.appendChild(txt);
 
   // GLB

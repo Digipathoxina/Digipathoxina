@@ -1,302 +1,593 @@
-/* Reset */
+:root {
+  --bg: #000;
+  --fg: #fff;
+  --pix: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --mono: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  --red: #ff2b2b;
+  --shadow: 0 18px 50px rgba(0, 0, 0, .55);
+
+  --win-radius: 12px;
+  --card-w: 330px;
+  --card-h: auto;
+
+  --border: rgba(255, 255, 255, .14);
+  --border2: rgba(255, 255, 255, .22);
+
+  /* DH-GAME boxed sizing (used only if mode is boxed) */
+  --dh-game-w: min(1920px, 106vw);
+  --dh-game-h: min(1080px, 100vh);
+}
+
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
 }
 
 html,
 body {
-    height: 100%;
-    background: #000;
-    color: #fff;
-    overflow: hidden;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--pix);
+  overflow: hidden;
 }
 
-/* Bottone iniziale: piccolo, senza cerchio */
-.key-btn {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    padding: clamp(6px, 0.9vw, 10px) clamp(8px, 1.2vw, 12px);
-    background: transparent;
-    color: #fff;
-    font-size: clamp(24px, 6vw, 40px);
-    border: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform .12s ease, opacity .25s ease;
-    z-index: 9999;
+button {
+  font-family: var(--pix);
 }
 
-.key-btn:hover {
-    transform: translate(-50%, -50%) scale(1.04);
-}
-
-.key-btn:active {
-    transform: translate(-50%, -50%) scale(0.98);
-}
-
-.key-btn.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* Palco video */
 .stage {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100dvh;
-    min-height: 100vh;
-    background: #000 url('img/dc-desktop.jpg') center / cover no-repeat;
-    display: grid;
-    place-items: center;
-    opacity: 0;
-    /* inattivo finché non si clicca la chiave */
-    pointer-events: none;
-    transition: opacity .3s ease;
-    z-index: 0;
+  position: fixed;
+  inset: 0;
+  background: #000;
 }
 
-.stage.active {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/* Video base */
-.vid {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    /* default (v1) */
-    background: transparent;
-    pointer-events: none;
-    user-select: none;
-    -webkit-user-drag: none;
-    opacity: 0;
-    transition: opacity 0.8s linear;
-    z-index: 1;
-}
-
-/* Stack / adattamenti */
-.v1 {
-    z-index: 2;
-}
-
-/* cover */
-.v2 {
-    z-index: 1;
-    object-fit: contain;
-    background: transparent;
-}
-
-.v3 {
-    z-index: 3;
-    object-fit: contain;
-    background: transparent;
-}
-
-/* Stati */
-.show {
-    opacity: 1;
-}
-
-.hide {
-    opacity: 0;
-}
-
-/* Fade-out lungo di v1: 5s finali */
-.fade-long {
-    transition: opacity 5s linear;
-    opacity: 0;
-}
-
-/* Skip glass (su v2) */
-.skip-btn {
-    position: absolute;
-    right: calc(env(safe-area-inset-right, 0px) + 14px);
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
-    padding: 6px 18px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.158);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.185), rgba(255, 255, 255, 0.289));
-    color: #ffffff;
-    letter-spacing: .3px;
-    font-size: clamp(10px, 1.3vw, 12px);
-    text-shadow: 0 1px 1px rgba(0, 0, 0, .25);
-    backdrop-filter: blur(18px) saturate(160%);
-    -webkit-backdrop-filter: blur(18px) saturate(160%);
-    box-shadow:
-        0 8px 24px rgba(0, 0, 0, .40),
-        inset 0 1px 0 rgba(255, 255, 255, .35),
-        inset 0 -1px 0 rgba(255, 255, 255, .10);
-    cursor: pointer;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .35s ease, transform .18s ease, background .2s ease, box-shadow .2s ease;
-    z-index: 10;
-    overflow: hidden;
-}
-
-.skip-btn::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: 55%;
-    background: linear-gradient(180deg, rgba(255, 255, 255, .35), rgba(255, 255, 255, 0));
-    pointer-events: none;
-}
-
-.skip-btn.show {
-    opacity: 1;
-    pointer-events: all;
-}
-
-.skip-btn:hover {
-    transform: translateY(-0.1rem);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.149));
-}
-
-.skip-btn:active {
-    transform: translateY(0) scale(.98);
-}
-
-/* Banner su v2 (basso-sinistra, molto vicino al bordo) */
-.v2-banner {
-    position: absolute;
-    left: calc(env(safe-area-inset-left, 0px) + 6px);
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 6px);
-    padding: 5px 8px;
-    font-size: clamp(9px, 1.1vw, 11px);
-    line-height: 1;
-    color: #eaeaea;
-    background: rgba(0, 0, 0, .55);
-    border: 1px solid rgba(255, 255, 255, .14);
-    border-radius: 7px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .3s ease;
-    z-index: 11;
-}
-
-.v2-banner.show {
-    opacity: 1;
-}
-
-/* ===== Notifica su v3 (a 01:20) ===== */
-.notify {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: clamp(320px, 60vw, 720px);
-    transform: translate(-50%, -50%) scale(0.9);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform .25s ease, opacity .25s ease;
-    will-change: transform, opacity;
-    z-index: 100;
-    
-    --btn-size: clamp(125px, 10vw, 150px);
-    --btn-gap: 80px;
-    --btn-offset: clamp(12px, 2vw, 20px);
-    cursor: default;
-}
-
-.notify.show {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.notify-card {
-    position: relative;
-    width: 100%;
-    height: auto;
-    display: block;
-    user-select: none;
-    -webkit-user-drag: none;
-    z-index: 1;
-    pointer-events: none;
-    cursor: default;
-}
-
-/* Bottoni: sopra la card, ancorati al fondo della notifica */
-.notify-btn {
-    position: absolute;
-    top: 260px;
-    width: var(--btn-size);
-    border: none;
-    background: transparent;
-    padding: 0;
-    z-index: 2;
-    pointer-events: none;
-    cursor: default;
-    transition: transform .15s ease;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.notify.show .notify-btn {
-    pointer-events: auto;
-    cursor: pointer;
-}
-
-.notify-btn img {
-    width: 100%;
-    height: auto;
-    /* no stretch */
-    display: block;
-    user-select: none;
-    -webkit-user-drag: none;
-}
-
-/* Posizionamento orizzontale */
-.notify-btn.yes {
-    left: calc(51% - var(--btn-size) - var(--btn-gap)/2);
-}
-
-.notify-btn.no {
-    left: calc(49% + var(--btn-gap)/2);
-}
-
-/* Feedback e focus */
-.notify-btn:hover {
-    transform: translateY(-3px);
-}
-
-.notify-btn:active {
-    transform: translateY(0) scale(.98);
-}
-
-.notify-btn:focus {
-    outline: none;
-}
-
-.notify-btn:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, .6);
-    border-radius: 8px;
-}
-
-/* Loader GIF centrata sopra i video ma sotto la notifica */
-.loader{
+/* Fullscreen videos */
+.bg-video {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 2%;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+  opacity: 0;
+  transition: opacity 900ms ease;
+  pointer-events: none;
+}
+
+.bg-video.is-visible {
+  opacity: 1;
+}
+
+/* MOD: background image for dh-game (fullscreen + boxed video element) */
+#dhGameFull,
+#dhGameBoxed {
+  background: url('dc-desktop.jpg') center/cover no-repeat;
+}
+
+/* Optional boxed container for dh-game */
+.dh-game-wrap {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 18;
+  opacity: 0;
+  transition: opacity 900ms ease;
+  pointer-events: none;
+}
+
+.dh-game-wrap.is-visible {
+  opacity: 1;
+}
+
+.dh-game-box {
+  width: 76%;
   height: auto;
+  overflow: hidden;
+  background: url('dc-desktop.jpg') center/cover no-repeat;
+}
+
+.dh-game-box video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: transparent;
+}
+
+/* Glitch overlay */
+.glitch {
+  position: absolute;
+  inset: 0;
+  z-index: 44;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 80ms linear;
+}
+
+.glitch::before,
+.glitch::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  background:
+    repeating-linear-gradient(to bottom,
+      rgba(255, 255, 255, .10) 0px,
+      rgba(255, 255, 255, .10) 1px,
+      rgba(0, 0, 0, 0) 2px,
+      rgba(0, 0, 0, 0) 6px);
+  opacity: .85;
+  mix-blend-mode: screen;
+  transform: translate3d(0, 0, 0);
+  filter: contrast(1.25);
+}
+
+.glitch::after {
+  background:
+    linear-gradient(90deg, rgba(255, 0, 0, .12), rgba(0, 255, 255, .12)),
+    repeating-linear-gradient(to bottom,
+      rgba(255, 255, 255, .06) 0px,
+      rgba(255, 255, 255, .06) 1px,
+      rgba(0, 0, 0, 0) 2px,
+      rgba(0, 0, 0, 0) 5px);
+  mix-blend-mode: screen;
+  opacity: .95;
+}
+
+.glitch.is-on {
+  opacity: 1;
+}
+
+.glitch.is-on::before {
+  animation: gJitter 90ms steps(2, end) infinite;
+}
+
+.glitch.is-on::after {
+  animation: gSplit 120ms steps(2, end) infinite;
+}
+
+@keyframes gJitter {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  25% {
+    transform: translate3d(-6px, 2px, 0);
+  }
+
+  55% {
+    transform: translate3d(4px, -2px, 0);
+  }
+
+  80% {
+    transform: translate3d(-2px, 1px, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes gSplit {
+  0% {
+    transform: translate3d(0, 0, 0);
+    filter: hue-rotate(0deg) contrast(1.2);
+  }
+
+  35% {
+    transform: translate3d(10px, 0, 0);
+    filter: hue-rotate(25deg) contrast(1.35);
+  }
+
+  70% {
+    transform: translate3d(-8px, 0, 0);
+    filter: hue-rotate(-20deg) contrast(1.35);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+    filter: hue-rotate(0deg) contrast(1.2);
+  }
+}
+
+
+/* START overlay */
+.start-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  background: #000;
+  transition: opacity 700ms ease;
+}
+
+.start-overlay.is-hidden {
   opacity: 0;
   pointer-events: none;
-  transition: opacity .25s ease;
-  z-index: 60; /* > video (1..3), < notify (100) */
 }
-.loader.show{ opacity: 1; }
+
+/* UPDATED per tua richiesta */
+.start-ascii {
+  position: absolute;
+  left: 50%;
+  top: 35%;
+  transform: translateX(-50%);
+  margin: 0;
+  color: rgba(255, 255, 255, 0.107);
+  font-size: clamp(14px, 2.2vw, 22px);
+  line-height: 1.1;
+  letter-spacing: .4px;
+  user-select: none;
+  white-space: pre;
+  text-align: left;
+  text-shadow: 0 0 18px rgba(255, 255, 255, .06);
+  pointer-events: none;
+}
+
+.keys-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+}
+
+.access-key {
+  position: absolute;
+  color: #fff;
+  text-decoration: underline;
+  cursor: pointer;
+  user-select: none;
+  opacity: .86;
+  font-size: clamp(11px, 1.55vw, 15px);
+  letter-spacing: .6px;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, .7);
+  white-space: pre;
+  transform: none;
+  transition: opacity 120ms ease;
+}
+
+/* Correct key must NOT be underlined */
+.access-key.is-correct {
+  text-decoration: none;
+}
+
+.access-key:hover {
+  opacity: 1;
+}
+
+/* Card window (LEFT) */
+.card-wrap {
+  position: absolute;
+  top: clamp(12px, 2.2vh, 20px);
+  left: clamp(12px, 2.2vw, 20px);
+  z-index: 40;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 500ms ease;
+}
+
+.card-wrap.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.window {
+  width: var(--card-w);
+  border-radius: var(--win-radius);
+  overflow: hidden;
+  background: rgba(18, 18, 18, .82);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transform: translateY(0);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.window:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, .65);
+  border-color: rgba(255, 255, 255, .22);
+}
+
+.win-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, .35);
+  border-bottom: 1px solid rgba(255, 255, 255, .10);
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .22);
+}
+
+.win-body {
+  width: 100%;
+  height: var(--card-h);
+  background: #000;
+}
+
+.win-body video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: contrast(1.05) brightness(.98);
+}
+
+.win-footer {
+  padding: 10px 12px 12px;
+  border-top: 1px solid rgba(255, 255, 255, .10);
+  font-size: 12px;
+  color: rgba(255, 255, 255, .86);
+  letter-spacing: .25px;
+}
+
+.win-footer .path {
+  color: rgba(255, 255, 255, .85);
+}
+
+/* Continue button ------------------------------------------------------------------------*/
+.continue-btn {
+  position: absolute;
+  z-index: 200;
+  left: 57.5%;
+  top: 52%;
+  border-color: #059900;
+  padding: 5px 25px;
+  background: #ff2b2b00;
+  color: #ffffff00;
+  border-radius: 6px;
+  font-size: 5px;
+  letter-spacing: .5px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.continue-btn.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+/* Checkpoint buttons (no text) */
+.checkpoint-btn {
+  position: absolute;
+  z-index: 210;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+/* quando visibile */
+.checkpoint-btn.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Rosso grande */
+.checkpoint-red {
+  width: 19.6%;
+  height: 13%;
+  background: #ff2b2b00;
+  /* tu poi li cambi come vuoi */
+  left: 50.1%;
+  top: 49.5%;
+  transform: translate(-50%, -50%);
+}
+
+/* Blu piccolo */
+.checkpoint-blue {
+  width: 2.8%;
+  height: 7%;
+  background: #1e6dff00;
+  /* tu poi li cambi come vuoi */
+  left: 71.5%;
+  top: 78%;
+  transform: translate(-50%, -50%);
+}
+
+/* Bottom centered: Roboto Mono input + text */
+.bottom-center {
+  position: absolute;
+  left: 5%;
+  top: 100%;
+  bottom: clamp(16px, 4vh, 34px);
+  transform: translateX(-50%);
+  z-index: 150;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  pointer-events: none;
+  font-family: var(--mono);
+}
+
+.input-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 220ms ease, visibility 0s linear 220ms;
+}
+
+.input-wrap.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 220ms ease;
+}
+
+.input-bar {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  background: rgba(0, 0, 0, .35);
+  box-shadow: var(--shadow);
+  padding: 12px 12px;
+  color: #fff;
+  font-size: 12px;
+  outline: none;
+  height: 44px;
+  font-family: var(--mono);
+}
+
+/* Printed text ONLY (no box)----------------------------------------------------------- */
+.printed-text {
+  width: 100%;
+  opacity: 0;
+  transform: translate(10px, -32px);
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 180ms ease, visibility 0s linear 180ms;
+  color: #ECECEC;
+  font-size: 12px;
+  letter-spacing: .25px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--mono);
+  text-align: left;
+  padding: 0 2px;
+}
+
+.printed-text.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 180ms ease;
+}
+
+/* Final screen */
+.final {
+  position: absolute;
+  inset: 0;
+  z-index: 160;
+  display: grid;
+  place-items: center;
+  gap: 16px;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 700ms ease, visibility 0s linear 700ms;
+
+  /* NUOVO SFONDO */
+  background: url("composizione_stelle.png") center/cover no-repeat;
+}
+
+.final.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 700ms ease;
+}
+
+.final-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Overlay sopra lo sfondo (index 2) */
+.final-layer.final-solo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 80%;
+  /* ← cambia SOLO questo */
+  height: auto;
+
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Bottoni sopra tutto */
+.final-actions {
+  position: relative;
+  z-index: 3;
+  top: 500px;
+}
+
+.img-btn {
+  width: 180px;
+  height: auto;
+  cursor: pointer;
+  user-select: none;
+  filter: drop-shadow(0 16px 40px rgba(0, 0, 0, .5));
+  transition: transform 160ms ease;
+}
+
+.img-btn:hover {
+  transform: translateY(-3px);
+}
+
+.img-btn:active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --card-w: min(88vw, 460px);
+    --card-h: calc(var(--card-w) * 0.58);
+  }
+
+  .continue-btn {
+    left: 16px;
+    top: 16px;
+  }
+
+  .start-ascii {
+    top: 35%;
+  }
+}
+
+/* =========================
+   ASCII CORRETTO – FISSO AL CENTRO
+   ========================= */
+.access-key.is-correct {
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+
+  color: rgba(255, 255, 255, .35);
+  text-decoration: none;
+  white-space: pre;
+  z-index: 100;
+  pointer-events: auto;
+  transition: color 160ms ease;
+}
+
+.access-key.is-correct:hover {
+  color: rgba(255, 255, 255, .9);
+}

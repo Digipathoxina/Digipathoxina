@@ -1,310 +1,636 @@
-/* ===== Config ===== */
-const SRC_1_RAW = "dh_hack.mp4";
-const SRC_2_RAW = "luca_carlevarino.mp4";
-const SRC_3_RAW = "dh-hamsteria.mp4"; // <— nuovo nome del terzo video
+/* =========================
+   CONFIG
+   ========================= */
 
-/* Fade/reveal del video 1: ultimi 2 secondi */
-const REVEAL_SECOND_BEFORE_END_V1 = 2;
+const DH_GAME_MODE = "boxed"; // "boxed" | "fullscreen"
+const DH_GAME_BOX_W = "800px";
+const DH_GAME_BOX_H = "450px";
 
-/* Skip su v2 dopo 2 secondi di riproduzione */
-const SHOW_SKIP_AFTER_V2_SECONDS = 2;
+const HK_WINDOW_MS = 6000;
 
-/* Notifica su v3 a 01:20 */
-const V3_NOTIFY_AT = 82;
+// UI positioning relative to dh-game
+const offsetFromBottomPx = 160;
+const X_OFFSET_PX = -50; // ← cambia questo valore
+// sinistra/destra: negativo = sinistra, positivo = destra
 
-/* Redirect finale */
-const DEST_URL = "ec-pill/ec-pill-index.html";
+/* =========================
+   TIME SETUP
+   ========================= */
 
-/* ===== Helpers: cache-buster ===== */
-function getBuildVersion() {
-  const m = document.querySelector('meta[name="x-build"]');
-  return (m && m.content) || String(Math.floor(Date.now()/1000)); // fallback
+const FPS = 30;
+function tc(h, m, s, f) { return (h * 3600) + (m * 60) + s + (f / FPS); }
+
+// pause 1: CONTINUA
+const T_PAUSE_1 = tc(0, 0, 3, 26);
+// pause 2: RED BUTTON
+const T_PAUSE_RED = tc(0, 0, 10, 8);
+// pause 3: BLUE BUTTON
+const T_PAUSE_BLUE = tc(0, 0, 18, 10);
+
+// INPUT WINDOW
+const T_INPUT_SHOW = tc(0, 0, 19, 11);
+const T_INPUT_COMMIT = tc(0, 0, 29, 5);
+
+// (resto lasciato per dopo)
+const T_HIDE_TXT = tc(0, 0, 40, 25);
+
+/* =========================
+   ELEMENTS
+   ========================= */
+
+const stage = document.querySelector(".stage");
+
+const openDoor = document.getElementById("openDoor");
+
+const dhGameFull = document.getElementById("dhGameFull");
+const dhGameWrap = document.getElementById("dhGameWrap");
+const dhGameBoxed = document.getElementById("dhGameBoxed");
+
+const startOverlay = document.getElementById("startOverlay");
+const keysField = document.getElementById("keysField");
+
+const cardWrap = document.getElementById("cardWrap");
+const cardWindowEl = document.getElementById("cardWindow");
+const cardVid = document.getElementById("cardVid");
+
+const continueBtn = document.getElementById("continueBtn");
+const btnRed = document.getElementById("btnRed");
+const btnBlue = document.getElementById("btnBlue");
+
+const bottomCenter = document.querySelector(".bottom-center");
+const inputWrap = document.getElementById("inputWrap");
+const userInput = document.getElementById("userInput");
+const printedText = document.getElementById("printedText");
+
+const glitch = document.getElementById("glitch");
+const finalScreen = document.getElementById("finalScreen");
+const btnNo = document.getElementById("btnNo");
+const btnYes = document.getElementById("btnYes");
+
+// Guard
+function must(el, name) {
+  if (!el) console.error(`Missing element: ${name}`);
+  return el;
 }
-const BUILD_VER = getBuildVersion();
-const withVer = (url) => {
-  try {
-    const u = new URL(url, document.baseURI);
-    u.searchParams.set("v", BUILD_VER);
-    return u.toString();
-  } catch {
-    // se è relativo semplice
-    return url + (url.includes("?") ? "&" : "?") + "v=" + encodeURIComponent(BUILD_VER);
+must(stage, "stage");
+must(openDoor, "openDoor");
+must(dhGameFull, "dhGameFull");
+must(dhGameWrap, "dhGameWrap");
+must(dhGameBoxed, "dhGameBoxed");
+must(startOverlay, "startOverlay");
+must(keysField, "keysField");
+must(cardWrap, "cardWrap");
+must(cardWindowEl, "cardWindow");
+must(cardVid, "cardVid");
+must(continueBtn, "continueBtn");
+must(btnRed, "btnRed");
+must(btnBlue, "btnBlue");
+must(inputWrap, "inputWrap");
+must(userInput, "userInput");
+must(printedText, "printedText");
+must(glitch, "glitch");
+must(finalScreen, "finalScreen");
+
+/* =========================
+   DH GAME MODE
+   ========================= */
+
+let dhGame = null;
+
+function applyDhGameMode() {
+  if (DH_GAME_MODE === "boxed") {
+    document.documentElement.style.setProperty("--dh-game-w", DH_GAME_BOX_W);
+    document.documentElement.style.setProperty("--dh-game-h", DH_GAME_BOX_H);
+
+    dhGameFull.classList.remove("is-visible");
+    dhGameWrap.classList.remove("is-visible");
+    dhGameWrap.setAttribute("aria-hidden", "false");
+
+    dhGame = dhGameBoxed;
+  } else {
+    dhGameWrap.classList.remove("is-visible");
+    dhGameWrap.setAttribute("aria-hidden", "true");
+    dhGameFull.classList.remove("is-visible");
+
+    dhGame = dhGameFull;
   }
-};
+}
+applyDhGameMode();
 
-/* ===== DOM ===== */
-const startKey = document.getElementById("startKey");
-const stage    = document.getElementById("stage");
-const v1       = document.getElementById("v1");
-const v2       = document.getElementById("v2");
-const v3       = document.getElementById("v3");
-const skipBtn  = document.getElementById("skipBtn");
-const v2Banner = document.getElementById("v2Banner");
-const loader   = document.getElementById("loader"); // <img id="loader" src="time.gif">
-
-/* Notifica V3 */
-const notify  = document.getElementById("notify");
-const btnYes  = document.getElementById("btnYes");
-const btnNo   = document.getElementById("btnNo");
-
-/* ===== Stato ===== */
-let revealedV2 = false;
-let skipShown  = false;
-let v3Notified = false;
-
-/* ===== Setup ===== */
-function setupVideos() {
-  [v1, v2, v3].forEach(v => {
-    v.setAttribute("playsinline", "");
-    v.setAttribute("webkit-playsinline", "");
-    v.removeAttribute("controls");
-    v.controls = false;
-    v.muted = false;              // audio ok: parti da click sul tasto (consentito)
-    v.preload = "auto";
-    v.disablePictureInPicture = true;
-    v.setAttribute("controlsList", "nodownload noplaybackrate noremoteplayback");
-  });
-
-  // Applica cache-buster per evitare versioni vecchie su GitHub Pages
-  v1.src = withVer(SRC_1_RAW);
-  v2.src = withVer(SRC_2_RAW);
-  v3.src = withVer(SRC_3_RAW);
+function showDhGameVisible() {
+  if (DH_GAME_MODE === "boxed") dhGameWrap.classList.add("is-visible");
+  else dhGameFull.classList.add("is-visible");
+}
+function hideDhGameVisible() {
+  if (DH_GAME_MODE === "boxed") dhGameWrap.classList.remove("is-visible");
+  else dhGameFull.classList.remove("is-visible");
 }
 
-async function safePlay(video) {
-  try { await video.play(); } catch { /* ignore autoplay restrictions */ }
-}
+/* =========================
+   STATE
+   ========================= */
 
-/* Piccola utility per attese parallele (loader) */
-const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+let openDoorHasStarted = false;
+let openDoorHasEnded = false;
 
-/* Attendi il primo frame “vero” (con timeout fail-safe) */
-function waitForFirstFrame(video, timeoutMs = 1500) {
-  return new Promise((resolve) => {
-    let done = false;
-    const finish = () => { if (!done) { done = true; resolve(); } };
+let pause1Done = false;
+let pauseRedDone = false;
+let pauseBlueDone = false;
 
-    const t = setTimeout(finish, timeoutMs);
-    const cb = () => { clearTimeout(t); finish(); };
+// input window state
+let inputShown = false;
+let inputCommitted = false;
+let inputSubmitted = false;
+let committedText = "";
 
-    if (video.readyState >= 2) {
-      if (video.requestVideoFrameCallback) video.requestVideoFrameCallback(cb);
-      else cb();
-      return;
-    }
-    const onLoaded = () => {
-      video.removeEventListener("loadeddata", onLoaded);
-      if (video.requestVideoFrameCallback) video.requestVideoFrameCallback(cb);
-      else cb();
-    };
-    const onError = () => { clearTimeout(t); finish(); };
+/* =========================
+   CARD (Luca) behavior
+   ========================= */
 
-    video.addEventListener("loadeddata", onLoaded, { once: true });
-    video.addEventListener("error", onError, { once: true });
-  });
-}
+function showCard() {
+  if (!cardWrap) return;
+  cardWrap.classList.add("is-visible");
+  cardWrap.setAttribute("aria-hidden", "false");
 
-/* ===== Anti-interruzione + combo H+K su v1 ===== */
-const pressedKeys = new Set();
-
-function hardenAgainstUserInterruption() {
-  document.addEventListener("contextmenu", (e) => e.preventDefault());
-
-  document.addEventListener("keydown", (e) => {
-    const key = (e.key || "").toLowerCase();
-    pressedKeys.add(key);
-
-    // H + K durante v1 => vai subito a v2
-    const onV1Active = v1.classList.contains("show") && !revealedV2 && !v1.paused;
-    if (onV1Active && pressedKeys.has("h") && pressedKeys.has("k")) {
-      e.preventDefault(); e.stopPropagation();
-      skipV1ToV2();
-      return;
-    }
-
-    // Blocca tasti play/pause/seek comuni
-    const blocked = [" ", "k", "j", "l", "arrowleft", "arrowright", "arrowup", "arrowdown", "mediaplaypause"];
-    if (blocked.includes(key)) { e.preventDefault(); e.stopPropagation(); }
-  }, { capture: true });
-
-  document.addEventListener("keyup", (e) => {
-    pressedKeys.delete((e.key || "").toLowerCase());
-  }, { capture: true });
-
-  window.addEventListener("blur", () => pressedKeys.clear());
-
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
-      [v1, v2, v3].forEach(v => { if (!v.paused && v.readyState >= 2) v.play().catch(()=>{}); });
-    }
-  });
-
-  ["dragstart", "drop"].forEach(evt =>
-    document.addEventListener(evt, e => e.preventDefault(), { capture: true })
-  );
-
-  // mini anti-stallo: se un video segnala 'stalled', fai un NUDGE
-  [v1, v2, v3].forEach(v => {
-    v.addEventListener("stalled", () => {
-      try {
-        if (isFinite(v.duration) && v.currentTime + 0.02 < v.duration) v.currentTime += 0.02;
-        safePlay(v);
-      } catch {}
-    });
-  });
-}
-
-/* ===== Logica di flusso ===== */
-function handleV1Timeupdate() {
-  if (revealedV2) return;
-  if (!isFinite(v1.duration) || v1.duration <= 0) return;
-
-  const remaining = v1.duration - v1.currentTime;
-  if (remaining <= REVEAL_SECOND_BEFORE_END_V1) {
-    revealedV2 = true;
-
-    // Rivela v2 sotto e dissolve v1 (2s via CSS .fade-long)
-    v2.classList.add("show");
-    v1.classList.add("fade-long");
-    safePlay(v2);
-
-    v1.addEventListener("ended", () => {
-      v1.classList.remove("show", "fade-long");
-      v1.classList.add("hide");
-      startVideo2Phase();
-    }, { once: true });
+  // preview autoplay muted + loop
+  if (cardVid) {
+    cardVid.muted = true;
+    cardVid.loop = true;
+    cardVid.play().catch(() => { });
   }
 }
 
-function startVideo2Phase() {
-  v2.classList.add("show");
-  safePlay(v2);
-
-  // Banner su v2
-  v2Banner.classList.add("show");
-
-  // Skip dopo ~2s (sempre)
-  const showSkip = () => { if (!skipShown) { skipShown = true; skipBtn.classList.add("show"); } };
-  const t1 = setTimeout(showSkip, SHOW_SKIP_AFTER_V2_SECONDS * 1000);
-  const onPlaying = () => { setTimeout(showSkip, SHOW_SKIP_AFTER_V2_SECONDS * 1000); v2.removeEventListener("playing", onPlaying); };
-  v2.addEventListener("playing", onPlaying);
-  const ti = setInterval(() => {
-    if (v2.currentTime >= SHOW_SKIP_AFTER_V2_SECONDS) showSkip();
-    if (skipShown) { clearInterval(ti); clearTimeout(t1); }
-  }, 250);
-
-  v2.addEventListener("ended", () => transitionToV3(), { once: true });
-  skipBtn.addEventListener("click", () => transitionToV3(), { once: true });
+function hideCard() {
+  if (!cardWrap) return;
+  cardWrap.classList.remove("is-visible");
+  cardWrap.setAttribute("aria-hidden", "true");
+  if (cardVid) cardVid.pause();
 }
 
-/* Notifica su v3 a 01:20 */
-function attachV3Notification() {
-  const onTimeUpdate = () => {
-    if (!v3Notified && isFinite(v3.duration) && v3.currentTime >= V3_NOTIFY_AT) {
-      v3Notified = true;
-      v3.removeEventListener("timeupdate", onTimeUpdate);
-      v3.pause();
+// Card is a button that opens a separate page
+function setupLucaCardAsButton() {
+  if (!cardWindowEl) return;
+  cardWindowEl.style.cursor = "pointer";
+  cardWindowEl.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    window.open("luca-carlevarino.html", "_blank");
+  }, { passive: false });
+}
+setupLucaCardAsButton();
 
-      notify.classList.add("show");
-      notify.setAttribute("aria-hidden", "false");
+/* =========================
+   UI position anchored to dh-game
+   ========================= */
 
-      const handleChoice = () => {
-        // pulizia focus (evita warning ARIA)
-        const active = document.activeElement;
-        if (notify.contains(active)) active.blur();
-        if (!stage.hasAttribute("tabindex")) stage.setAttribute("tabindex", "-1");
-        stage.focus();
+function getGameAnchorEl() {
+  if (DH_GAME_MODE === "boxed") {
+    const box = document.querySelector(".dh-game-box");
+    if (box) return box;
+    return dhGameWrap || dhGameBoxed;
+  }
+  return dhGameFull || dhGame;
+}
 
-        notify.classList.remove("show");
-        notify.setAttribute("aria-hidden", "true");
+function positionUIToGame() {
+  if (!bottomCenter) return;
 
-        // riprendi subito (nessun flash)
-        safePlay(v3);
+  const anchor = getGameAnchorEl();
+  if (!anchor || !anchor.getBoundingClientRect) return;
 
-        btnYes.removeEventListener("click", handleChoice);
-        btnNo.removeEventListener("click", handleChoice);
-      };
+  const r = anchor.getBoundingClientRect();
+  const x = r.left + (r.width / 2) + X_OFFSET_PX;
+  const y = r.bottom - offsetFromBottomPx;
 
-      btnYes.addEventListener("click", handleChoice);
-      btnNo.addEventListener("click", handleChoice);
+  bottomCenter.style.position = "fixed";
+  bottomCenter.style.left = `${Math.round(x)}px`;
+  bottomCenter.style.top = `${Math.round(y)}px`;
+  bottomCenter.style.bottom = "auto";
+  bottomCenter.style.transform = "translate(-50%, -50%)";
+  bottomCenter.style.width = `min(640px, ${Math.round(window.innerWidth * 0.92)}px)`;
+}
+
+window.addEventListener("resize", positionUIToGame);
+if (window.visualViewport) {
+  window.visualViewport.addEventListener("resize", positionUIToGame);
+  window.visualViewport.addEventListener("scroll", positionUIToGame);
+}
+
+/* =========================
+   VIDEO HARDENING
+   ========================= */
+
+function lockVideo(video) {
+  if (!video) return;
+  video.controls = false;
+  video.setAttribute("controlsList", "nodownload noplaybackrate noremoteplayback");
+  video.disablePictureInPicture = true;
+  video.addEventListener("contextmenu", (e) => e.preventDefault());
+}
+[openDoor, dhGameFull, dhGameBoxed, cardVid].forEach(lockVideo);
+
+openDoor.muted = false;
+dhGameFull.muted = false;
+dhGameBoxed.muted = false;
+
+function preventPauseWhilePlaying(video) {
+  if (!video) return;
+  video.addEventListener("pause", () => {
+    if (video.ended) return;
+    if (!video.dataset.allowPause) video.play().catch(() => { });
+  });
+}
+preventPauseWhilePlaying(openDoor);
+preventPauseWhilePlaying(dhGameFull);
+preventPauseWhilePlaying(dhGameBoxed);
+
+/* =========================
+   KEYS / CAPTCHA
+   ========================= */
+
+const SYMBOLS = ["⚷", "ꄗ", "🗝", "🔑", "🔐"];
+const CHUNKS = [
+  "DH-503", "0xA7F", "k9", "p13", "R0UT3", "AUTH", "GATE", "NODE", "CACHE",
+  "--..", "..--", "__//", "\\\\__", "::", "==", "++", "??", "!!", "<>", "[]", "{}",
+  "0101", "0011", "1100", "1010", "0001", "0110", "SALT", "HASH", "KEY", "SEED"
+];
+function randInt(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function makeKeyString() {
+  const s = pick(SYMBOLS);
+  const a = pick(CHUNKS);
+  const b = pick(CHUNKS);
+  const c = pick(CHUNKS);
+  const mid = pick(["/", "//", "::", "__", "-", "==", "++", "??"]);
+  return `${s} ${a}${mid}${b}${pick(["", "'", "_", "\\", "/"])}${c}`;
+}
+
+const CORRECT_TEXT = `
+ ______     ______   ______     __   __    
+/\\  __ \\   /\\  == \\ /\\  ___\\   /\\ "-.\\ \\   
+\\ \\ \\/\\ \\  \\ \\  _-/ \\ \\  __\\   \\ \\ \\-.  \\  
+ \\ \\_____\\  \\ \\_\\    \\ \\_____\\  \\ \\_\\\\"\\_\\ 
+  \\/_____/   \\/_/     \\/_____/   \\/_/ \\/_/ 
+                                            
+`;
+
+const MAX_KEYS = 70;
+const INITIAL_KEYS = 8;
+const ADD_EVERY_MS = 1000;
+
+const keyItems = [];
+
+function placeRandomAvoidingAscii() {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+  const avoidXMin = vw * 0.28;
+  const avoidXMax = vw * 0.72;
+  const avoidYMin = vh * 0.18;
+  const avoidYMax = vh * 0.58;
+
+  let x, y, tries = 0;
+  do {
+    x = randInt(10, Math.max(10, vw - 260));
+    y = randInt(10, Math.max(10, vh - 40));
+    tries++;
+    if (tries > 80) break;
+  } while (x > avoidXMin && x < avoidXMax && y > avoidYMin && y < avoidYMax);
+
+  return { x, y };
+}
+
+function addKey(text) {
+  const { x, y } = placeRandomAvoidingAscii();
+
+  const el = document.createElement("a");
+  el.href = "#";
+  el.className = "access-key";
+  if (text === CORRECT_TEXT) el.classList.add("is-correct");
+  el.textContent = text;
+
+  el.style.left = x + "px";
+  el.style.top = y + "px";
+
+  el.addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    if (text === CORRECT_TEXT) {
+      if (openDoorHasStarted || openDoorHasEnded) return;
+
+      openDoorHasStarted = true;
+      keysField.style.pointerEvents = "none";
+
+      startOverlay.classList.add("is-hidden");
+
+      openDoor.style.display = "";
+      openDoor.style.opacity = "";
+      openDoor.classList.add("is-visible");
+
+      try { await openDoor.play(); }
+      catch (err) { console.warn("openDoor play blocked:", err); }
+      return;
+    }
+
+    scramblePositions();
+  });
+
+  keysField.appendChild(el);
+  keyItems.push({ text, el });
+}
+
+function scramblePositions() {
+  keyItems.forEach((k) => {
+    if (k.text !== CORRECT_TEXT && Math.random() < 0.20) {
+      k.text = makeKeyString();
+      k.el.textContent = k.text;
+    }
+    if (k.text !== CORRECT_TEXT) {
+      const p = placeRandomAvoidingAscii();
+      k.el.style.left = p.x + "px";
+      k.el.style.top = p.y + "px";
+    }
+  });
+
+  if (!keyItems.some(k => k.text === CORRECT_TEXT)) addKey(CORRECT_TEXT);
+}
+
+function initKeys() {
+  keysField.innerHTML = "";
+  keyItems.length = 0;
+
+  for (let i = 0; i < INITIAL_KEYS - 1; i++) addKey(makeKeyString());
+  addKey(CORRECT_TEXT);
+}
+initKeys();
+
+const growTimer = setInterval(() => {
+  if (startOverlay.classList.contains("is-hidden")) {
+    clearInterval(growTimer);
+    return;
+  }
+  if (keyItems.length >= MAX_KEYS) return;
+  addKey(makeKeyString());
+}, ADD_EVERY_MS);
+
+/* =========================
+   CHECKPOINT BUTTONS
+   ========================= */
+
+function hideCheckpointButtons() {
+  if (btnRed) btnRed.classList.remove("is-visible");
+  if (btnBlue) btnBlue.classList.remove("is-visible");
+}
+
+function showRedCheckpoint() {
+  if (!btnRed) return;
+  btnRed.classList.add("is-visible");
+  btnRed.onclick = () => {
+    btnRed.classList.remove("is-visible");
+    resumeDhGame();
+  };
+}
+
+function showBlueCheckpoint() {
+  if (!btnBlue) return;
+  btnBlue.classList.add("is-visible");
+  btnBlue.onclick = () => {
+    btnBlue.classList.remove("is-visible");
+    resumeDhGame();
+  };
+}
+
+function showContinueButton() {
+  continueBtn.classList.add("is-visible");
+  continueBtn.onclick = () => {
+    continueBtn.classList.remove("is-visible");
+    resumeDhGame();
+  };
+}
+
+function pauseAtCheckpoint(afterPause) {
+  dhGame.dataset.allowPause = "1";
+  dhGame.pause();
+  setTimeout(() => { if (typeof afterPause === "function") afterPause(); }, 0);
+}
+
+function resumeDhGame() {
+  hideCheckpointButtons();
+  continueBtn.classList.remove("is-visible");
+  delete dhGame.dataset.allowPause;
+  dhGame.play().catch(() => { });
+}
+
+/* =========================
+   INPUT + PRINTED TEXT (NEW LOGIC)
+   ========================= */
+
+function pulseGlitch(ms = 260) {
+  if (!glitch) return;
+  glitch.classList.add("is-on");
+  setTimeout(() => glitch.classList.remove("is-on"), ms);
+}
+
+function showInputWindow() {
+  if (!inputWrap || !userInput) return;
+  inputWrap.classList.add("is-visible");
+  userInput.value = "";
+  // focus senza spostare la pagina
+  try { userInput.focus({ preventScroll: true }); } catch (e) { userInput.focus(); }
+}
+
+function hideInputWindow() {
+  if (!inputWrap) return;
+  inputWrap.classList.remove("is-visible");
+}
+
+function showPrinted(txt) {
+  if (!printedText) return;
+  printedText.textContent = txt;
+  printedText.classList.add("is-visible");
+}
+
+function hidePrinted() {
+  if (!printedText) return;
+  printedText.classList.remove("is-visible");
+  printedText.textContent = "";
+}
+
+function commitInputAndPrint({ jumpToCommit = false } = {}) {
+  if (inputCommitted) return;
+  inputCommitted = true;
+
+  // scegli testo
+  const raw = (userInput?.value ?? "").trim();
+  if (inputSubmitted) committedText = raw.length ? raw : "testo di default";
+  else committedText = raw.length ? raw : "testo di default";
+
+  // glitch + eventualmente salto
+  pulseGlitch(280);
+
+  if (jumpToCommit) {
+    // salto se l'utente ha premuto invio prima del commit time
+    try { dhGame.currentTime = T_INPUT_COMMIT; } catch (e) { }
+  } else {
+    // se siamo arrivati “da playback”, allineiamo preciso comunque
+    try { dhGame.currentTime = T_INPUT_COMMIT; } catch (e) { }
+  }
+
+  // UI
+  hideInputWindow();
+  showPrinted(committedText);
+}
+
+/* =========================
+   OPEN DOOR ENDED -> DH GAME + BG
+   ========================= */
+
+openDoor.addEventListener("ended", async () => {
+  openDoorHasEnded = true;
+
+  try { openDoor.pause(); } catch (e) { }
+  openDoor.classList.remove("is-visible");
+  openDoor.style.opacity = "0";
+  openDoor.style.display = "none";
+
+  if (stage) stage.style.background = "url('dc-desktop.jpg') center/cover no-repeat";
+
+  showCard();
+
+  showDhGameVisible();
+  positionUIToGame();
+  setTimeout(positionUIToGame, 60);
+
+  // reset checkpoint state
+  pause1Done = false;
+  pauseRedDone = false;
+  pauseBlueDone = false;
+  hideCheckpointButtons();
+  continueBtn.classList.remove("is-visible");
+
+  // reset input state
+  inputShown = false;
+  inputCommitted = false;
+  inputSubmitted = false;
+  committedText = "";
+  hideInputWindow();
+  hidePrinted();
+
+  // bind enter once (overwrite ok)
+  userInput.onkeydown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      inputSubmitted = true;
+      // invio: salta subito a 29:05 con glitch e stampa
+      commitInputAndPrint({ jumpToCommit: true });
     }
   };
-  v3.addEventListener("timeupdate", onTimeUpdate);
+
+  try { await dhGame.play(); }
+  catch (err) { console.warn("dhGame play blocked:", err); }
+});
+
+/* =========================
+   DH GAME TIMELINE
+   ========================= */
+
+dhGame.addEventListener("timeupdate", () => {
+  const t = dhGame.currentTime;
+
+  // 1) CONTINUA
+  if (!pause1Done && t >= T_PAUSE_1) {
+    pause1Done = true;
+    pauseAtCheckpoint(() => showContinueButton());
+    return;
+  }
+
+  // 2) RED button
+  if (!pauseRedDone && t >= T_PAUSE_RED) {
+    pauseRedDone = true;
+    pauseAtCheckpoint(() => showRedCheckpoint());
+    return;
+  }
+
+  // 3) BLUE button
+  if (!pauseBlueDone && t >= T_PAUSE_BLUE) {
+    pauseBlueDone = true;
+    pauseAtCheckpoint(() => showBlueCheckpoint());
+    return;
+  }
+
+  // INPUT appears (no pause)
+  if (!inputShown && t >= T_INPUT_SHOW) {
+    inputShown = true;
+    showInputWindow();
+    positionUIToGame();
+    setTimeout(positionUIToGame, 60);
+  }
+
+  // COMMIT at 29:05 if not already committed
+  if (!inputCommitted && t >= T_INPUT_COMMIT) {
+    // non ha premuto invio: usa value se presente, altrimenti default
+    commitInputAndPrint({ jumpToCommit: false });
+    return;
+  }
+
+  // (per dopo)
+  if (inputCommitted && !hideTextDone && t >= T_HIDE_TXT) {
+    // se vuoi far sparire il testo ad un certo punto, lo gestiamo dopo
+    // hideTextDone = true;
+  }
+});
+
+dhGame.addEventListener("ended", () => {
+  hideDhGameVisible();
+  hideCard();
+
+  // sparisce il printed insieme al video
+  hideInputWindow();
+  hidePrinted();
+
+  finalScreen.classList.add("is-visible");
+});
+
+/* =========================
+   HK SKIP (optional)
+   ========================= */
+
+const bootAt = Date.now();
+const hkState = { h: false, a: false, k: false };
+
+window.addEventListener("keydown", (e) => {
+  const within = (Date.now() - bootAt) <= HK_WINDOW_MS;
+  if (!within) return;
+
+  const key = (e.key || "").toLowerCase();
+  if (key === "h") hkState.h = true;
+  if (key === "a") hkState.a = true;
+  if (key === "k") hkState.k = true;
+
+  if (hkState.h && hkState.a && hkState.k) {
+    hkState.h = hkState.a = hkState.k = false;
+    try { dhGame.pause(); } catch (e) { }
+    hideDhGameVisible();
+    hideCard();
+    hideInputWindow();
+    hidePrinted();
+    finalScreen.classList.add("is-visible");
+    return;
+  }
+});
+
+/* =========================
+   FINAL BUTTONS
+   ========================= */
+
+function goNext() {
+  window.location.href = "ec-pill/ec-pill-index.html";
 }
+if (btnNo) btnNo.addEventListener("click", goNext);
+if (btnYes) btnYes.addEventListener("click", goNext);
 
-/* v2 -> background (fade) + loader 2s -> v3 senza flash */
-async function transitionToV3() {
-  // Chiudi overlay v2 (banner/skip)
-  v2Banner.classList.remove("show");
-  skipBtn.classList.remove("show");
-  skipBtn.style.pointerEvents = "none";
-
-  // Avvia dissolvenza di v2 per mostrare il background
-  v2.classList.remove("show");
-  v2.classList.add("hide");
-
-  // Ferma audio v2 in parallelo
-  try { v2.pause(); v2.currentTime = 0; v2.muted = true; } catch(_) {}
-
-  // Mostra loader (rotella) per ~2s mentre prepariamo v3
-  if (loader) loader.classList.add("show");
-
-  // Attendi sia il primo frame di v3 (fail-safe) sia i 2s di loader
-  await Promise.all([
-    waitForFirstFrame(v3, 1500),
-    sleep(2000)
-  ]);
-
-  // Mostra v3 e avvia
-  v3.classList.add("show");
-  safePlay(v3);
-
-  // Nascondi loader
-  if (loader) loader.classList.remove("show");
-
-  // Notifica a 01:20 e redirect a fine v3
-  attachV3Notification();
-  v3.addEventListener("ended", () => { window.location.href = DEST_URL; }, { once: true });
-
-  // Non forzare play quando è in pausa per la notifica
-  const tryKeepPlaying = () => { if (!v3.paused) safePlay(v3); };
-  v3.addEventListener("pause", tryKeepPlaying);
-}
-
-/* ===== Skip manuale v1 -> v2 (combo H+K) ===== */
-function skipV1ToV2() {
-  if (revealedV2) return;
-  revealedV2 = true;
-
-  v1.removeEventListener("timeupdate", handleV1Timeupdate);
-  v1.classList.remove("show", "fade-long");
-  v1.classList.add("hide");
-  v1.pause();
-
-  v2.classList.add("show");
-  safePlay(v2);
-  startVideo2Phase();
-}
-
-/* ===== Avvio sequenza ===== */
-async function startSequence() {
-  startKey.classList.add("hidden");
-
-  stage.classList.add("active");
-  stage.setAttribute("aria-hidden", "false");
-
-  v1.classList.add("show");
-  await safePlay(v1);
-
-  v1.addEventListener("timeupdate", handleV1Timeupdate);
-  v1.addEventListener("ended", () => {
-    if (!revealedV2) v2.classList.add("show");
-    startVideo2Phase();
-  }, { once: true });
-}
-
-/* ===== Init ===== */
-setupVideos();
-hardenAgainstUserInterruption();
-stage.classList.remove("active");   // parte inattivo
-startKey.addEventListener("click", startSequence, { once: true });
+// prevent common playback shortcuts
+window.addEventListener("keydown", (e) => {
+  const keys = [" ", "Spacebar", "ArrowLeft", "ArrowRight", "k", "K", "j", "J", "l", "L"];
+  if (keys.includes(e.key)) e.preventDefault();
+}, { passive: false });

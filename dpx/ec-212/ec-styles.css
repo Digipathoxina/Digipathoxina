@@ -35,63 +35,137 @@ body{
   font-size:13px;
 }
 
-/* HEADER */
+/* ===================== */
+/* HEADER                */
+/* ===================== */
+
 .top{
-  position:sticky; top:0; z-index:50;
+  position:sticky;
+  top:0;
+  z-index:50;
   background:rgba(10,16,36,.55);
   backdrop-filter:blur(12px);
   border-bottom:1px solid rgba(255,255,255,.12);
 }
-.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
 
-/* header left/right */
-.header-flex{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;cursor:pointer}
+.wrap{
+  max-width:1240px;
+  margin:0 auto;
+  padding:0 20px;
+}
+
+/* header layout con tabs centrate */
+.header-flex.header-with-tabs{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  padding:14px 0;
+}
+
+/* Brand */
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  color:#fff;
+  cursor:pointer;
+}
 .brand .cat{font-weight:800;color:var(--ink)}
 .brand .logo{font-weight:800;font-size:1.2rem;letter-spacing:.2px}
+.brand:hover,
+.brand .cat:hover{color:var(--gold)}
 
-.brand:hover{ color:var(--gold)}
-.brand .cat:hover{ color:var(--gold)}
-
-/* Language switch (small) */
+/* Language switch */
 .lang-switch{
-  display:flex; gap:6px; background:var(--glass);
-  border:1px solid var(--glass-border); border-radius:999px; padding:3px;
+  display:flex;
+  gap:6px;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:999px;
+  padding:3px;
 }
 .lang-switch button{
-  appearance:none;border:0;border-radius:999px;padding:.26rem .54rem;font-weight:800;
-  color:#ffffffd9;background:transparent;cursor:pointer;font-size:.78rem;letter-spacing:.02em;
+  appearance:none;
+  border:0;
+  border-radius:999px;
+  padding:.26rem .54rem;
+  font-weight:800;
+  color:#ffffffd9;
+  background:transparent;
+  cursor:pointer;
+  font-size:.78rem;
+  letter-spacing:.02em;
 }
-.lang-switch button.on{background:var(--accent);color:#00234d}
+.lang-switch button.on{
+  background:var(--accent);
+  color:#00234d;
+}
 
-/* TABS */
+/* ===================== */
+/* TABS (ora nell’header)*/
+/* ===================== */
+
 .tabs-wrap{
-  margin:10px auto 10px;
-  display:flex; justify-content:center;
-  background:var(--glass); border:1px solid var(--glass-border);
-  border-radius:999px; padding:3px 4px; width:max-content; gap:2px;
+  display:flex;
+  justify-content:center;
+  gap:2px;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:999px;
+  padding:3px 4px;
+  width:max-content;
+  margin:0 auto; /* centratura vera nell’header */
+  transform: translateX(-17px);
 }
+
 .tabs-wrap .tab{
-  display:inline-block; padding:.36rem .8rem;
-  border-radius:999px; text-decoration:none; font-weight:800; 
-  color:var(--ink); opacity:.95; font-size:.9rem;
+  display:inline-block;
+  padding:.36rem .8rem;
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:800;
+  color:var(--ink);
+  opacity:.95;
+  font-size:.9rem;
 }
 .tabs-wrap .tab:hover{opacity:1}
-.tabs-wrap .tab.active{background:var(--accent); color:#00234d}
-
-/* HERO */
-.home-hero{margin:8px auto 16px; display:flex; justify-content:center}
-.home-hero img{
-  max-width:40%; width:40%;
+.tabs-wrap .tab.active{
+  background:var(--accent);
+  color:#00234d;
 }
 
-/* Layout 2 colonne */
+/* ===================== */
+/* HERO                  */
+/* ===================== */
+
+.home-hero{
+  margin:8px auto 16px;
+  display:flex;
+  justify-content:center;
+}
+.home-hero img{
+  max-width:40%;
+  width:40%;
+}
+
+/* ===================== */
+/* LAYOUT                */
+/* ===================== */
+
 .layout{
-  display:grid;grid-template-columns:320px 1fr;gap:22px;align-items:start;
+  display:grid;
+  grid-template-columns:320px 1fr;
+  gap:22px;
+  align-items:start;
   margin:6px auto 22px;
 }
 
-/* Glass card (usata solo dal login) */
+/* ===================== */
+/* (TUTTO IL RESTO È IDENTICO AL TUO FILE) */
+/* ===================== */
+
+/* Glass card (login) */
 .card.glass{
   background:#ffd86bb3;
   border:1px solid var(--glass-border);
@@ -106,16 +180,22 @@ body{
 /* Sidebar spacing */
 .sidebar > *{margin-bottom:18px}
 
-/* Panel headings uniformi anche senza card */
+/* Panel headings */
 .sidebar > section h2{
-  font-size:1rem; margin:0 0 8px 0; color:#eaf2ff;
+  font-size:1rem;
+  margin:0 0 8px 0;
+  color:#eaf2ff;
 }
 
 /* Widgets */
 .login input{
-  width:100%;margin:.35rem 0 .6rem;padding:.5rem .65rem;
-  border:1px solid rgba(255,255,255,.18);border-radius:10px;
-  background:rgba(255, 255, 255, 0.427);color:var(--ink)
+  width:100%;
+  margin:.35rem 0 .6rem;
+  padding:.5rem .65rem;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:10px;
+  background:rgba(255, 255, 255, 0.427);
+  color:var(--ink);
 }
 .btn{
   background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#00234d; border:0; border-radius:10px;
@@ -294,20 +374,20 @@ body{
   padding:24px; backdrop-filter: blur(12px);
 }
 .view .title{margin:0 0 6px; font-size:1.6rem; line-height:1.2}
-.view .meta{color:#c8d6ee;font-size:.92rem;margin-bottom:14px}
+.view .meta{color:#c8d6eee2;font-size:.92rem;margin-bottom:14px}
 .view .hero{width:100%;height:auto;border-radius:12px;border:1px solid rgba(255,255,255,.18);margin:6px 0 12px}
 .view .back{display:inline-block;margin-top:14px;color:#cbe8ff;text-decoration:underline;font-weight:800}
 .view .back:hover{text-decoration:underline}
 
 /* Prose */
-.view .prose{max-width:72ch;line-height:1.7;font-size:1.02rem}
+.view .prose{max-width:78ch;line-height:1.7;font-size:0.98rem; font-weight:100px;}
 .view .prose p{margin:0 0 1rem}
 .view .prose blockquote{
   margin:1rem 0;padding:.8rem 1rem;border-left:4px solid var(--accent);background:rgba(255,255,255,.06);border-radius:8px
 }
 .view .prose hr{border:0;border-top:1px solid rgba(255,255,255,.14);margin:1.1rem 0}
 .view .prose figure{margin:1rem 0}
-.view .prose figcaption{font-size:.9rem;color:#c8d6ee;margin-top:.4rem}
+.view .prose figcaption{font-size:.7rem;color:#c8d6ee;margin-top:.4rem}
 
 /* Video */
 .video-wrap .tip{color:#c8d6ee;font-size:.9rem;margin-top:6px}
@@ -361,11 +441,12 @@ video{width:100%;height:auto;display:block;margin-top:8px;background:#000;border
 /* ===================== */
 .card.glass.login-card{
     background: linear-gradient(
-    135deg,
+    0deg,
     rgba(255, 216, 107, 0.9) 0%,
     rgba(255, 255, 255, 0.5) 100%
   );
   border:1px solid rgba(216, 198, 32, 0.595);
+  border-radius: 9px;
   color:#0b0f1f; /* testi blu scuro */
 }
 
@@ -387,12 +468,39 @@ video{width:100%;height:auto;display:block;margin-top:8px;background:#000;border
   color:#ffffff;        /* testo bianco */
   border-radius:10px;
   border:0;
-  font-weight:700;
+  font-weight:300;
   font-size:.92rem;
-  padding:.52rem .8rem;
+  padding:.5rem 1.1rem;
 }
 .card.glass.login-card .btn:hover{
-  background:#13214a; /* blu leggermente più chiaro */
+  background:#feec89; /* blu leggermente più chiaro */
+  color:#0b0f1f;
+  font-weight:300;
+  box-shadow:0 0 6px rgba(255, 255, 255, 0.6);
+}
+
+.login-actions{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:6px;
+}
+
+.remember-wrap{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:.82rem;
+  font-weight:500;
+  color:#0b0f1f;
+  user-select:none;
+}
+
+.remember-wrap input{
+  width:16px;
+  height:16px;
+  accent-color: #0b0f1f;
 }
 
 /* --- CENTRATURA IMMAGINI NELLA VISTA ARTICOLO --- */
@@ -419,8 +527,8 @@ video{width:100%;height:auto;display:block;margin-top:8px;background:#000;border
   border:1px solid rgba(255,255,255,.18);
 }
 .view .prose figcaption{
-  font-size:.9rem;
-  color:#c8d6ee;
+  font-size:.7rem;
+  color:#c8d6eeee;
   margin-top:.4rem;
 }
 
@@ -430,7 +538,7 @@ video{width:100%;height:auto;display:block;margin-top:8px;background:#000;border
   margin:8px auto;                    /* centrata */
   max-width:min(720px, 95%);
   height:auto;
-  border-radius:8px;
+  border-radius:6px;
   border:1px solid rgba(255,255,255,.18);
 }
 
@@ -535,4 +643,105 @@ video{width:100%;height:auto;display:block;margin-top:8px;background:#000;border
 
 .placeholder h2 {
   color:#d4af37;                /* anche il titolo “Widget” se vuoi in oro */
+}
+
+/* ===================== */
+/* EXIT BUTTON (fixed)   */
+/* ===================== */
+
+.exit-btn{
+  position: fixed;
+  right: 16px;
+  top: 95%;
+  transform: translateY(-50%);
+  z-index: 900;
+
+  padding: .55rem .9rem;
+  border-radius: 999px;
+  font-weight: 300;
+  font-size: .85rem;
+  text-decoration: none;
+
+  /* glass blu */
+  background: linear-gradient(
+    135deg,
+    rgba(16, 32, 83, 0.35),
+    rgba(40, 70, 160, 0.25)
+  );
+  color: #e7efff;
+
+  border: 1px solid rgba(200, 215, 255, 0.25);
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 6px 18px rgba(0,0,0,.35),
+    inset 0 0 0 1px rgba(255,255,255,.08);
+
+  transition:
+    transform .15s ease,
+    box-shadow .2s ease,
+    background .2s ease;
+}
+
+.exit-btn:hover{
+  transform: translateY(-50%) translateX(-2px);
+  background: linear-gradient(
+    135deg,
+    rgba(120, 160, 255, 0.45),
+    rgba(60, 100, 220, 0.35)
+  );
+  box-shadow:
+    0 10px 26px rgba(0,0,0,.45),
+    inset 0 0 0 1px rgba(255,255,255,.14);
+}
+
+/* ===================== */
+/* Scrollbar (themed)    */
+/* ===================== */
+
+/* Firefox */
+*{
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,216,107,.55) rgba(255,255,255,.08);
+}
+
+/* Chrome / Edge / Safari */
+::-webkit-scrollbar{
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track{
+  background: rgba(255,255,255,.08);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb{
+  background: linear-gradient(180deg, rgba(255,216,107,.75), rgba(255,242,182,.45));
+  border-radius: 999px;
+  border: 2px solid rgba(255,255,255,.08);
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background: linear-gradient(180deg, rgba(255,216,107,.95), rgba(255,242,182,.65));
+}
+
+
+/* ABOUT: layout più “hero” e meno muro di testo */
+.view.about{ padding:18px 22px 22px; }
+
+.view.about .prose{ 
+  max-width: 86ch;
+  margin: 0 auto;
+}
+
+/* titolo About più simile al resto del sito */
+.view.about .prose h1{
+  margin: 0 0 10px 0;
+  font-size: 2rem;
+  line-height: 1.05;
+  letter-spacing: .2px;
+}
+.view.about .prose h2{
+  margin-top: 18px;
 }

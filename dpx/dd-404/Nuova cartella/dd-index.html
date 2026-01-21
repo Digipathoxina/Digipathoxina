@@ -1,0 +1,51 @@
+<!-- dd-index.html -->
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>DD-404</title>
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+
+  <!-- Model Viewer -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="dd-styles.css">
+</head>
+
+<body>
+
+  <model-viewer id="viewer" src="room-brainrot.glb" camera-controls interaction-prompt="none"
+    camera-orbit="10deg 82deg 13m" camera-target="0m 1m 0m" min-camera-orbit="auto auto 0.1m"
+    max-camera-orbit="auto auto 100m" field-of-view="65deg" environment-image="moon.hdr" exposure="0.6"
+    shadow-intensity="0.3" autoplay>
+  </model-viewer>
+
+  <div class="phase-glitch" aria-hidden="true"></div>
+
+  <!-- Loader: solo testo -->
+  <div id="loader" class="loader">
+    <button id="hint" class="loader__hint" type="button" aria-label="Loading"></button>
+    <div id="subhint" class="loader__subhint" aria-label="Headphones recommended">Headphones recommended</div>
+  </div>
+<!-- Exit (next page) -->
+  <a id="exitBtn" class="exit-btn" href="ca-pill/ca-pill-index.html" aria-label="Go to next page">
+    <img src="exit.png" alt="Exit" />
+  </a>
+
+  <!-- hidden mixer UI (kept for “play all” mixing logic) -->
+  <div id="animMixer" class="anim-mixer" aria-hidden="true"></div>
+
+  <audio id="bgAudio" src="binaural-sound.mp3" preload="auto" loop></audio>
+
+  <!-- Script -->
+  <script src="dd-script.js"></script>
+
+</body>
+</html>
