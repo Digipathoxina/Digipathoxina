@@ -64,6 +64,20 @@ const makeText = (content, posClass) => {
   el.className = 'a-text';
   if (posClass) el.classList.add(posClass);
   el.textContent = content;
+  // Doppio click: seleziona tutta la scritta
+  el.addEventListener('dblclick', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      const sel = window.getSelection();
+      if (sel) {
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+    } catch (_) {}
+  });
   root.appendChild(el);
   textEls.push(el);
   return el;
@@ -113,7 +127,8 @@ const randomizeSideTextPositions = () => {
   const used = [];
   const collides = (r) => used.some(u => !(r.right < u.left || r.left > u.right || r.bottom < u.top || r.top > u.bottom));
 
-  for (const el of sideTexts) {
+  for (let i = 0; i < sideTexts.length; i++) {
+    const el = sideTexts[i];
     // reset (ma non tocca colore/visibilità)
     el.style.top = '';
     el.style.bottom = '';
@@ -122,8 +137,8 @@ const randomizeSideTextPositions = () => {
     el.style.transform = '';
     el.style.maxWidth = '';
 
-    // decide lato
-    const side = (Math.random() < 0.5) ? 'left' : 'right';
+    // decide lato (garantisce distribuzione sinistra/destra)
+    const side = (i % 2 === 0) ? 'left' : 'right';
     el.style.maxWidth = `${Math.max(220, Math.min(sideMaxW, 420))}px`;
 
     // prova alcune volte a trovare una posizione ok
@@ -137,6 +152,7 @@ const randomizeSideTextPositions = () => {
         const x = pad + Math.random() * (sideMaxW - pad);
         el.style.left = `${x}px`;
         el.style.top = `${y}px`;
+        el.style.textAlign = 'left';
       } else {
         const x = pad + Math.random() * (sideMaxW - pad);
         el.style.right = `${x}px`;

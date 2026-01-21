@@ -117,7 +117,9 @@ html, body {
   width: auto;
   max-width: 40%;
   z-index: 3;              /* sopra il GLB */
-  color: #ffffff00;        /* come da tua modifica */
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+/* come da tua modifica */
   font-size: 15px;
   font-family: "Courier New", Courier, monospace;
   white-space: pre-line;
@@ -130,6 +132,14 @@ html, body {
   opacity: 1;              /* visibile quando il GLB appare */
 }
 
+
+/* Selezione testo più "spenta" (meno blu acceso) */
+.a-exp ::selection {
+  background: rgba(0,0,0,.18);
+}
+.a-exp ::-moz-selection {
+  background: rgba(0,0,0,.18);
+}
 /* Posizionamenti testi (ai lati del modello) */
 .a-exp .a-text.pos-lb { left: 20px; bottom: 20px; }
 .a-exp .a-text.pos-lt { left: 20px; top: 20px; }
@@ -168,3 +178,14 @@ html, body {
   transition: opacity var(--fade-ms, 900ms) ease;
 }
 .a-exp .black-overlay.on { opacity: 1; }
+
+
+/* Selection (più spento) */
+.a-exp ::selection {
+  background: rgba(0, 0, 0, 0.264);
+  color: #fff;
+}
+.a-exp ::-moz-selection {
+  background: rgba(0,0,0,0.18);
+  color: #fff;
+}
