@@ -4,7 +4,7 @@ html, body {
   margin: 0;
   background: #111;
   overflow: hidden;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-family: "Courier New", Courier, monospace;
 }
 .pill-section { position: fixed; inset: 0; }
 
@@ -69,9 +69,34 @@ html, body {
 /* ===== Esperienza A ===== */
 .a-exp {
   position: fixed; inset: 0;
-  background: #fff;             /* <<< il “colore di arrivo” */
+  background: #fff;
   overflow: hidden;
 }
+
+
+/* Cursor: evita aree "senza cursore" (utile se il cursore di sistema è chiaro su sfondo bianco) */
+.a-exp { cursor: default; }
+.a-exp model-viewer.a-model { cursor: default; }
+.a-exp video.a-video { cursor: default; }
+.a-exp .a-text { cursor: text; }
+
+/* Marker cursore sempre visibile (non sostituisce il cursore di sistema) */
+.a-exp .a-cursor{
+  position: fixed;
+  top: 0; left: 0;
+  width: 10px; height: 10px;
+  margin-left: -5px; margin-top: -5px;
+  border-radius: 999px;
+  border: 1px solid #000;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: difference;
+  transition: opacity .15s ease;
+}
+.a-exp .a-cursor.on{ opacity: 1; }
+
+
 .a-exp.fade-out { opacity: 0; transition: opacity var(--fade-ms, 900ms) ease; }
 
 /* Video sotto (z:1) */
@@ -79,20 +104,23 @@ html, body {
   position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover;
   z-index: 1;
-  background: #ffffff;
+  background: #fff;
 }
 
 /* Testo: ora appare con il GLB (classe .show) */
 .a-exp .a-text {
   position: absolute;
-  bottom: 20px;
-  left: 20px;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
   width: auto;
-  max-width: 30%;
+  max-width: 40%;
   z-index: 3;              /* sopra il GLB */
   color: #ffffff00;        /* come da tua modifica */
   font-size: 15px;
-  font-family:"Anonymous Pro", monospace; 
+  font-family: "Courier New", Courier, monospace;
+  white-space: pre-line;
   user-select: text;
   pointer-events: auto;
   opacity: 0;              /* nascosto di default */
@@ -101,6 +129,16 @@ html, body {
 .a-exp .a-text.show {
   opacity: 1;              /* visibile quando il GLB appare */
 }
+
+/* Posizionamenti testi (ai lati del modello) */
+.a-exp .a-text.pos-lb { left: 20px; bottom: 20px; }
+.a-exp .a-text.pos-lt { left: 20px; top: 20px; }
+.a-exp .a-text.pos-lm { left: 20px; top: 50%; transform: translateY(-50%); }
+
+.a-exp .a-text.pos-rt { right: 20px; top: 20px; text-align: right; }
+.a-exp .a-text.pos-rm { right: 20px; top: 50%; transform: translateY(-50%); text-align: right; }
+.a-exp .a-text.pos-rb { right: 20px; bottom: 20px; text-align: right; }
+.a-exp .a-text.pos-rb2 { right: 20px; bottom: 90px; text-align: right; }
 
 /* GLB (z:2) */
 .a-exp model-viewer.a-model {
@@ -121,7 +159,7 @@ html, body {
 }
 .a-exp model-viewer.a-model.show { opacity: 1; }
 
-/* Overlay per dissolve finale (bianco) */
+/* Overlay per dissolve finale */
 .a-exp .black-overlay {
   position: absolute; inset: 0;
   background: #fff;
@@ -130,16 +168,3 @@ html, body {
   transition: opacity var(--fade-ms, 900ms) ease;
 }
 .a-exp .black-overlay.on { opacity: 1; }
-
-/* <<< NUOVO: overlay iniziale nero che svanisce mostrando il bianco dietro */
-.a-exp .white-fade {
-  position: absolute; inset: 0;
-  background: #000000;           /* parte nero */
-  z-index: 5;                 /* sopra a tutto all’inizio */
-  opacity: 1;                 /* pieno all'inizio */
-  pointer-events: none;
-  transition: opacity 4s ease; /* regola la durata della transizione */
-}
-.a-exp .white-fade.off {
-  opacity: 0;                 /* diventa trasparente (rimane il bianco di .a-exp) */
-}
