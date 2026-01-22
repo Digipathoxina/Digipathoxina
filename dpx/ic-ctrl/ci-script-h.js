@@ -66,12 +66,12 @@
   const TEXTS = {
     eng: {
       intro: "So happy to see you again! Ready to continue? Press this little button.",
-      button: "little button",
+      button: "Next",
       ehi: "Pick one of these folders to continue. I’ll wait right here! (click a panel)"
     },
     ita: {
       intro: "Che gioia rivederti! Pronta a proseguire? Premi questo pulsantino.",
-      button: "pulsantino",
+      button: "Next",
       ehi: "Scegli una di queste cartelle per continuare. Ti aspetto qui! (clicca un pannello)"
     }
   };
@@ -382,7 +382,7 @@
 
     introBubbleEl = document.createElement('div');
     introBubbleEl.className = 'h-bubble';
-    introBubbleEl.innerHTML = `<span class="h-bubble-text" id="hk_bubble_text"></span><button type="button" class="h-btn" id="hk_btn">pulsantino</button>`;
+    introBubbleEl.innerHTML = `<span class="h-bubble-text" id="hk_bubble_text"></span><button type="button" class="h-btn" id="hk_btn">Next</button>`;
     charEl.appendChild(introBubbleEl);
 
     charEl.addEventListener('click', () => { registerActivity(); bringImagesToFront(); });
@@ -946,23 +946,27 @@ function placeNonOverlappingDom(w,h){ return placeInEmptySlot(w,h); }
 
   // ----- INTRO BUTTON → wallpaper + ehi + prima immagine -----
   async function onIntroBtn(){
+    // NUOVO FLOW: clic su "Next" -> vai subito al glitch, pausa 2s, redirect a eo-pill
     const wp = ensureWallpaper();
-    wp.style.backgroundImage = `url("${WALLPAPER_SRC}")`;
-    requestAnimationFrame(()=> { wp.style.opacity = '1'; });
+    try { wp.style.backgroundImage = `url("${WALLPAPER_SRC}")`; } catch {}
+    requestAnimationFrame(()=> { try { wp.style.opacity = '1'; } catch {} });
 
+    // Spegni la fase 1 (popup + handle #11)
     try { document.dispatchEvent(new Event('phase:popups:disable')); } catch {}
     if (h11Handle && !h11Handle.closed) { try { h11Handle.close(); } catch {} }
     h11Handle = null;
 
+    // Nascondi intro UI e blocca interazioni
     hideIntroBubble();
+    lockLangSwitch(true);
+    glitching = true;
 
-    await playInstant(CHARACTER.ehi, { loop:true, useStandby:true });
-    showEhiBubble();
-    firstPanelClicked = false;
+    // Metti Hello Kitty direttamente in loop "glitch"
+    const act = await playInstant(CHARACTER.glitch, { loop:true, useStandby:true });
+    startSegmentLoopMs(act, GLITCH_WINDOW_MS);
 
-    buildSequence();
-    spawnNextImage();
-    resetIdleTimer();
+    // Dopo 2 secondi: vai alla pagina successiva
+    setTimeout(()=>{ try{ window.location.href = PILL_REDIRECT_URL; }catch{} }, 2000);
   }
 
   // ----- START -----

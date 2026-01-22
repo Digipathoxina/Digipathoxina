@@ -337,7 +337,7 @@
   function htmlForMedia(srcWebm, scale, index) {
     const srcMp4 = srcWebm.replace(/\.webm$/i, '.mp4');
     const srcGif = srcWebm.replace(/\.(webm|mp4)$/i, '.gif');
-    const safeTitle = (srcWebm.split('/').pop() || '').replace(/"/g, '&quot;');
+    const safeTitle = 'Cancellami';
     return `<!DOCTYPE html>
 <html>
 <head>

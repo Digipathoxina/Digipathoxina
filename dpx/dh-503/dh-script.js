@@ -24,8 +24,6 @@ function tc(h, m, s, f) { return (h * 3600) + (m * 60) + s + (f / FPS); }
 const T_PAUSE_1 = tc(0, 0, 3, 16);
 // pause 2: RED BUTTON
 const T_PAUSE_RED = tc(0, 0, 10, 8);
-// pause 3: BLUE BUTTON
-const T_PAUSE_BLUE = tc(0, 0, 18, 10);
 
 // INPUT WINDOW
 const T_INPUT_SHOW = tc(0, 0, 19, 11);
@@ -55,7 +53,6 @@ const cardVid = document.getElementById("cardVid");
 
 const continueBtn = document.getElementById("continueBtn");
 const btnRed = document.getElementById("btnRed");
-const btnBlue = document.getElementById("btnBlue");
 
 const bottomCenter = document.querySelector(".bottom-center");
 const inputWrap = document.getElementById("inputWrap");
@@ -84,7 +81,6 @@ must(cardWindowEl, "cardWindow");
 must(cardVid, "cardVid");
 must(continueBtn, "continueBtn");
 must(btnRed, "btnRed");
-must(btnBlue, "btnBlue");
 must(inputWrap, "inputWrap");
 must(userInput, "userInput");
 must(printedText, "printedText");
@@ -135,7 +131,6 @@ let openDoorHasEnded = false;
 
 let pause1Done = false;
 let pauseRedDone = false;
-let pauseBlueDone = false;
 
 // input window state
 let inputShown = false;
@@ -379,7 +374,6 @@ const growTimer = setInterval(() => {
 
 function hideCheckpointButtons() {
   if (btnRed) btnRed.classList.remove("is-visible");
-  if (btnBlue) btnBlue.classList.remove("is-visible");
 }
 
 function showRedCheckpoint() {
@@ -391,14 +385,6 @@ function showRedCheckpoint() {
   };
 }
 
-function showBlueCheckpoint() {
-  if (!btnBlue) return;
-  btnBlue.classList.add("is-visible");
-  btnBlue.onclick = () => {
-    btnBlue.classList.remove("is-visible");
-    resumeDhGame();
-  };
-}
 
 function showContinueButton() {
   continueBtn.classList.add("is-visible");
@@ -504,7 +490,6 @@ openDoor.addEventListener("ended", async () => {
   // reset checkpoint state
   pause1Done = false;
   pauseRedDone = false;
-  pauseBlueDone = false;
   hideCheckpointButtons();
   continueBtn.classList.remove("is-visible");
 
@@ -551,12 +536,6 @@ dhGame.addEventListener("timeupdate", () => {
     return;
   }
 
-  // 3) BLUE button
-  if (!pauseBlueDone && t >= T_PAUSE_BLUE) {
-    pauseBlueDone = true;
-    pauseAtCheckpoint(() => showBlueCheckpoint());
-    return;
-  }
 
   // INPUT appears (no pause)
   if (!inputShown && t >= T_INPUT_SHOW) {
