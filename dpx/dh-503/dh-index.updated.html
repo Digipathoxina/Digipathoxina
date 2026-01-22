@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="it">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>DH-503</title>
+
+  <link rel="icon" href="data:,">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/png" href="../../favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="../../favicon/favicon.svg" />
+  <link rel="shortcut icon" href="../../favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Digipathoxina" />
+  <link rel="manifest" href="../../favicon/site.webmanifest" />
+
+  <link rel="stylesheet" href="dh-styles.updated.css">
+
+</head>
+
+<body>
+  <div class="stage">
+
+    <video id="openDoor" class="bg-video" preload="auto" playsinline webkit-playsinline>
+      <source src="open-door.mp4" type="video/mp4" />
+    </video>
+
+    <!-- dhGame can be fullscreen OR boxed (controlled by JS config) -->
+    <!-- MOD: poster + background -->
+    <video id="dhGameFull" class="bg-video" preload="auto" playsinline webkit-playsinline poster="dc-desktop.jpg">
+      <source src="dh-game.mp4" type="video/mp4" />
+    </video>
+
+    <div class="dh-game-wrap" id="dhGameWrap" aria-hidden="true">
+      <div class="dh-game-box">
+        <!-- MOD: poster + background -->
+        <video id="dhGameBoxed" preload="auto" playsinline webkit-playsinline poster="dc-desktop.jpg">
+          <source src="dh-game.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+
+    <div class="glitch" id="glitch"></div>
+
+    <!-- START OVERLAY -->
+    <div class="start-overlay" id="startOverlay">
+      <div class="keys-field" id="keysField"></div>
+    </div>
+
+    <!-- Card LEFT -->
+    <div class="card-wrap" id="cardWrap" aria-hidden="true">
+      <div class="window" id="cardWindow">
+        <div class="win-topbar">
+          <div class="dots" aria-hidden="true">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          </div>
+        </div>
+
+        <div class="win-body">
+          <video id="cardVid" preload="auto" playsinline webkit-playsinline muted>
+            <source src="luca_carlevarino.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+        <div class="win-footer">
+          <span class="path">luca-carlevarino/Cosa_hanno_in_comune_una</span>
+          _melma_e_il_digital&nbsp;hoarding?/2025/
+        </div>
+      </div>
+    </div>
+
+    <button class="continue-btn" id="continueBtn" type="button">CONTINUA</button>
+    <button class="checkpoint-btn checkpoint-red" id="btnRed" type="button" aria-label="checkpoint red"></button>
+    <div class="bottom-center">
+      <div class="input-wrap" id="inputWrap">
+        <input class="input-bar" id="userInput" type="text" maxlength="44" placeholder="Type and press Enter..." />
+      </div>
+
+      <!-- printed text only -->
+      <div class="printed-text" id="printedText"></div>
+    </div>
+
+    <!-- Final -->
+    <div class="final" id="finalScreen">
+      <div class="final-inner">
+
+        <!-- layer sopra lo sfondo (z-index 2) -->
+        <img class="final-layer final-solo" src="composizione_solo.png" alt="composizione_solo" />
+
+        <!-- tasti sopra tutto -->
+        <div class="final-actions">
+          <img class="img-btn" id="btnNo" src="not-no.png" alt="no" />
+          <img class="img-btn" id="btnYes" src="yes-no.png" alt="yes" />
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script src="dh-script.updated.js"></script>
+
+</body>
+
+</html>
