@@ -1,0 +1,131 @@
+* { box-sizing: border-box; user-select: none; }
+
+body {
+  margin: 0;
+  background: black;
+  overflow: hidden;
+  font-family: monospace;
+}
+
+/* PNG STATICI */
+.gruppo { position: absolute; width: 70rem; height: auto; }
+.g0 { left: 8%; top: 0%; }
+.g1 { left: 20%; top: 0%; }
+.g2 { left: 17.5%; top: 13%; }
+.g3 { left: 12.5%; top: 13%; }
+
+/* DONNINA (NON RIDOTTA) */
+#donnina {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 350px; /* lasciata com'era */
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 5;
+}
+
+/* ABO IMMAGINI */
+.abo {
+  position: absolute;
+  width: 330px;
+  border-radius: 5px;
+  height: auto;
+  cursor: grab;
+  z-index: 6;
+}
+
+/* CERCHI */
+.cerchio-container { position: absolute; top: 30%; }
+.left { left: 26%; right: 6%;}
+.right { left: 64%;right: 6%; }
+
+.cerchio {
+  width: 165px;
+  height: auto;
+  cursor: grab;
+  display: block;
+}
+
+.cerchio-btn {
+  position: absolute;
+  width: 60px;
+  height: auto;
+  left: 80px;
+  transform: translateX(-50%);
+  top: 50px;
+  cursor: pointer;
+  z-index: 3;
+}
+
+/* SLIDER */
+#sliders {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.slider {
+  position: absolute;
+  width: 20px;
+  height: 300px;
+  pointer-events: auto;
+}
+
+#slider-1 { left: 5%; top: 15%; }
+#slider-2 { left: 18%; top: 25%; }
+#slider-3 { right: 18%; top: 20%; }
+#slider-4 { right: 5%; top: 30%; }
+
+.slider .asta {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.slider .cursore {
+  position: absolute;
+  width: 300%;
+  transform: translateX(-18px);
+  cursor: grab;
+}
+
+/* Pulsanti slider */
+.slider .btn-top,
+.slider .btn-bottom {
+  position: absolute;
+  width: 100%;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.slider .btn-top { top: -35px; }
+.slider .btn-bottom { bottom: -35px; }
+
+/* BOTTONE ROSSO */
+#nav-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: red;
+  border: none;
+  cursor: pointer;
+  z-index: 999;
+}
+
+/* FONTANA LINK */
+#fountain a {
+  position: absolute;
+  color: white;
+  text-decoration: underline;
+  font-size: 16px;
+  pointer-events: none;
+  transform: rotate(90deg);
+  transform-origin: left top;
+  opacity: 0;
+  white-space: nowrap;
+}
