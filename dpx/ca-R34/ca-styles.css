@@ -7,7 +7,8 @@ body {
   font-family: monospace;
 }
 
-/* PNG STATICI */
+
+/* PNG/GIF STATICI */
 .gruppo { position: absolute; width: 70rem; height: auto; }
 .g0 { left: 8%; top: 0%; }
 .g1 { left: 20%; top: 0%; }
@@ -18,8 +19,8 @@ body {
 #donnina {
   position: absolute;
   left: 50%;
-  top: 50%;
-  width: 350px; /* lasciata com'era */
+  top: 45%;
+  width: 370px;
   transform: translate(-50%, -50%);
   cursor: pointer;
   z-index: 5;
@@ -37,8 +38,8 @@ body {
 
 /* CERCHI */
 .cerchio-container { position: absolute; top: 30%; }
-.left { left: 26%; right: 6%;}
-.right { left: 64%;right: 6%; }
+.left { left: 26%; right: 6%; }
+.right { left: 64%; right: 6%; }
 
 .cerchio {
   width: 165px;
@@ -73,10 +74,21 @@ body {
   pointer-events: auto;
 }
 
-#slider-1 { left: 5%; top: 15%; }
-#slider-2 { left: 18%; top: 25%; }
-#slider-3 { right: 18%; top: 20%; }
-#slider-4 { right: 5%; top: 30%; }
+/* LEFT + TOP per ogni singolo slider (1..6) */
+#slider-1 { left: 14%;  top: 42%; }
+#slider-2 { left: 17.8%; top: 37%; }
+#slider-3 { right: 14%; top: 42%; }
+#slider-4 { right: 17.5%;  top: 37%; }
+
+/* Centrali */
+#slider-5 { left: 51%; top: 74%; }
+#slider-6 { left: 51%; top: 80%; }
+
+/* Slider orizzontali: ruotati di 90° */
+.slider.horizontal {
+  transform: translate(-50%, -50%) rotate(90deg);
+  transform-origin: center;
+}
 
 .slider .asta {
   position: absolute;
@@ -86,8 +98,8 @@ body {
 
 .slider .cursore {
   position: absolute;
-  width: 300%;
-  transform: translateX(-18px);
+  width: 260%;
+  transform: translateX(-15px);
   cursor: grab;
 }
 
@@ -108,8 +120,8 @@ body {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   background: red;
   border: none;
@@ -124,8 +136,51 @@ body {
   text-decoration: underline;
   font-size: 16px;
   pointer-events: none;
-  transform: rotate(90deg);
   transform-origin: left top;
   opacity: 0;
   white-space: nowrap;
+}
+
+/* Parametri principali */
+:root{
+  --noise-opacity: 0.10;     /* 🔧 intensità: 0.04 (leggero) → 0.18 (forte) */
+  --noise-size: 140px;       /* 🔧 grana: più piccolo = più “fitto” (80px) */
+  --noise-speed: 0.35s;      /* 🔧 movimento: più basso = più nervoso (0.18s) */
+}
+
+/* overlay sopra il nero, NON sposta nulla */
+body::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999; /* sopra lo sfondo: se vuoi sotto i link metti 2-3 */
+
+  opacity: var(--noise-opacity);
+
+  /* Noise 100% CSS: due layer di puntinato/texture */
+  background-image:
+    repeating-radial-gradient(circle at 20% 30%,
+      rgba(255,255,255,0.055) 0 1px,
+      rgba(0,0,0,0) 1px 3px),
+    repeating-radial-gradient(circle at 70% 60%,
+      rgba(255,255,255,0.040) 0 1px,
+      rgba(0,0,0,0) 1px 4px);
+
+  background-size: var(--noise-size) var(--noise-size);
+  background-position: 0 0, 40px 25px;
+
+  /* rende il noise più “grana” senza cambiare layout */
+  filter: contrast(120%) brightness(105%);
+
+  animation: noiseJitter var(--noise-speed) steps(2) infinite;
+}
+
+@keyframes noiseJitter{
+  0%   { transform: translate(0,0); }
+  20%  { transform: translate(-2px, 1px); }
+  40%  { transform: translate(1px,-2px); }
+  60%  { transform: translate(-1px,2px); }
+  80%  { transform: translate(2px,-1px); }
+  100% { transform: translate(0,0); }
 }
