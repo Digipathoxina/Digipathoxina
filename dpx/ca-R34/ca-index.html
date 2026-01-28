@@ -14,50 +14,51 @@
   <link rel="stylesheet" href="ca-styles.css" />
 </head>
 
-<body>
+<body class="preclick"></body>
+<!-- BLOCCHI IMMAGINI -->
+<img src="gif/blocco-1.gif" class="gruppo g0" alt="" />
+<img src="gif/blocco-2.gif" class="gruppo g1" alt="" />
+<img src="gif/blocco-3.gif" class="gruppo g2" alt="" />
+<img src="gif/blocco-4.gif" class="gruppo g3" alt="" />
+<img src="gif/gruppo-5.png" class="gruppo g4" alt="" />
+<img src="gif/gruppo-6.png" class="gruppo g5" alt="" />
 
-  <!-- BLOCCHI IMMAGINI -->
-  <img src="gif/blocco-1.gif" class="gruppo g0" alt="" />
-  <img src="gif/blocco-2.gif" class="gruppo g1" alt="" />
-  <img src="gif/blocco-3.gif" class="gruppo g2" alt="" />
-  <img src="gif/blocco-4.gif" class="gruppo g3" alt="" />
+<!-- GIF CENTRALE -->
+<img src="donnina.gif" id="donnina" alt="" />
 
-  <!-- GIF CENTRALE -->
-  <img src="donnina.gif" id="donnina" alt="" />
+<!-- IMMAGINI MOBILI -->
+<div id="abo-container"></div>
 
-  <!-- IMMAGINI MOBILI -->
-  <div id="abo-container"></div>
+<!-- CERCHI -->
+<div class="cerchio-container left">
+  <img src="tasti/bottone.png" class="cerchio-btn" alt="" />
+  <img src="tasti/cerchio.png" class="cerchio" id="cerchio-1" alt="" />
+</div>
 
-  <!-- CERCHI -->
-  <div class="cerchio-container left">
-    <img src="tasti/bottone.png" class="cerchio-btn" alt="" />
-    <img src="tasti/cerchio.png" class="cerchio" id="cerchio-1" alt="" />
-  </div>
+<div class="cerchio-container right">
+  <img src="tasti/bottone.png" class="cerchio-btn" alt="" />
+  <img src="tasti/cerchio.png" class="cerchio" id="cerchio-2" alt="" />
+</div>
 
-  <div class="cerchio-container right">
-    <img src="tasti/bottone.png" class="cerchio-btn" alt="" />
-    <img src="tasti/cerchio.png" class="cerchio" id="cerchio-2" alt="" />
-  </div>
+<!-- SLIDER -->
+<div id="sliders">
+  <div class="slider" id="slider-1"></div>
+  <div class="slider" id="slider-2"></div>
+  <div class="slider" id="slider-3"></div>
+  <div class="slider" id="slider-4"></div>
 
-  <!-- SLIDER -->
-  <div id="sliders">
-    <div class="slider" id="slider-1"></div>
-    <div class="slider" id="slider-2"></div>
-    <div class="slider" id="slider-3"></div>
-    <div class="slider" id="slider-4"></div>
+  <!-- SLIDER ORIZZONTALI (ruotate 90°) -->
+  <div class="slider horizontal" id="slider-5"></div>
+  <div class="slider horizontal" id="slider-6"></div>
+</div>
 
-    <!-- SLIDER ORIZZONTALI (ruotate 90°) -->
-    <div class="slider horizontal" id="slider-5"></div>
-    <div class="slider horizontal" id="slider-6"></div>
-  </div>
+<!-- BOTTONE ROSSO -->
+<button id="nav-btn" aria-label="next"></button>
 
-  <!-- BOTTONE ROSSO -->
-  <button id="nav-btn" aria-label="next"></button>
+<!-- FONTANA LINK -->
+<div id="fountain"></div>
 
-  <!-- FONTANA LINK -->
-  <div id="fountain"></div>
-
-  <script src="ca-script.js"></script>
+<script src="ca-script.js"></script>
 </body>
 
 </html>

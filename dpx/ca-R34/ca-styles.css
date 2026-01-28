@@ -1,19 +1,64 @@
-* { box-sizing: border-box; user-select: none; }
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
 
 body {
+  background-color: black;
   margin: 0;
-  background: black;
   overflow: hidden;
   font-family: monospace;
 }
 
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("background.gif");
+  background-repeat: repeat;
+  background-size: 100px auto;
+  opacity: 0.5; /* regola intensità */
+  pointer-events: none;
+  z-index: -1;
+}
+
 
 /* PNG/GIF STATICI */
-.gruppo { position: absolute; width: 70rem; height: auto; }
-.g0 { left: 8%; top: 0%; }
-.g1 { left: 20%; top: 0%; }
-.g2 { left: 17.5%; top: 13%; }
-.g3 { left: 12.5%; top: 13%; }
+.gruppo {
+  position: absolute;
+  width: 70rem;
+  height: auto;
+}
+
+.g0 {
+  left: 8.5%;
+  top: 0%;
+}
+
+.g1 {
+  left: 22.5%;
+  top: 0%;
+}
+
+.g2 {
+  left: 17.5%;
+  top: 13%;
+}
+
+.g3 {
+  left: 12.5%;
+  top: 13%;
+}
+
+.g4 {
+  left: 13%;
+  top: 13%;
+}
+
+.g5 {
+  left: 16%;
+  top: 13%;
+}
 
 /* DONNINA (NON RIDOTTA) */
 #donnina {
@@ -37,12 +82,23 @@ body {
 }
 
 /* CERCHI */
-.cerchio-container { position: absolute; top: 30%; }
-.left { left: 26%; right: 6%; }
-.right { left: 64%; right: 6%; }
+.cerchio-container {
+  position: absolute;
+  top: 30%;
+}
+
+.left {
+  left: 26%;
+  right: 6%;
+}
+
+.right {
+  left: 65%;
+  right: 6%;
+}
 
 .cerchio {
-  width: 165px;
+  width: 160px;
   height: auto;
   cursor: grab;
   display: block;
@@ -50,11 +106,11 @@ body {
 
 .cerchio-btn {
   position: absolute;
-  width: 60px;
+  width: 40px;
   height: auto;
   left: 80px;
   transform: translateX(-50%);
-  top: 50px;
+  top: 56px;
   cursor: pointer;
   z-index: 3;
 }
@@ -75,14 +131,36 @@ body {
 }
 
 /* LEFT + TOP per ogni singolo slider (1..6) */
-#slider-1 { left: 14%;  top: 42%; }
-#slider-2 { left: 17.8%; top: 37%; }
-#slider-3 { right: 14%; top: 42%; }
-#slider-4 { right: 17.5%;  top: 37%; }
+#slider-1 {
+  left: 14%;
+  top: 42%;
+}
+
+#slider-2 {
+  left: 17.8%;
+  top: 37%;
+}
+
+#slider-3 {
+  right: 12.2%;
+  top: 42%;
+}
+
+#slider-4 {
+  right: 16%;
+  top: 37%;
+}
 
 /* Centrali */
-#slider-5 { left: 51%; top: 74%; }
-#slider-6 { left: 51%; top: 80%; }
+#slider-5 {
+  left: 51%;
+  top: 74%;
+}
+
+#slider-6 {
+  left: 51%;
+  top: 80%;
+}
 
 /* Slider orizzontali: ruotati di 90° */
 .slider.horizontal {
@@ -112,8 +190,13 @@ body {
   z-index: 2;
 }
 
-.slider .btn-top { top: -35px; }
-.slider .btn-bottom { bottom: -35px; }
+.slider .btn-top {
+  top: -35px;
+}
+
+.slider .btn-bottom {
+  bottom: -35px;
+}
 
 /* BOTTONE ROSSO */
 #nav-btn {
@@ -142,30 +225,34 @@ body {
 }
 
 /* Parametri principali */
-:root{
-  --noise-opacity: 0.10;     /* 🔧 intensità: 0.04 (leggero) → 0.18 (forte) */
-  --noise-size: 140px;       /* 🔧 grana: più piccolo = più “fitto” (80px) */
-  --noise-speed: 0.35s;      /* 🔧 movimento: più basso = più nervoso (0.18s) */
+:root {
+  --noise-opacity: 0.10;
+  /* 🔧 intensità: 0.04 (leggero) → 0.18 (forte) */
+  --noise-size: 140px;
+  /* 🔧 grana: più piccolo = più “fitto” (80px) */
+  --noise-speed: 0.35s;
+  /* 🔧 movimento: più basso = più nervoso (0.18s) */
 }
 
 /* overlay sopra il nero, NON sposta nulla */
-body::before{
-  content:"";
+body::before {
+  content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 999; /* sopra lo sfondo: se vuoi sotto i link metti 2-3 */
+  z-index: 999;
+  /* sopra lo sfondo: se vuoi sotto i link metti 2-3 */
 
   opacity: var(--noise-opacity);
 
   /* Noise 100% CSS: due layer di puntinato/texture */
   background-image:
     repeating-radial-gradient(circle at 20% 30%,
-      rgba(255,255,255,0.055) 0 1px,
-      rgba(0,0,0,0) 1px 3px),
+      rgba(255, 255, 255, 0.055) 0 1px,
+      rgba(0, 0, 0, 0) 1px 3px),
     repeating-radial-gradient(circle at 70% 60%,
-      rgba(255,255,255,0.040) 0 1px,
-      rgba(0,0,0,0) 1px 4px);
+      rgba(255, 255, 255, 0.040) 0 1px,
+      rgba(0, 0, 0, 0) 1px 4px);
 
   background-size: var(--noise-size) var(--noise-size);
   background-position: 0 0, 40px 25px;
@@ -176,11 +263,66 @@ body::before{
   animation: noiseJitter var(--noise-speed) steps(2) infinite;
 }
 
-@keyframes noiseJitter{
-  0%   { transform: translate(0,0); }
-  20%  { transform: translate(-2px, 1px); }
-  40%  { transform: translate(1px,-2px); }
-  60%  { transform: translate(-1px,2px); }
-  80%  { transform: translate(2px,-1px); }
-  100% { transform: translate(0,0); }
+@keyframes noiseJitter {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  20% {
+    transform: translate(-2px, 1px);
+  }
+
+  40% {
+    transform: translate(1px, -2px);
+  }
+
+  60% {
+    transform: translate(-1px, 2px);
+  }
+
+  80% {
+    transform: translate(2px, -1px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* ============================
+   START: solo donnina visibile + reveal dissolve
+   ============================ */
+
+/* elementi nascosti prima del primo click */
+body.preclick .gruppo,
+body.preclick #abo-container,
+body.preclick .cerchio-container,
+body.preclick #sliders,
+body.preclick #nav-btn,
+body.preclick #fountain {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* transizione morbida (quando diventano visibili) */
+.gruppo,
+#abo-container,
+.cerchio-container,
+#sliders,
+#nav-btn,
+#fountain {
+  transition: opacity 700ms ease, visibility 0s linear 0ms;
+}
+
+/* dopo il primo click: visibili */
+body.revealed .gruppo,
+body.revealed #abo-container,
+body.revealed .cerchio-container,
+body.revealed #sliders,
+body.revealed #nav-btn,
+body.revealed #fountain {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }

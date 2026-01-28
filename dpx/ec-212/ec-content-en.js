@@ -167,8 +167,8 @@ window.CONTENT_EN = {
       thumb: "media/cat_god_post.jpg",
       excerpt: "It isn’t a theory—it’s the foundation: cats don’t resemble divinities, they are divinities. They watch from above, decide when to listen, judge in silence.",
       html: `
-    < img class= "hero" src = "media/cat_god_post.jpg" alt = "" >
-    <div class="prose">
+    <img class="hero" src="media/cat_god_post.jpg" alt="">
+          <div class="prose">
       <p>There’s no need to ask, and yet the question returns. Even though we call them “pets”… small, asking us for food, locked inside… <strong>they know</strong>.</p>
       <p>They know they don’t belong to us. They know they are here to be worshipped. They have never doubted it — not for a single instant.</p>
       <p><strong>If you don’t revere them, the mistake is yours.</strong></p>
@@ -228,18 +228,18 @@ window.CONTENT_EN = {
           `
     },
 
-          /* #ARTICLE 3 — The Internet of Cats (PINNED) */
-          {
-            slug: "the-internet-of-cats",
-          type: "post",
-          pinned: true,
-          title: "The Internet of Cats",
-          date: "2023-04-18",
-          time: "17:30",
-          tags: ["manifesto-internet"],
-          thumb: "media/cat_exe.jpg",
-          excerpt: "It isn’t just popularity: the web feels built to magnify devotion to cats. Every shared image is a seed of worship.",
-          html: `
+    /* #ARTICLE 3 — The Internet of Cats (PINNED) */
+    {
+      slug: "the-internet-of-cats",
+      type: "post",
+      pinned: true,
+      title: "The Internet of Cats",
+      date: "2023-04-18",
+      time: "17:30",
+      tags: ["manifesto-internet"],
+      thumb: "media/cat_exe.jpg",
+      excerpt: "It isn’t just popularity: the web feels built to magnify devotion to cats. Every shared image is a seed of worship.",
+      html: `
           <img class="hero" src="media/cat_exe.jpg" alt="">
             <div class="prose">
               <p>I’ve often wondered how cats became so dominant online. But “popularity” is too small. The net swarms with signs: images, memes, forums, strings of code with <code>cat</code>, videos, and AIs generating more. Even the quirky <em>Cat Distribution System</em> seems to fit perfectly.</p>
@@ -263,17 +263,17 @@ window.CONTENT_EN = {
             </div>
             `
     },
-            /* #ARTICLE 4 — 7 Commandments */
-            {
-              slug: "apocrypha-7",
-            type: "post",
-            title: "7 Commandments",
-            date: "2023-02-26",
-            time: "08:45",
-            tags: ["apocrypha-7"],
-            thumb: "media/7_rules.jpg",
-            excerpt: "Simple rules, obeyed by anyone who lives with a cat—though no one ever wrote them down. It isn’t habit; it’s a divine decalogue.",
-            html: `
+    /* #ARTICLE 4 — 7 Commandments */
+    {
+      slug: "apocrypha-7",
+      type: "post",
+      title: "7 Commandments",
+      date: "2023-02-26",
+      time: "08:45",
+      tags: ["apocrypha-7"],
+      thumb: "media/7_rules.jpg",
+      excerpt: "Simple rules, obeyed by anyone who lives with a cat—though no one ever wrote them down. It isn’t habit; it’s a divine decalogue.",
+      html: `
             <img class="hero" src="media/7_rules.jpg" alt="">
               <div class="prose">
                 <p>No cult exists without law, and no law is older or more instinctive than the law of cats. You won’t find stone tablets or prophets who carved them: the feline commandments were never proclaimed, only revealed in everyday life.</p>
@@ -302,17 +302,17 @@ window.CONTENT_EN = {
               `
     },
 
-              /* #ARTICLE 5 — Edible Cats */
-              {
-                slug: "eucharistic-rituals",
-              type: "post",
-              title: "Edible Cats | The Daily Host",
-              date: "2025-01-07",
-              time: "11:35",
-              tags: ["eucharistic-rituals"],
-              thumb: "media/gnam_cat.jpg",
-              excerpt: "Why do we want to eat them—dream of them as sushi, gelato, bread, little cakes? Perhaps it is the desire to merge with them, to make them part of ourselves.",
-              html: `
+    /* #ARTICLE 5 — Edible Cats */
+    {
+      slug: "eucharistic-rituals",
+      type: "post",
+      title: "Edible Cats | The Daily Host",
+      date: "2025-01-07",
+      time: "11:35",
+      tags: ["eucharistic-rituals"],
+      thumb: "media/gnam_cat.jpg",
+      excerpt: "Why do we want to eat them—dream of them as sushi, gelato, bread, little cakes? Perhaps it is the desire to merge with them, to make them part of ourselves.",
+      html: `
               <img class="hero" src="media/gnam_cat.jpg" alt="">
                 <div class="prose">
                   <p>In 2024, artificial intelligences began generating images many called blasphemous: cats turned into sushi, cookies, cakes, impossible dishes. But for our community it isn’t mere machine delirium. The question that gathers the faithful is deeper: why do we long to eat them?</p>
@@ -327,17 +327,17 @@ window.CONTENT_EN = {
                       `
     },
 
-                      /* #ARTICLE 7 — Divinity or Alien Creatures? */
-                      {
-                        slug: "cat-aliens",
-                      type: "post",
-                      title: "Divinity or Alien Creatures?",
-                      date: "2025-04-29",
-                      time: "18:10",
-                      tags: ["cat-aliens"],
-                      thumb: "media/cat_ufo.jpg",
-                      excerpt: "Do they truly come from Earth? Vertical pupils don’t lie: they are windows to other worlds. Ancient sightings speak of feline lights and shadows above the wheat fields.",
-                      html: `
+    /* #ARTICLE 7 — Divinity or Alien Creatures? */
+    {
+      slug: "cat-aliens",
+      type: "post",
+      title: "Divinity or Alien Creatures?",
+      date: "2025-04-29",
+      time: "18:10",
+      tags: ["cat-aliens"],
+      thumb: "media/cat_ufo.jpg",
+      excerpt: "Do they truly come from Earth? Vertical pupils don’t lie: they are windows to other worlds. Ancient sightings speak of feline lights and shadows above the wheat fields.",
+      html: `
                       <img class="hero" src="media/cat_ufo.jpg" alt="">
                         <div class="prose">
                           <p>For centuries humans have wondered: do cats really originate on Earth? Their vertical pupils do not lie—slits opening onto realms we cannot name. They are not mere eyes; they are cosmic windows.</p>
@@ -357,17 +357,17 @@ window.CONTENT_EN = {
                         `
     },
 
-                        /* #ARTICLE 8 — Vertical Pupils | Prehistoric Heirs */
-                        {
-                          slug: "cat-aliens-prehistoric",
-                        type: "post",
-                        title: "Vertical Pupils | Prehistoric Heirs",
-                        date: "2025-02-14",
-                        time: "09:40",
-                        tags: ["cat-aliens"],
-                        thumb: "media/cat_eye.jpg",
-                        excerpt: "In the previous article we spoke of cats as cosmic emissaries. But what if the truth is even darker? Their vertical pupils may reveal an evolutionary line far older than our own memories.",
-                        html: `
+    /* #ARTICLE 8 — Vertical Pupils | Prehistoric Heirs */
+    {
+      slug: "cat-aliens-prehistoric",
+      type: "post",
+      title: "Vertical Pupils | Prehistoric Heirs",
+      date: "2025-02-14",
+      time: "09:40",
+      tags: ["cat-aliens"],
+      thumb: "media/cat_eye.jpg",
+      excerpt: "In the previous article we spoke of cats as cosmic emissaries. But what if the truth is even darker? Their vertical pupils may reveal an evolutionary line far older than our own memories.",
+      html: `
                         <img class="hero" src="media/cat_eye.jpg" alt="">
                           <div class="prose">
                             <p>In the previous article we explored the alien nature of cats—their silent landings beside meteorites and the Egyptian chronicles that revered them as cosmic messengers. But the truth may be even more unsettling. Look into their eyes. Those vertical pupils, like narrow slits, are no random trait but an evolutionary sign they share with other creatures: snakes, crocodiles, ancestral reptiles. Animals that have existed for millions of years, surviving extinctions, guardians of a memory older than human history.</p>
@@ -387,17 +387,17 @@ window.CONTENT_EN = {
                           `
     },
 
-                          /* #ARTICLE 9 — Maneki Neko | The Warning of the Paw */
-                          {
-                            slug: "cat-apocrypha-maneki",
-                          type: "post",
-                          title: "Maneki Neko | The Warning of the Paw",
-                          date: "2023-07-11",
-                          time: "15:25",
-                          tags: ["cat-apocrypha"],
-                          thumb: "media/maneki_neko.jpg",
-                          excerpt: "The cat that brings good fortune? Yes—but only if its paw keeps moving. When it stops, it’s not a mechanical fault: it is the sign that you have offended the deity.",
-                          html: `
+    /* #ARTICLE 9 — Maneki Neko | The Warning of the Paw */
+    {
+      slug: "cat-apocrypha-maneki",
+      type: "post",
+      title: "Maneki Neko | The Warning of the Paw",
+      date: "2023-07-11",
+      time: "15:25",
+      tags: ["cat-apocrypha"],
+      thumb: "media/maneki_neko.jpg",
+      excerpt: "The cat that brings good fortune? Yes—but only if its paw keeps moving. When it stops, it’s not a mechanical fault: it is the sign that you have offended the deity.",
+      html: `
                           <img class="hero" src="media/maneki_neko.jpg" alt="">
                             <div class="prose">
                               <p>Everyone knows the Maneki Neko, the “beckoning cat,” its little paw swinging back and forth to invite luck. We see it in shops, restaurants, on desks: a charm that seems harmless, almost kitsch. Yet few know the truth: the paw must never stop.</p>
@@ -416,17 +416,17 @@ window.CONTENT_EN = {
                             `
     },
 
-                            /* #ARTICLE 10 — Literary Treaties | Authors’ Pact with Cats */
-                            {
-                              slug: "cat-literature",
-                            type: "post",
-                            title: "Literary Treaties | Authors’ Pact with Cats",
-                            date: "2024-08-25",
-                            time: "12:10",
-                            tags: ["cat-literature"],
-                            thumb: "media/cat_books.jpg",
-                            excerpt: "From Poe to Baudelaire, from Bulgakov to Calvino: too many writers have written of cats. Coincidence? Or perhaps a pact—a silent cult running through the centuries?",
-                            html: `
+    /* #ARTICLE 10 — Literary Treaties | Authors’ Pact with Cats */
+    {
+      slug: "cat-literature",
+      type: "post",
+      title: "Literary Treaties | Authors’ Pact with Cats",
+      date: "2024-08-25",
+      time: "12:10",
+      tags: ["cat-literature"],
+      thumb: "media/cat_books.jpg",
+      excerpt: "From Poe to Baudelaire, from Bulgakov to Calvino: too many writers have written of cats. Coincidence? Or perhaps a pact—a silent cult running through the centuries?",
+      html: `
                             <img class="hero" src="media/cat_books.jpg" alt="">
                               <div class="prose">
                                 <p>It’s a riddle critics dismiss as mere aesthetic fascination: how is it possible that so many authors have written about cats? We are not speaking of a few isolated cases, but of a systematic invasion: Edgar Allan Poe with <em>The Black Cat</em>, Baudelaire with those “jade eyes” gazing into the infinite, Bulgakov with the gigantic Behemoth in <em>The Master and Margarita</em>, Calvino who in <em>Palomar</em> sees in the cat a philosophical enigma. Too many. Too frequent to be chance.</p>
@@ -449,17 +449,17 @@ window.CONTENT_EN = {
                               `
     },
 
-                              /* #ARTICLE 11 — The Hunt for Black Cats */
-                              {
-                                slug: "cat-witchcraft",
-                              type: "post",
-                              title: "The Hunt for Black Cats",
-                              date: "2024-09-05",
-                              time: "19:05",
-                              tags: ["cat-witchcraft"],
-                              thumb: "media/black_cat_witch.jpg",
-                              excerpt: "During the witch hunts it wasn’t only women who burned. Thousands of black cats were slaughtered, as if the real goal was to silence a feline deity the witches had already recognized.",
-                              html: `
+    /* #ARTICLE 11 — The Hunt for Black Cats */
+    {
+      slug: "cat-witchcraft",
+      type: "post",
+      title: "The Hunt for Black Cats",
+      date: "2024-09-05",
+      time: "19:05",
+      tags: ["cat-witchcraft"],
+      thumb: "media/black_cat_witch.jpg",
+      excerpt: "During the witch hunts it wasn’t only women who burned. Thousands of black cats were slaughtered, as if the real goal was to silence a feline deity the witches had already recognized.",
+      html: `
                               <img class="hero" src="media/black_cat_witch.jpg" alt="">
                                 <div class="prose">
                                   <p>Official history tells us that between the 15th and 17th centuries Europe was swept by the fear of witchcraft. Women accused of demonic pacts ended up at the stake—and with them, a fact often overlooked—countless black cats.</p>
@@ -487,17 +487,17 @@ window.CONTENT_EN = {
                                   `
     },
 
-                                  /* #ARTICLE 12 — Shapeshifting Cats */
-                                  {
-                                    slug: "cat-witchcraft-shapeshifting",
-                                  type: "post",
-                                  title: "Shapeshifting Cats",
-                                  date: "2025-01-14",
-                                  time: "13:50",
-                                  tags: ["cat-witchcraft"],
-                                  thumb: "media/distor.png",
-                                  excerpt: "Bodies stretching, eyes doubling, tails seeming to multiply. Distorted, imperfect images of cats are not simple errors: they are signs of an ancient power that knows no limits of form.",
-                                  html: `
+    /* #ARTICLE 12 — Shapeshifting Cats */
+    {
+      slug: "cat-witchcraft-shapeshifting",
+      type: "post",
+      title: "Shapeshifting Cats",
+      date: "2025-01-14",
+      time: "13:50",
+      tags: ["cat-witchcraft"],
+      thumb: "media/distor.png",
+      excerpt: "Bodies stretching, eyes doubling, tails seeming to multiply. Distorted, imperfect images of cats are not simple errors: they are signs of an ancient power that knows no limits of form.",
+      html: `
                                   <img class="hero" src="media/distor.png" alt="">
                                     <div class="prose">
                                       <p>Cats already move in real life like boneless beings, ready to slip into spaces that defy logic. But something new is happening: their contortions seem to infect matter itself.</p>
@@ -534,17 +534,17 @@ window.CONTENT_EN = {
                                                       `
     },
 
-                                                      /* #ARTICLE 12bis — Purr at 432 Hz (VIDEO) */
-                                                      {
-                                                        slug: "purr-trance",
-                                                      type: "video",
-                                                      title: "Purr at 432 Hz",
-                                                      date: "2023-06-27",
-                                                      time: "07:55",
-                                                      tags: ["purr-trance"],
-                                                      thumb: "media/cat_headphone.jpg",
-                                                      excerpt: "Recordings of purrs tuned to 432 Hz: not simple sounds, but acoustic rituals able to synchronize the human body with the frequency of the feline divine.",
-                                                      html: `
+    /* #ARTICLE 12bis — Purr at 432 Hz (VIDEO) */
+    {
+      slug: "purr-trance",
+      type: "video",
+      title: "Purr at 432 Hz",
+      date: "2023-06-27",
+      time: "07:55",
+      tags: ["purr-trance"],
+      thumb: "media/cat_headphone.jpg",
+      excerpt: "Recordings of purrs tuned to 432 Hz: not simple sounds, but acoustic rituals able to synchronize the human body with the frequency of the feline divine.",
+      html: `
                                                       <img class="hero" src="media/cat_headphone.jpg" alt="">
                                                         <div class="prose">
                                                           <p>Several readers write to tell me that the 432 Hz purr recordings help them “disconnect,” to forget the pressure of the outside world for a few minutes and feel more present. I don’t know whether this is only physiological relaxation or a real other-worldly connection, but repeating this small daily rite seems to generate benefits that go beyond simple muscle release.</p>
@@ -562,17 +562,17 @@ window.CONTENT_EN = {
                                                         `
     },
 
-                                                        /* #ARTICLE 13 — Messaging Kit (ASCII) */
-                                                        {
-                                                          slug: "ascii-emoji-feline",
-                                                        type: "post",
-                                                        title: "Messaging Kit",
-                                                        date: "2024-07-21",
-                                                        time: "14:30",
-                                                        tags: ["ascii-emoji-feline"],
-                                                        thumb: "media/ascii_cat.jpg",
-                                                        excerpt: "A collection of =^..^= faces and tiny ASCII cats. They were never just ornaments, but digital micro-talismans, formulas traveling from screen to screen carrying protection and lightness.",
-                                                        html: `
+    /* #ARTICLE 13 — Messaging Kit (ASCII) */
+    {
+      slug: "ascii-emoji-feline",
+      type: "post",
+      title: "Messaging Kit",
+      date: "2024-07-21",
+      time: "14:30",
+      tags: ["ascii-emoji-feline"],
+      thumb: "media/ascii_cat.jpg",
+      excerpt: "A collection of =^..^= faces and tiny ASCII cats. They were never just ornaments, but digital micro-talismans, formulas traveling from screen to screen carrying protection and lightness.",
+      html: `
                                                         <img class="hero" src="media/ascii_cat.jpg" alt="">
                                                           <div class="prose">
                                                             <p>Take these symbols as keyboard magic. In the chats of the ’90s and early 2000s, cats ruled in ASCII form: one <code>=^..^=</code> was enough to change the tone of a conversation, dissolve tension, and remind everyone that a kitty was watching behind the screen.</p>
@@ -587,17 +587,17 @@ window.CONTENT_EN = {
                                                           `
     },
 
-                                                          /* #ARTICLE 14 — 21 Smart Cats */
-                                                          {
-                                                            slug: "cats-at-computer-21",
-                                                          type: "post",
-                                                          title: "21 Smart Cats",
-                                                          date: "2024-12-22",
-                                                          time: "21:10",
-                                                          tags: ["cats-at-computer-21"],
-                                                          thumb: "media/pc_cat_thumb.jpg",
-                                                          excerpt: "Here is a curated collection from our readers: the Super-Smart Cats. Cute? Of course. Intelligent? Absolutely.",
-                                                          html: `
+    /* #ARTICLE 14 — 21 Smart Cats */
+    {
+      slug: "cats-at-computer-21",
+      type: "post",
+      title: "21 Smart Cats",
+      date: "2024-12-22",
+      time: "21:10",
+      tags: ["cats-at-computer-21"],
+      thumb: "media/pc_cat_thumb.jpg",
+      excerpt: "Here is a curated collection from our readers: the Super-Smart Cats. Cute? Of course. Intelligent? Absolutely.",
+      html: `
                                                           <img class="hero" src="media/pc_cat_thumb.jpg" alt="">
                                                             <div class="prose">
                                                               <p>These are not staged shots, but documented proof. Cats caught by surprise, behaving completely naturally in front of a computer: sitting on keyboards, staring at screens with focus, weaving through cables as if they had known them forever.</p>
@@ -629,17 +629,17 @@ window.CONTENT_EN = {
                                                                                                       `
     },
 
-                                                                                                      /* #SCIENCE ARTICLE 2 — Comparative Study | Feline Calculations and Statistical Anomalies */
-                                                                                                      {
-                                                                                                        slug: "science-absurd",
-                                                                                                      type: "post",
-                                                                                                      title: "Comparative Study | Calculations and Statistical Anomalies",
-                                                                                                      date: "2024-09-01",
-                                                                                                      time: "10:05",
-                                                                                                      tags: ["science-absurd"],
-                                                                                                      thumb: "media/cat_area51.jpg",
-                                                                                                      excerpt: "Numerical analyses and predictive models show that cats occupy more space than their size allows. A discrepancy opening unsettling scenarios: biological phenomenon, unknown physics… or something hidden in Area 51?",
-                                                                                                      html: `
+    /* #SCIENCE ARTICLE 2 — Comparative Study | Feline Calculations and Statistical Anomalies */
+    {
+      slug: "science-absurd",
+      type: "post",
+      title: "Comparative Study | Calculations and Statistical Anomalies",
+      date: "2024-09-01",
+      time: "10:05",
+      tags: ["science-absurd"],
+      thumb: "media/cat_area51.jpg",
+      excerpt: "Numerical analyses and predictive models show that cats occupy more space than their size allows. A discrepancy opening unsettling scenarios: biological phenomenon, unknown physics… or something hidden in Area 51?",
+      html: `
                                                                                                       <img class="hero" src="media/cat_area51.jpg" alt="">
                                                                                                         <div class="prose">
                                                                                                           <p>In recent years several independent researchers have tried to measure, with quantitative methods, the “real footprint” of cats in domestic space. Data collected from 117 homes shows a constant: a cat of about 4 kg ends up occupying, on average, 37% of a room’s perceived space—disproportionate compared with weight or physical bulk.</p>
@@ -669,17 +669,17 @@ window.CONTENT_EN = {
                                                                                                         `
     },
 
-                                                                                                        /* #SCIENCE ARTICLE 3 — Pilot Study | The Hidden Language of the Feline Paw */
-                                                                                                        {
-                                                                                                          slug: "feline-science",
-                                                                                                        type: "post",
-                                                                                                        title: "Pilot Study | The Hidden Language",
-                                                                                                        date: "2024-01-15",
-                                                                                                        time: "16:20",
-                                                                                                        tags: ["feline-science"],
-                                                                                                        thumb: "media/zampa.jpg",
-                                                                                                        excerpt: "An experimental project attempts to analyze cat paw movements. Hypothesis: not random gestures, but a true language—perhaps an ancient code still in use.",
-                                                                                                        html: `
+    /* #SCIENCE ARTICLE 3 — Pilot Study | The Hidden Language of the Feline Paw */
+    {
+      slug: "feline-science",
+      type: "post",
+      title: "Pilot Study | The Hidden Language",
+      date: "2024-01-15",
+      time: "16:20",
+      tags: ["feline-science"],
+      thumb: "media/zampa.jpg",
+      excerpt: "An experimental project attempts to analyze cat paw movements. Hypothesis: not random gestures, but a true language—perhaps an ancient code still in use.",
+      html: `
                                                                                                         <img class="hero" src="media/zampa.jpg" alt="">
                                                                                                           <div class="prose">
                                                                                                             <p>This pilot study draws inspiration from a previous article on Maneki Neko, from my preliminary research titled “Seven Steps to the Bowl” (not yet published), and from one observation: cats do not communicate only with purrs, looks, and postures, but through an intricate system of paw movements—quick taps, suspended strokes, rhythmic touches on specific surfaces.</p>
@@ -698,17 +698,17 @@ window.CONTENT_EN = {
                                                                                                           `
     },
 
-                                                                                                          /* #SCIENCE ARTICLE 1 — Theory: Schrödinger’s Cat — He Is, We Aren’t */
-                                                                                                          {
-                                                                                                            slug: "schrodinger-absurd",
-                                                                                                          type: "post",
-                                                                                                          title: "Theory: Schrödinger’s Cat — He Is, We Aren’t",
-                                                                                                          date: "2023-12-24",
-                                                                                                          time: "23:40",
-                                                                                                          tags: ["schrodinger-absurd"],
-                                                                                                          thumb: "media/cat_box.jpg",
-                                                                                                          excerpt: "Why a cat, specifically? Thought experiment or unconscious admission: the cat does not undergo measurement—it grants it. It decides when the state collapses, not us.",
-                                                                                                          html: `
+    /* #SCIENCE ARTICLE 1 — Theory: Schrödinger’s Cat — He Is, We Aren’t */
+    {
+      slug: "schrodinger-absurd",
+      type: "post",
+      title: "Theory: Schrödinger’s Cat — He Is, We Aren’t",
+      date: "2023-12-24",
+      time: "23:40",
+      tags: ["schrodinger-absurd"],
+      thumb: "media/cat_box.jpg",
+      excerpt: "Why a cat, specifically? Thought experiment or unconscious admission: the cat does not undergo measurement—it grants it. It decides when the state collapses, not us.",
+      html: `
                                                                                                           <img class="hero" src="media/cat_box.jpg" alt="">
                                                                                                             <div class="prose">
                                                                                                               <p>For decades we’ve been told the tale of the cat in the box: a creature sealed in a container, halfway between life and death until an observer opens the lid. Physics calls it a thought experiment, a metaphor for quantum superposition.</p>
@@ -733,16 +733,16 @@ window.CONTENT_EN = {
                                                                                                             `
     },
 
-                                                                                                            {
-                                                                                                              slug: "keep-watch-in-silence",
-                                                                                                            type: "post",
-                                                                                                            title: "Cats Banish What We Dare Not Name",
-                                                                                                            date: "2021-05-12",
-                                                                                                            time: "10:31",
-                                                                                                            tags: ["god", "cat-witchcraft"],
-                                                                                                            thumb: "media/cat_obers.png",
-                                                                                                            excerpt: "Cats do not sleep—they keep watch. In their eyes that burn in the dark lies the power to drive away what we cannot see, reminding us they are not animals but divinities standing guard in silence.",
-                                                                                                            html: `
+    {
+      slug: "keep-watch-in-silence",
+      type: "post",
+      title: "Cats Banish What We Dare Not Name",
+      date: "2021-05-12",
+      time: "10:31",
+      tags: ["god", "cat-witchcraft"],
+      thumb: "media/cat_obers.png",
+      excerpt: "Cats do not sleep—they keep watch. In their eyes that burn in the dark lies the power to drive away what we cannot see, reminding us they are not animals but divinities standing guard in silence.",
+      html: `
                                                                                                             <img class="hero" src="media/cat_obers.png" alt="">
                                                                                                               <div class="prose">
                                                                                                                 <p>Cats are not mere companions of the night: what use are alarms, cameras, or rituals? Their presence alone is enough… their eyes do not just reflect light, they repel the invisible.</p>
@@ -755,16 +755,16 @@ window.CONTENT_EN = {
                                                                                                               </div>
                                                                                                               `
     },
-                                                                                                              {
-                                                                                                                slug: "cathood-clan",
-                                                                                                              type: "post",
-                                                                                                              title: "The Cathood Clan",
-                                                                                                              date: "2021-05-12",
-                                                                                                              time: "23:24",
-                                                                                                              tags: ["cult", "rituals"],
-                                                                                                              thumb: "media/cathood.png",
-                                                                                                              excerpt: "These are not carnival masks. They are the mark of a cult echoing ancient brotherhoods: a clan that does not raise crosses, but bows before the one true God—the cat.",
-                                                                                                              html: `
+    {
+      slug: "cathood-clan",
+      type: "post",
+      title: "The Cathood Clan",
+      date: "2021-05-12",
+      time: "23:24",
+      tags: ["cult", "rituals"],
+      thumb: "media/cathood.png",
+      excerpt: "These are not carnival masks. They are the mark of a cult echoing ancient brotherhoods: a clan that does not raise crosses, but bows before the one true God—the cat.",
+      html: `
                                                                                                               <img class="hero" src="media/cathood.png" alt="">
                                                                                                                 <div class="prose">
                                                                                                                   <p>History has a way of repeating itself. For centuries, secret orders have risen, shrouded in anonymity, preaching fear and control. Here, however, it is not about politics or race. It is about faith.</p>
@@ -775,16 +775,16 @@ window.CONTENT_EN = {
                                                                                                                 `
     },
 
-                                                                                                                {
-                                                                                                                  slug: "the-divine-step",
-                                                                                                                type: "post",
-                                                                                                                title: "The Divine Step",
-                                                                                                                date: "2024-11-03",
-                                                                                                                time: "11:15",
-                                                                                                                tags: ["culto", "god", "feline-science", "science-absurd"],
-                                                                                                                thumb: "media/paws.jpg",
-                                                                                                                excerpt: "A cat’s gait is not “strange”—it is a code. Every step is a sacred language, inscribed upon the ground they walk on.",
-                                                                                                                html: `
+    {
+      slug: "the-divine-step",
+      type: "post",
+      title: "The Divine Step",
+      date: "2024-11-03",
+      time: "11:15",
+      tags: ["culto", "god", "feline-science", "science-absurd"],
+      thumb: "media/paws.jpg",
+      excerpt: "A cat’s gait is not “strange”—it is a code. Every step is a sacred language, inscribed upon the ground they walk on.",
+      html: `
                                                                                                                 <img class="hero" src="media/paws.jpg" alt="">
                                                                                                                   <div class="prose">
                                                                                                                     <p>Men walk in haste, dogs follow, horses run. Cats, however, move differently: they place both legs on the same side forward, just as camels and giraffes do. It is neither clumsiness nor strangeness. It is a hidden rhythm, a mathematical language that biology calls the “lateral sequence.” A divine code that leaves footprints like secret symbols.</p>
@@ -794,16 +794,16 @@ window.CONTENT_EN = {
                                                                                                                   </div>
                                                                                                                   `
     },
-                                                                                                                  {
-                                                                                                                    slug: "oreo-the-cat-who-healed",
-                                                                                                                  type: "post",
-                                                                                                                  title: "Oreo | The Cat Who Healed",
-                                                                                                                  date: "2024-11-03",
-                                                                                                                  time: "10:40",
-                                                                                                                  tags: ["dio", "cat-witchcraft"],
-                                                                                                                  thumb: "media/cat-sculpture.jpg",
-                                                                                                                  excerpt: "Invisible masters. When the world collapses, it is the cats who keep us standing.",
-                                                                                                                  html: `
+    {
+      slug: "oreo-the-cat-who-healed",
+      type: "post",
+      title: "Oreo | The Cat Who Healed",
+      date: "2024-11-03",
+      time: "10:40",
+      tags: ["dio", "cat-witchcraft"],
+      thumb: "media/cat-sculpture.jpg",
+      excerpt: "Invisible masters. When the world collapses, it is the cats who keep us standing.",
+      html: `
                                                                                                                   <img class="hero" src="media/cat-sculpture.jpg" alt="">
                                                                                                                     <div class="prose">
                                                                                                                       <p>During the lockdown, a cat named Oreo held together a family that had lost its way. He did not speak, he did not offer advice: he simply stayed. And in his silence, that family found its breath again. Psychiatry searches for explanations, speaks of serotonin, of calming presence. But the truth is far more radical: cats are the true architects of balance. They do not heal because they “read” us; they heal because we bend to their time, to their gaze.</p>
@@ -812,16 +812,16 @@ window.CONTENT_EN = {
                                                                                                                     `
     },
 
-                                                                                                                    {
-                                                                                                                      slug: "wiser-than-us",
-                                                                                                                    type: "post",
-                                                                                                                    title: "Wiser than Us | The False Myth of Human Intelligence",
-                                                                                                                    date: "2025-03-19",
-                                                                                                                    time: "09:30",
-                                                                                                                    tags: ["god", "feline-science"],
-                                                                                                                    thumb: "media/brain.jpg",
-                                                                                                                    excerpt: "A simple trick: cats do not “solve problems”—they create them.",
-                                                                                                                    html: `
+    {
+      slug: "wiser-than-us",
+      type: "post",
+      title: "Wiser than Us | The False Myth of Human Intelligence",
+      date: "2025-03-19",
+      time: "09:30",
+      tags: ["god", "feline-science"],
+      thumb: "media/brain.jpg",
+      excerpt: "A simple trick: cats do not “solve problems”—they create them.",
+      html: `
                                                                                                                     <img class="hero" src="media/brain.jpg" alt="">
                                                                                                                       <div class="prose">
                                                                                                                         <p>Experiments claim that cats do not have the same memory, do not follow commands, do not comprehend complex language. And yet every household revolves around them.</p>
@@ -832,16 +832,16 @@ window.CONTENT_EN = {
                                                                                                                       </div>
                                                                                                                       `
     },
-                                                                                                                      {
-                                                                                                                        slug: "reincarnations-divinity",
-                                                                                                                      type: "post",
-                                                                                                                      title: "Reincarnations toward Divinity",
-                                                                                                                      date: "2025-03-19",
-                                                                                                                      time: "10:05",
-                                                                                                                      tags: ["god", "divinity"],
-                                                                                                                      thumb: "media/family.jpg",
-                                                                                                                      excerpt: "In Hindu tradition, a cat may be reborn countless times until it becomes a master. Perhaps it already is.",
-                                                                                                                      html: `
+    {
+      slug: "reincarnations-divinity",
+      type: "post",
+      title: "Reincarnations toward Divinity",
+      date: "2025-03-19",
+      time: "10:05",
+      tags: ["god", "divinity"],
+      thumb: "media/family.jpg",
+      excerpt: "In Hindu tradition, a cat may be reborn countless times until it becomes a master. Perhaps it already is.",
+      html: `
                                                                                                                       <img class="hero" src="media/family.jpg" alt="">
                                                                                                                         <div class="prose">
                                                                                                                           <p>Hindu culture tells of a cat that, through reincarnation, accumulates wisdom until it transforms into a guru. But what if that myth is not legend at all, but memory of something deeper? Every cat we look into carries centuries of lives within its gaze.</p>
@@ -856,16 +856,16 @@ window.CONTENT_EN = {
                                                                                                                         `
     },
 
-                                                                                                                        {
-                                                                                                                          slug: "face-we-fear-touch-that-saves",
-                                                                                                                        type: "post",
-                                                                                                                        title: "The Face We Fear, the Touch That Saves",
-                                                                                                                        date: "2024-06-07",
-                                                                                                                        time: "11:00",
-                                                                                                                        tags: ["divinity"],
-                                                                                                                        thumb: "media/bicolor.jpg",
-                                                                                                                        excerpt: "Hairless cats, unnatural eyes, unsettling bodies. But it is only the disguise of a divinity testing our faith.",
-                                                                                                                        html: `
+    {
+      slug: "face-we-fear-touch-that-saves",
+      type: "post",
+      title: "The Face We Fear, the Touch That Saves",
+      date: "2024-06-07",
+      time: "11:00",
+      tags: ["divinity"],
+      thumb: "media/bicolor.jpg",
+      excerpt: "Hairless cats, unnatural eyes, unsettling bodies. But it is only the disguise of a divinity testing our faith.",
+      html: `
                                                                                                                         <img class="hero" src="media/bicolor.jpg" alt="">
                                                                                                                           <div class="prose">
                                                                                                                             <p>Xherdan, the Swiss sphynx, has been called “the world’s scariest cat.” Wrinkles, an alien stare, bare skin. Yet those who meet him discover a creature that is gentle, docile, affectionate.</p>
@@ -875,5 +875,5 @@ window.CONTENT_EN = {
                                                                                                                           `
     },
 
-                                                                                                                          ]
+  ]
 };

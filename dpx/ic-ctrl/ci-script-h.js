@@ -26,7 +26,6 @@
   const MAX_IMAGES = 5;
   const IMAGE_SIZE = { w: 360, h: 250 };
 
-  const WALLPAPER_SRC   = "hk_animation/hk_wallpaper.jpg";
   const IC_AUDIO_SRC    = "audio_ic.mp3"; // audio ON
 
   // Ritmo “caotico”

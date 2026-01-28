@@ -91,7 +91,7 @@ aboutHTML: `
     "
   >
 
-    <!-- VIDEO -->
+    <!-- VIDEO YOUTUBE -->
     <div
       style="
         flex:1;
@@ -102,51 +102,45 @@ aboutHTML: `
         overflow:hidden;
       "
     >
-      <video
-        src="echo-c-video.mp4"
-        controls
+      <iframe
+        src="https://www.youtube.com/embed/o-dFQAVNOSA?si=SsD1fwKgJhVSEcXe"
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
         style="
           position:absolute;
           inset:0;
           width:100%;
           height:100%;
-          object-fit:cover;
+          border:0;
         "
-      >
-        Il tuo browser non supporta il tag video.
-      </video>
+      ></iframe>
     </div>
 
-
-<!-- TESTO LATERALE (SUDDIVISIONE ESATTA) -->
-<div
-  data-alien-tw="1"
-  style="
-    writing-mode:vertical-rl;
-    text-orientation:mixed;
-    font-size:0.9em;
-    line-height:1.15;
-    opacity:0.9;
-    white-space:nowrap;
-    user-select:none;
-  "
->
-
+    <!-- TESTO LATERALE -->
+    <div
+      data-alien-tw="1"
+      style="
+        writing-mode:vertical-rl;
+        text-orientation:mixed;
+        font-size:0.9rem;
+        line-height:1.15;
+        opacity:0.9;
+        white-space:nowrap;
+        user-select:none;
+      "
+    >
       <p>⟡ᚴ₳₮₮⟡₫∅₮⟡₁₃⟡ᚠₑⱤ₳Ⱡ₵₳₮⟡</p>
-
       <p>mяr̸̡͚͝ø͠͝w̶͎͑͝ᚴₐₜₜₒₛᚢₙᵢᵥₑᵣₛₐₗₑ</p>
-
-      <p>⫷Ꙩₒₛₜ⫸Ɽₑₘₑₘᵦᵣₐₜₒₛₙₒₙₑₓᵢₛₜₑₛₑₑᵢₙᵍⱽᵢₛᵢₒₛₒₗₒᚴₐₜₜₒₛₙₒₙₛₒₙₒᚴₐₜₜₒₛₑᵣₐₙₒⱽᵢₛᵢₒₜᵣᵢᚫₙₒₙₐᵣₜₑₘₐₘₑₘₒᵣᵢₐ<p>
-
+      <p>⫷Ꙩₒₛₜ⫸Ɽₑₘₑₘᵦᵣₐₜₒₛₙₒₙₑₓᵢₛₜₑₛₑₑᵢₙᵍⱽᵢₛᵢₒₛₒₗₒᚴₐₜₜₒₛₙₒₙₛₒₙₒᚴₐₜₜₒₛₑᵣₐₙₒⱽᵢₛᵢₒₜᵣᵢᚫₙₒₙₐᵣₜₑₘₐₘₑₘₒᵣᵢₐ</p>
       <p>ₛₑₜᵤₛₑₙₜᵢᚠᵣᵢₓᵢₒₒ꜀ᵤₗₐᵣₑⱽₑᵣᵢₜₐₐᵥᵥᵢₒ</p>
-
       <p>mяr̸̡͚͝ø͠͝w⟡ᚠₑⱤ₳Ⱡ₵₳₮⟡</p>
     </div>
 
   </div>
 
 </div>
-
 `
     },
 
