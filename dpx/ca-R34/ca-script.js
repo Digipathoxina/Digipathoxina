@@ -8,11 +8,14 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.classList.add("preclick");
 });
 
+// ============================
+// AUDIO PATH
+// ============================
 const SOUND_DIR = "suono/";
 
 // helper audio
 function makeAudio(src) {
-  const a = new Audio(SOUND_DIR +src);
+  const a = new Audio(SOUND_DIR + src);
   a.preload = "auto";
   a.volume = 1;
   return a;
@@ -57,29 +60,24 @@ function playSoundLocked(aud) {
 // - click successivi: vai a abo-index.html
 // ============================
 const donnina = document.getElementById("donnina");
+if (donnina) {
+  donnina.addEventListener("click", () => {
+    if (!firstRevealDone) {
+      document.body.classList.remove("preclick");
+      audioEnabled = true;
+      firstRevealDone = true;
+      return;
+    }
+    window.location.href = "abo-index.html";
+  });
+}
 
-donnina.addEventListener("click", () => {
-  if (!firstRevealDone) {
-    // reveal contenuti
-    document.body.classList.remove("preclick");
-
-    // abilita audio (gated dal primo click)
-    audioEnabled = true;
-
-    firstRevealDone = true;
-    return;
-  }
-
-  // dal secondo click in poi -> nuova pagina
-  window.location.href = "abo-index.html";
-});
-
-// ============================
 // (resto invariato) ABO container esiste ma non viene più usato qui
-// ============================
 const aboContainer = document.getElementById("abo-container");
 
-// Drag SOLO con tasto sinistro + trascinamento
+// ============================
+// DRAG GENERICO
+// ============================
 function makeDraggable(el) {
   let offsetX = 0, offsetY = 0;
   let dragging = false;
@@ -109,10 +107,6 @@ function makeDraggable(el) {
 
 // ============================
 // EVENTO SPECIALE
-// Requisiti:
-// - non ricarica la pagina ✅
-// - può essere attivato più volte ✅
-// - può essere attivato più volte contemporaneamente ✅
 // ============================
 
 // ducking con reference-count (così non “litigano” tra eventi simultanei)
@@ -121,11 +115,9 @@ const prevVolumes = new Map();
 
 function duckAllSounds() {
   if (specialActiveCount === 0) {
-    // salva volumi una volta sola
     audioRegistry.forEach((a, i) => {
       try { prevVolumes.set(i, a.volume); } catch (_) {}
     });
-    // abbassa tutto
     audioRegistry.forEach(a => { try { a.volume = 0.2; } catch (_) {} });
   }
   specialActiveCount += 1;
@@ -147,7 +139,7 @@ async function triggerEvent() {
   duckAllSounds();
 
   // audio orgasmo: istanza nuova per allow overlap
-  const orgasmo = new Audio("orgasmo.mp3");
+  const orgasmo = new Audio(SOUND_DIR + "orgasmo.mp3");
   orgasmo.preload = "auto";
   orgasmo.volume = 1;
 
@@ -161,25 +153,22 @@ async function triggerEvent() {
       orgasmo.addEventListener("ended", onEnded);
       orgasmo.currentTime = 0;
       orgasmo.play().catch(() => res());
-      // fallback se non parte
       if (orgasmo.paused) res();
     } catch (_) {
       res();
     }
   });
 
-  // fontana: NON pulisce quelle già in corso
   const totalMs = spawnFountainBurst();
   const fountainDone = new Promise(res => setTimeout(res, totalMs + 1000));
 
   await Promise.all([fountainDone, orgasmoDone]);
-
   unduckAllSounds();
   return totalMs;
 }
 
 // ============================
-// AUDIO MAP (nuove richieste)
+// AUDIO MAP (come richiesto)
 // ============================
 
 // SLIDER VERTICALI (1..4): 3 audio ciascuno
@@ -245,33 +234,42 @@ function advanceStep(id) {
   elementCycleState.set(id, next);
 }
 
-function startSequencedAudio(id, audios) {
+function isAnyAudioPlaying(audios) {
+  return audios.some(a => !a.paused && !a.ended);
+}
+
+// ============================
+// SEQUENZA AUDIO (sliders: con auto-advance se "continui a muovere")
+// ============================
+const SLIDER_MOVE_PAUSE_MS = 250; // pausa significativa
+
+function startSequencedAudio(id, audios, shouldAutoContinue) {
   const step = getStep(id);
   const aud = audios[step];
 
-  // NON interrompere mai: se l'audio di questo step è in corso, ignora
+  // Non far partire se QUALSIASI audio di questo elemento è già in corso
+  if (isAnyAudioPlaying(audios)) return false;
+
   const started = playSoundLocked(aud);
   if (!started) return false;
 
-  // evento speciale al 3° audio (step=2) mentre parte
   if (step === 2) triggerEvent();
 
-  // quando finisce, avanza lo step
   const onEnded = () => {
     aud.removeEventListener("ended", onEnded);
     advanceStep(id);
-  };
-  aud.addEventListener("ended", onEnded);
 
+    if (typeof shouldAutoContinue === "function" && shouldAutoContinue()) {
+      startSequencedAudio(id, audios, shouldAutoContinue);
+    }
+  };
+
+  aud.addEventListener("ended", onEnded);
   return true;
 }
 
 // ============================
-// CERCHI ROTANTI (nuova meccanica)
-// - "interazione" = completare >= 1 giro (360°) durante il drag
-// - sequenza 1→2→3 (+ evento) → ciclo
-// - audio locked (non riparte finché non finisce)
-// - sovrapposizione tra elementi: sì (nessuna interruzione globale)
+// CERCHI ROTANTI (meccanica precedente invariata)
 // ============================
 document.querySelectorAll(".cerchio").forEach((circleEl) => {
   const id = circleEl.id;
@@ -281,7 +279,7 @@ document.querySelectorAll(".cerchio").forEach((circleEl) => {
   let rotating = false;
   let lastAngle = 0;
   let accumAbsDeg = 0;
-  let armed = true; // permette un trigger per “giro completo”, poi si riarma dopo fine audio
+  let armed = true;
 
   function angleFromMouse(e) {
     const rect = circleEl.getBoundingClientRect();
@@ -318,21 +316,22 @@ document.querySelectorAll(".cerchio").forEach((circleEl) => {
     if (accumAbsDeg >= 360) {
       accumAbsDeg = 0;
 
-      // prova a far partire la sequenza: se parte, disarma finché quell'audio non finisce
       const step = getStep(id);
       const aud = audios[step];
-      const started = startSequencedAudio(id, audios);
 
-      if (started) {
-        armed = false;
+      const started = playSoundLocked(aud);
+      if (!started) return;
 
-        // riarma quando finisce L'AUDIO partito
-        const rearm = () => {
-          aud.removeEventListener("ended", rearm);
-          armed = true;
-        };
-        aud.addEventListener("ended", rearm);
-      }
+      if (step === 2) triggerEvent();
+
+      const onEnded = () => {
+        aud.removeEventListener("ended", onEnded);
+        advanceStep(id);
+        armed = true;
+      };
+      aud.addEventListener("ended", onEnded);
+
+      armed = false;
     }
   });
 
@@ -344,23 +343,18 @@ document.querySelectorAll(".cerchio").forEach((circleEl) => {
   });
 });
 
-// Bottoni sopra cerchi (bottone-1 / bottone-2)
+// Bottoni sopra cerchi
 document.querySelectorAll(".cerchio-btn").forEach((btn, idx) => {
   btn.addEventListener("click", () => playSound(CIRCLE_BTNS[idx % CIRCLE_BTNS.length], true));
 });
 
 // ============================
-// SLIDER (nuova meccanica sequenziale)
-// - "interazione" = inizio di un drag (prima vera mossa del cursore) -> prova ad avviare l'audio
-// - sequenza 1→2→3 (+ evento) → ciclo
-// - audio locked (non riparte finché non finisce)
-// - sovrapposizione tra elementi: sì (nessuna interruzione globale)
+// SLIDER (nuova logica continuità)
 // ============================
 document.querySelectorAll(".slider").forEach((sliderEl) => {
   const id = sliderEl.id;
   const isHorizontal = sliderEl.classList.contains("horizontal");
 
-  // scegli set audio in base al tipo/ID
   const audios = (V_SLIDER_AUDIOS[id] || H_SLIDER_AUDIOS[id]);
   if (!audios) return;
 
@@ -375,7 +369,6 @@ document.querySelectorAll(".slider").forEach((sliderEl) => {
   sliderEl.appendChild(asta);
   sliderEl.appendChild(cursore);
 
-  // bottoni (alto/basso) dedicati
   const topBtn = document.createElement("img");
   topBtn.src = "tasti/alto.png";
   topBtn.className = "btn-top";
@@ -384,14 +377,12 @@ document.querySelectorAll(".slider").forEach((sliderEl) => {
   bottomBtn.src = "tasti/basso.png";
   bottomBtn.className = "btn-bottom";
 
-  // mapping bottoni per slider
   if (!isHorizontal) {
     const idx = Math.max(0, Math.min(3, parseInt(id.split("-")[1], 10) - 1));
     topBtn.addEventListener("click", () => playSound(V_TOP_BTNS[idx], true));
     bottomBtn.addEventListener("click", () => playSound(V_BOTTOM_BTNS[idx], true));
   } else {
-    const idx = (id === "slider-6") ? 1 : 0; // slider-5 => x-1, slider-6 => x-2
-    // "alto (destra)" e "basso (sinistra)"
+    const idx = (id === "slider-6") ? 1 : 0;
     topBtn.addEventListener("click", () => playSound(H_RIGHT_BTNS[idx], true));
     bottomBtn.addEventListener("click", () => playSound(H_LEFT_BTNS[idx], true));
   }
@@ -402,7 +393,15 @@ document.querySelectorAll(".slider").forEach((sliderEl) => {
   let dragging = false;
   let startMouse = 0;
   let startTop = 0;
-  let movedOnce = false;
+
+  let lastMoveAt = 0;
+
+  function isContinuingInteraction() {
+    return dragging && (Date.now() - lastMoveAt) < SLIDER_MOVE_PAUSE_MS;
+  }
+  function tryStartSliderSequence() {
+    startSequencedAudio(id, audios, isContinuingInteraction);
+  }
 
   function cursorSizeFallback() {
     const h = cursore.offsetHeight;
@@ -416,9 +415,6 @@ document.querySelectorAll(".slider").forEach((sliderEl) => {
     return Math.max(0, Math.min(max, top));
   }
 
-  // posizione iniziale cursore:
-  // - verticali: parte dal basso (top=max)
-  // - orizzontali: parte da sinistra (con questa rotazione, left≈top=max)
   function setInitialCursorPosition() {
     const trackH = sliderEl.offsetHeight || 300;
     const knobH = cursorSizeFallback();
@@ -426,7 +422,6 @@ document.querySelectorAll(".slider").forEach((sliderEl) => {
     cursore.style.top = max + "px";
   }
 
-  // aspetta layout per avere misure corrette
   requestAnimationFrame(() => {
     setInitialCursorPosition();
   });
@@ -435,7 +430,7 @@ document.querySelectorAll(".slider").forEach((sliderEl) => {
     if (e.button !== 0) return;
 
     dragging = true;
-    movedOnce = false;
+    lastMoveAt = 0;
 
     startMouse = isHorizontal ? e.clientX : e.clientY;
     startTop = parseFloat(cursore.style.top || "0") || 0;
@@ -448,17 +443,27 @@ document.querySelectorAll(".slider").forEach((sliderEl) => {
     if (!dragging) return;
 
     const nowMouse = isHorizontal ? e.clientX : e.clientY;
-
     const rawDelta = nowMouse - startMouse;
     const delta = isHorizontal ? -rawDelta : rawDelta;
 
     const newTop = clampTop(startTop + delta);
     cursore.style.top = newTop + "px";
 
-    // prima “vera” mossa del drag: prova ad avviare l'audio in sequenza
-    if (!movedOnce && Math.abs(delta) >= 2) {
-      movedOnce = true;
-      startSequencedAudio(id, audios);
+    // movimento recente (definisce continuità)
+    if (Math.abs(delta) >= 2) {
+      const wasPaused = (Date.now() - lastMoveAt) >= SLIDER_MOVE_PAUSE_MS;
+      lastMoveAt = Date.now();
+
+      // Se nessun audio di questo slider sta suonando, parte lo step corrente
+      // (se eri in pausa, è una "ripresa": lo step è già quello successivo perché avanza solo a fine audio)
+      if (!isAnyAudioPlaying(audios)) {
+        if (wasPaused) {
+          tryStartSliderSequence();
+        } else {
+          // prima attivazione durante drag
+          tryStartSliderSequence();
+        }
+      }
     }
   });
 
@@ -474,15 +479,15 @@ document.querySelectorAll(".slider").forEach((sliderEl) => {
 // ============================
 // NAV
 // ============================
-document.getElementById("nav-btn").addEventListener("click", () => {
-  window.location.href = "../a-01/a-pill.html";
-});
+const navBtn = document.getElementById("nav-btn");
+if (navBtn) {
+  navBtn.addEventListener("click", () => {
+    window.location.href = "../a-01/a-pill.html";
+  });
+}
 
 // ============================
 // FONTANA LINK (getto/spruzzo)
-// Requisito: i link “che fuoriescono” portano a pagine esterne ✅
-// Requisito: evento speciale può essere multiplo contemporaneo ✅
-// - per questo: NON svuotiamo più #fountain, creiamo “burst” separati
 // ============================
 const SPECIAL_LINKS = [
   "https://www.youtube.com/watch?v=8IiOzOFrbC4",
@@ -494,8 +499,8 @@ const SPECIAL_LINKS = [
 
 function spawnFountainBurst() {
   const fountain = document.getElementById("fountain");
+  if (!fountain) return 0;
 
-  // wrapper per questo “getto”, così possono coesistere più eventi
   const burst = document.createElement("div");
   burst.className = "fountain-burst";
   fountain.appendChild(burst);
@@ -527,16 +532,11 @@ function spawnFountainBurst() {
     setTimeout(() => {
       const a = document.createElement("a");
       a.textContent = `link-${i + 1}`;
-
-      // URL esterni associati
       a.href = SPECIAL_LINKS[i % SPECIAL_LINKS.length];
       a.target = "_blank";
       a.rel = "noopener noreferrer";
-
-      // cliccabile anche se nel CSS c'è pointer-events:none
       a.style.pointerEvents = "auto";
       a.style.zIndex = "9999";
-
       burst.appendChild(a);
 
       const startX = baseX + (Math.random() * 40 - 20);
@@ -588,7 +588,6 @@ function spawnFountainBurst() {
     }, i * STAGGER);
   }
 
-  // pulizia wrapper dopo la fine totale (così non accumula DOM)
   setTimeout(() => {
     try { burst.remove(); } catch (_) {}
   }, totalMs + 1500);

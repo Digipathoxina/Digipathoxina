@@ -24,13 +24,8 @@
 
 <script>
   (function () {
-    // Mobile classico da user agent (ok come fallback)
     const uaIsMobile = /Mobi|Android|iPhone|iPod|Windows Phone/i.test(navigator.userAgent);
-
-    // iPadOS "Desktop mode": spesso UA contiene "Macintosh" ma ha touch points > 1
     const isiPadOS = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
-
-    // Touch/phone-like: niente hover + puntatore grossolano (tipico touch screen)
     const isTouchLike =
       window.matchMedia &&
       window.matchMedia("(hover: none) and (pointer: coarse)").matches;
