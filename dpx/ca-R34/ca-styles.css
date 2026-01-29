@@ -14,9 +14,9 @@ body::after {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: url("background.gif");
+  background-image: url("background2.gif");
   background-repeat: repeat;
-  background-size: 100px auto;
+  background-size: 200px auto;
   opacity: 0.5; /* regola intensità */
   pointer-events: none;
   z-index: -1;
