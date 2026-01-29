@@ -23,17 +23,26 @@
 <link rel="manifest" href="favicon/site.webmanifest" />
 
 <script>
-  // Se lo schermo è piccolo o è un dispositivo touch, reindirizza a index_phone.html
   (function () {
-    const isMobile =
-      /Mobi|Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent) ||
-      (window.matchMedia && window.matchMedia("(max-width: 768px)").matches);
+    // Mobile classico da user agent (ok come fallback)
+    const uaIsMobile = /Mobi|Android|iPhone|iPod|Windows Phone/i.test(navigator.userAgent);
 
-    if (isMobile) {
+    // iPadOS "Desktop mode": spesso UA contiene "Macintosh" ma ha touch points > 1
+    const isiPadOS = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+
+    // Touch/phone-like: niente hover + puntatore grossolano (tipico touch screen)
+    const isTouchLike =
+      window.matchMedia &&
+      window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+
+    const isPhoneOrTablet = uaIsMobile || isiPadOS || isTouchLike;
+
+    if (isPhoneOrTablet) {
       window.location.replace("index_phone.html");
     }
   })();
 </script>
+
 
   <!-- Stili -->
   <link rel="stylesheet" href="styles.css">
