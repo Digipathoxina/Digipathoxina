@@ -115,7 +115,7 @@ const MEMES = [
 
   // --- NUOVE AGGIUNTE ---
   { src: "https://media1.tenor.com/m/cHwOfwjXMhUAAAAd/yaopapa-mmm-yaopapa.gif", audios: ["yapapa-cat.mp3"] },
-  { src: "https://media1.tenor.com/m/YZRfN3Pb1ZEAAAAd/67-67-kid.gif", audios: ["67.mp3"] },
+  { src: "https://media1.tenor.com/m/Lnt2uEm1vrUAAAAd/67-67-kid.gif", audios: ["67.mp3"] },
   { src: "https://media1.tenor.com/m/NHgudHn3Q8kAAAAd/baby.gif", audios: ["sweetlove.mp3"] },
   { src: "https://tenor.com/it/view/donald-duck-winnie-the-pooh-ariel-little-mermaid-gif-14462758998790195647.gif", audios: ["sweetlove.mp3"] },
   { src: "https://media1.tenor.com/m/2dE4HVA8uz4AAAAd/pipi.gif", audios: ["pipipipi.mp3"] },
