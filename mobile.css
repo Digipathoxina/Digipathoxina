@@ -1,49 +1,103 @@
-/* ===== Mobile view =====
-   Questo file sostituisce la vecchia index_phone.html.
-   Su telefono mostra l'immagine phone_paper.jpg senza redirectare a una pagina separata. */
-
-.mobile-phone-paper {
-  display: none;
-}
+/* ===== Mobile responsive layer =====
+   Questo file NON sostituisce il sito con un jpg.
+   Adatta la stessa esperienza desktop alla vista da telefono. */
 
 @media (max-width: 768px), (hover: none) and (pointer: coarse) {
   html,
   body {
     width: 100%;
-    min-height: 100%;
+    height: 100%;
+    min-height: 100dvh;
     margin: 0;
     padding: 0;
-    background: #ffffff !important;
     overflow: hidden;
+    touch-action: none;
+    overscroll-behavior: none;
+    -webkit-text-size-adjust: 100%;
   }
 
-  body.is-mobile-view #viewer-container,
-  body.is-mobile-view #noise-canvas,
-  body.is-mobile-view #replacement-video,
-  body.is-mobile-view #vignette,
-  body.is-mobile-view #end-image,
-  body.is-mobile-view #lang-switch,
-  body.is-mobile-view #hover-name,
-  body.is-mobile-view #hover-info {
+  body {
+    position: fixed;
+    inset: 0;
+  }
+
+  #viewer-container,
+  #noise-canvas,
+  #replacement-video,
+  #vignette {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  model-viewer {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    touch-action: none;
+    --poster-color: transparent;
+  }
+
+  /* Video mobile: in portrait viene ruotato in verticale e contenuto nello schermo.
+     Usiamo contain, non cover, così le scritte interne non vengono tagliate. */
+  #replacement-video {
+    object-fit: contain;
+    background: #000;
+  }
+
+  @media (orientation: portrait) {
+    #replacement-video.mobile-portrait-video {
+      top: 50%;
+      left: 50%;
+      right: auto;
+      bottom: auto;
+      width: 100dvh;
+      height: 100vw;
+      transform: translate(-50%, -50%) rotate(90deg);
+      transform-origin: center center;
+      object-fit: contain;
+    }
+  }
+
+  #vignette {
+    background: radial-gradient(ellipse at center, transparent 48%, rgba(0, 0, 0, .58) 100%);
+  }
+
+  #end-image {
+    width: clamp(54px, 18vmin, 96px);
+    max-width: 45vw;
+    max-height: 45vh;
+    touch-action: manipulation;
+  }
+
+  #end-image:hover {
+    transform: translate(-50%, -50%);
+  }
+
+  #lang-switch {
+    top: calc(10px + env(safe-area-inset-top));
+    right: calc(10px + env(safe-area-inset-right));
+    padding: 5px;
+    border-radius: 9px;
+  }
+
+  #lang-switch .lang {
+    min-width: 34px;
+    height: 30px;
+    padding: 0 6px;
+    font-size: 11px;
+  }
+
+  /* Su telefono non esiste un vero hover: evitiamo tooltip enormi bloccati sul touch. */
+  #hover-name,
+  #hover-info {
     display: none !important;
     visibility: hidden !important;
-    pointer-events: none !important;
   }
+}
 
-  body.is-mobile-view {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  body.is-mobile-view .mobile-phone-paper {
-    display: block;
-    width: auto;
-    height: auto;
-    max-width: 94vw;
-    max-height: 94vh;
-    object-fit: contain;
-    user-select: none;
-    -webkit-user-drag: none;
+@media (max-width: 480px) {
+  #end-image {
+    width: clamp(50px, 20vmin, 86px);
   }
 }

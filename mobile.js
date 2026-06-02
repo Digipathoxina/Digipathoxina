@@ -1,36 +1,48 @@
-/* ===== Mobile view controller =====
-   Rimpiazza il vecchio redirect a index_phone.html.
-   Se il dispositivo sembra telefono/tablet, aggiunge una classe al body
-   e crea l'immagine phone_paper.jpg dentro index.html. */
+/* ===== Mobile helpers =====
+   Mantiene la stessa esperienza del sito desktop, ma aggiunge piccoli adattamenti
+   utili su telefono. Non crea nessuna immagine sostitutiva. */
 
 (function () {
-  const uaIsMobile = /Mobi|Android|iPhone|iPod|Windows Phone/i.test(navigator.userAgent);
-  const isiPadOS = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
-  const isTouchLike = window.matchMedia
-    && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  const isMobileLike = window.matchMedia
+    && window.matchMedia('(max-width: 768px), (hover: none) and (pointer: coarse)').matches;
 
-  const isPhoneOrTablet = uaIsMobile || isiPadOS || isTouchLike;
+  if (!isMobileLike) return;
 
-  if (!isPhoneOrTablet) return;
+  document.documentElement.classList.add('is-mobile-experience');
 
-  document.documentElement.classList.add('is-mobile-view');
+  function setViewportHeight() {
+    document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+  }
 
-  function initMobileView() {
-    document.body.classList.add('is-mobile-view');
+  function tuneModelViewerForMobile() {
+    const mv = document.getElementById('mv');
+    if (!mv) return;
 
-    if (document.querySelector('.mobile-phone-paper')) return;
+    mv.setAttribute('camera-orbit', '0deg 80deg 0.23m');
+    mv.setAttribute('rotation-per-second', '4deg');
+    mv.setAttribute('interaction-prompt', 'none');
+  }
 
-    const phoneImage = document.createElement('img');
-    phoneImage.className = 'mobile-phone-paper';
-    phoneImage.src = 'phone_paper.jpg';
-    phoneImage.alt = 'Phone paper';
+  function tuneVideoForMobile() {
+    const video = document.getElementById('replacement-video');
+    if (!video) return;
 
-    document.body.appendChild(phoneImage);
+    video.classList.add('mobile-portrait-video');
+    video.setAttribute('playsinline', '');
+  }
+
+  setViewportHeight();
+  window.addEventListener('resize', setViewportHeight, { passive: true });
+  window.addEventListener('orientationchange', setViewportHeight, { passive: true });
+
+  function initMobileExperience() {
+    tuneModelViewerForMobile();
+    tuneVideoForMobile();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMobileView);
+    document.addEventListener('DOMContentLoaded', initMobileExperience);
   } else {
-    initMobileView();
+    initMobileExperience();
   }
 })();
