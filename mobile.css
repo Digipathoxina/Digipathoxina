@@ -1,0 +1,49 @@
+/* ===== Mobile view =====
+   Questo file sostituisce la vecchia index_phone.html.
+   Su telefono mostra l'immagine phone_paper.jpg senza redirectare a una pagina separata. */
+
+.mobile-phone-paper {
+  display: none;
+}
+
+@media (max-width: 768px), (hover: none) and (pointer: coarse) {
+  html,
+  body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    background: #ffffff !important;
+    overflow: hidden;
+  }
+
+  body.is-mobile-view #viewer-container,
+  body.is-mobile-view #noise-canvas,
+  body.is-mobile-view #replacement-video,
+  body.is-mobile-view #vignette,
+  body.is-mobile-view #end-image,
+  body.is-mobile-view #lang-switch,
+  body.is-mobile-view #hover-name,
+  body.is-mobile-view #hover-info {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  body.is-mobile-view {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  body.is-mobile-view .mobile-phone-paper {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 94vw;
+    max-height: 94vh;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+}

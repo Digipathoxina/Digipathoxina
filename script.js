@@ -1,3 +1,12 @@
+/* ===== Desktop experience controller =====
+   Il codice originale resta attivo solo fuori dalla vista mobile. */
+
+(function () {
+  const isMobileView = document.documentElement.classList.contains('is-mobile-view')
+    || (window.matchMedia && window.matchMedia('(max-width: 768px), (hover: none) and (pointer: coarse)').matches);
+
+  if (isMobileView) return;
+
 /* ===== Riferimenti DOM ===== */
 const mv = document.getElementById('mv');
 const noise = document.getElementById('noise-canvas');
@@ -391,3 +400,5 @@ setLang('eng');
 img.addEventListener('click', () => {
   window.location.href = 'dpx/ic-ctrl/ci-index.html';
 });
+
+})();

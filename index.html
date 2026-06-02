@@ -22,25 +22,12 @@
 <meta name="apple-mobile-web-app-title" content="Digipathoxina" />
 <link rel="manifest" href="favicon/site.webmanifest" />
 
-<script>
-  (function () {
-    const uaIsMobile = /Mobi|Android|iPhone|iPod|Windows Phone/i.test(navigator.userAgent);
-    const isiPadOS = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
-    const isTouchLike =
-      window.matchMedia &&
-      window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 
-    const isPhoneOrTablet = uaIsMobile || isiPadOS || isTouchLike;
-
-    if (isPhoneOrTablet) {
-      window.location.replace("index_phone.html");
-    }
-  })();
-</script>
 
 
   <!-- Stili -->
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="mobile.css">
 </head>
 
 <body>
@@ -70,7 +57,8 @@
   <img id="hover-name" alt="" />
   <img id="hover-info" alt="" />
 
-  <!-- Script (quello che hai già) -->
+  <!-- Script -->
+  <script src="mobile.js"></script>
   <script src="script.js"></script>
 </body>
 
