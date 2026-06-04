@@ -42,6 +42,11 @@
       height: 100vh;
     }
 
+    .artwork-scroll,
+    .artwork-stage {
+      position: static;
+    }
+
     .fade-out {
       opacity: 0;
       transition: opacity 1.6s ease;
@@ -201,7 +206,7 @@
     .exit-button {
       right: 20px;
       /* stesso allineamento orizzontale */
-      bottom: 104px;
+      bottom: 84px;
       /* poco più in alto del txt */
       display: none;
       /* compare dopo il ritorno */
@@ -287,6 +292,164 @@
       margin: 0 0 0.55rem 0;
       /* spazio sotto il titolo */
     }
+
+
+    /* ======= Mobile responsive ======= */
+    @media (max-width: 768px) {
+
+      html,
+      body {
+        min-height: 100%;
+      }
+
+      body {
+        overflow: hidden;
+      }
+
+      #scene {
+        height: 100dvh;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+      }
+
+      .artwork-scroll {
+        position: relative;
+        min-width: 100vw;
+        width: max(100vw, 1000px);
+        height: 100dvh;
+      }
+
+      .artwork-stage {
+        position: relative;
+        width: 1000px;
+        height: 100dvh;
+        min-height: 620px;
+        margin: 0 auto;
+      }
+
+      .gif-center {
+        position: absolute;
+        left: 50%;
+        top: 46.75%;
+        width: min(760px, 130vw);
+        max-width: none;
+        height: auto;
+        transform: translate(-50%, -58%);
+        z-index: 1;
+      }
+
+      .cornice {
+        position: absolute;
+        left: 50.1%;
+        top: 51%;
+        width: min(1040px, 178vw);
+        max-width: none;
+        height: auto;
+        transform: translate(-50%, -58%);
+        object-fit: contain;
+        z-index: 2;
+      }
+
+      .titolo {
+        position: fixed;
+        top: 80%;
+        bottom: 88px;
+        left: 50%;
+        width: min(86vw, 360px);
+        font-size: 0.79rem;
+        line-height: 1.3;
+        transform: translateX(-50%);
+      }
+
+      .lang-toggle {
+        top: max(10px, env(safe-area-inset-top));
+        right: max(12px, env(safe-area-inset-right));
+        font-size: 0.72rem;
+      }
+
+      .float-text {
+        max-width: 34ch;
+        font-size: 0.92rem !important;
+      }
+
+      .txt-button {
+        right: max(12px, env(safe-area-inset-right));
+        bottom: max(14px, env(safe-area-inset-bottom));
+      }
+
+      .exit-button {
+        left: max(12px, env(safe-area-inset-left));
+        right: auto;
+        bottom: max(14px, env(safe-area-inset-bottom));
+      }
+
+      .txt-button img {
+        height: 74px;
+      }
+
+      .exit-button img {
+        height: 58px;
+      }
+
+      #alt-screen {
+        align-items: start;
+        overflow: hidden;
+      }
+
+      .two-columns-wrapper {
+        display: block;
+        height: 100dvh;
+        padding: 92px 0 42px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .two-columns {
+        width: min(86vw, 560px);
+        margin: 0 auto;
+        column-count: 1;
+        column-gap: 0;
+        font-size: 0.86rem;
+        line-height: 1.42;
+      }
+
+      .two-columns p {
+        margin: 0 0 1rem 0;
+      }
+
+      .alt-inline-title {
+        font-size: 1rem;
+        line-height: 1.22;
+        margin: 0 0 2rem 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .artwork-scroll {
+        width: max(100vw, 920px);
+      }
+
+      .artwork-stage {
+        width: 920px;
+      }
+
+      .gif-center {
+        width: 720px;
+        transform: translate(-50%, -60%);
+      }
+
+      .cornice {
+        width: 1040px;
+        transform: translate(-50%, -60%);
+      }
+
+      .titolo {
+        bottom: 104px;
+      }
+    }
   </style>
 </head>
 
@@ -300,8 +463,12 @@
       <span class="lang active" id="sceneENG" data-lang="ENG">ENG</span>
     </div>
 
-    <img src="gallery_img/the_garden_of_no_grass_touched.gif" alt="Opera" class="gif-center" id="mainGif">
-    <img src="gallery_img/cornice.png" alt="Cornice" class="cornice">
+    <div class="artwork-scroll" id="artworkScroll" aria-label="Opera scrollabile su mobile">
+      <div class="artwork-stage">
+        <img src="gallery_img/the_garden_of_no_grass_touched.gif" alt="Opera" class="gif-center" id="mainGif">
+        <img src="gallery_img/cornice.png" alt="Cornice" class="cornice">
+      </div>
+    </div>
 
     <!-- Bio aggiornata -->
     <h1 class="titolo" id="operaTitle">
@@ -377,6 +544,19 @@
     const scene = document.getElementById('scene');
     const exitBtn = document.getElementById('exitBtn');
 
+    function isMobileLayout() {
+      return window.matchMedia('(max-width: 768px)').matches;
+    }
+
+    function centerMobileArtwork() {
+      if (!isMobileLayout()) return;
+      const scroller = document.getElementById('scene');
+      const stage = document.querySelector('.artwork-stage');
+      if (!scroller || !stage) return;
+      const target = Math.max(0, (stage.offsetWidth - scroller.clientWidth) / 2);
+      scroller.scrollLeft = target;
+    }
+
     function renderAltText() {
       const altText = document.getElementById('altText');
       const paragraphs = currentLang === 'ENG' ? paragraphsENG : paragraphsITA;
@@ -394,6 +574,7 @@
         scene.classList.remove('hidden');
         void scene.offsetWidth;
         scene.classList.remove('fade-out');
+        centerMobileArtwork();
         /* dopo il ritorno mostra l'icona exit */
         exitBtn.style.display = 'inline-block';
         irregularLoop();
@@ -520,8 +701,11 @@
     /* ===== Avvio ===== */
     window.addEventListener('load', () => {
       updateLangActive();
+      centerMobileArtwork();
       irregularLoop();
     });
+
+    window.addEventListener('resize', centerMobileArtwork);
   </script>
 </body>
 
