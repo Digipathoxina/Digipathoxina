@@ -32,7 +32,7 @@ body{
 
 /* <<< NUOVO: sfondo in fase intro e dopo click */
 body.intro { background-image: url("x.png"); }
-body.bg-into { background-image: url("into_solo.jpg"); }
+body.bg-into.cards-ready { background-image: url("into_solo.jpg"); }
 
 .hidden{ display: none !important; }
 

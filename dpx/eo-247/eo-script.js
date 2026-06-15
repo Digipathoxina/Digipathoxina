@@ -167,6 +167,31 @@ function randomPosWithin(containerW, containerH, elW, elH) {
   return { x, y };
 }
 function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function isMobileEO() {
+  return window.matchMedia && window.matchMedia('(max-width: 900px), (hover: none) and (pointer: coarse)').matches;
+}
+
+function shuffledCopy(arr) {
+  const copy = arr.slice();
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function getActiveMemes() {
+  if (!isMobileEO()) return MEMES;
+  const isSmallPhone = window.matchMedia && window.matchMedia('(max-width: 480px)').matches;
+  const fallbackLimit = isSmallPhone ? 18 : 26;
+  const configuredLimit = isSmallPhone
+    ? (window.EO_MOBILE_MEME_LIMIT || fallbackLimit)
+    : (window.EO_TABLET_MEME_LIMIT || window.EO_MOBILE_MEME_LIMIT || fallbackLimit);
+  const limit = Math.max(1, Math.min(MEMES.length, Number(configuredLimit) || fallbackLimit));
+  return shuffledCopy(MEMES).slice(0, limit);
+}
+
 function getPointer(e) { if (e.touches && e.touches[0]) return { x: e.touches[0].clientX, y: e.touches[0].clientY }; return { x: e.clientX, y: e.clientY }; }
 
 /////////////////////// INTERACTION ///////////////////////
@@ -191,16 +216,62 @@ function makeDraggable(wrapper) {
 
 function bindHoverAudio(wrapper, audioList) {
   if (!audioList || audioList.length === 0) return;
-  const audioEl = new Audio(); audioEl.preload = "none"; audioEl.loop = true;
+  const audioEl = new Audio();
+  audioEl.preload = "auto";
+  audioEl.loop = true;
   let lastPick = null;
-  const tryPlay = () => {
-    if (!audioEnabled) return; let pick = pickRandom(audioList);
-    if (audioList.length > 1) { let safety = 4; while (pick === lastPick && safety-- > 0) pick = pickRandom(audioList); }
-    lastPick = pick; audioEl.src = audioBasePath + pick; audioEl.play().catch(() => { });
+
+  const pickNext = () => {
+    let pick = pickRandom(audioList);
+    if (audioList.length > 1) {
+      let safety = 4;
+      while (pick === lastPick && safety-- > 0) pick = pickRandom(audioList);
+    }
+    lastPick = pick;
+    audioEl.src = audioBasePath + pick;
+    audioEl.load();
   };
-  const stop = () => { audioEl.pause(); audioEl.currentTime = 0; };
-  wrapper.addEventListener("mouseenter", () => { wrapper.classList.add("hovering"); tryPlay(); });
-  wrapper.addEventListener("mouseleave", () => { wrapper.classList.remove("hovering"); stop(); });
+
+  // Prepara subito il file audio: al touch non deve perdere tempo a scegliere/caricare la sorgente.
+  pickNext();
+
+  const tryPlay = () => {
+    if (!audioEnabled) return;
+    if (!audioEl.src) pickNext();
+    try { audioEl.currentTime = 0; } catch (_) { }
+    audioEl.play().catch(() => { });
+  };
+
+  const stop = () => {
+    audioEl.pause();
+    try { audioEl.currentTime = 0; } catch (_) { }
+    pickNext();
+  };
+
+  // Desktop: resta il comportamento originale hover.
+  wrapper.addEventListener("mouseenter", () => {
+    wrapper.classList.add("hovering");
+    tryPlay();
+  });
+  wrapper.addEventListener("mouseleave", () => {
+    wrapper.classList.remove("hovering");
+    stop();
+  });
+
+  // Mobile/touch: il suono parte appena tocchi la card, anche mentre la trascini.
+  wrapper.addEventListener("pointerdown", () => {
+    wrapper.classList.add("hovering");
+    tryPlay();
+  });
+
+  const stopTouchAudio = () => {
+    wrapper.classList.remove("hovering");
+    stop();
+  };
+  wrapper.addEventListener("pointerup", stopTouchAudio);
+  wrapper.addEventListener("pointercancel", stopTouchAudio);
+  window.addEventListener("pointerup", stopTouchAudio);
+  window.addEventListener("pointercancel", stopTouchAudio);
 }
 
 /////////////////////// CREATION ///////////////////////
@@ -253,7 +324,7 @@ function createMemeElement(item) {
 
 function init() {
   const readyPromises = [];
-  MEMES.forEach(item => {
+  getActiveMemes().forEach(item => {
     const { ready } = createMemeElement(item);
     readyPromises.push(ready);
   });
@@ -461,6 +532,7 @@ function startSecondSection() {
 
   document.body.classList.add("teeth-on");
   document.body.classList.remove("intro");
+  document.body.classList.remove("cards-ready");
   document.body.classList.add("bg-into");
 
   // Nasconde il bottone di avvio
@@ -481,7 +553,11 @@ function startSecondSection() {
 
   // crea tutti i meme, poi parte la sequenza (1s -> 3s -> loop 5s)
   const ready = init();
-  ready.then(startHintSchedule);
+  ready.then(() => {
+    // Lo sfondo statico compare solo quando le card sono state create/caricate.
+    document.body.classList.add("cards-ready");
+    startHintSchedule();
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
