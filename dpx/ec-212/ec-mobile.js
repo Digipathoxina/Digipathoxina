@@ -34,20 +34,23 @@
     const menuWrap = document.createElement("div");
     menuWrap.className = "mobile-menu";
     menuWrap.innerHTML = `
-      <button id="mobileMenuBtn" type="button" aria-expanded="false">MENU</button>
+      <button id="mobileMenuBtn" type="button" aria-expanded="false" aria-label="Apri menu">
+        <span class="hamburger-line" aria-hidden="true"></span>
+        <span class="hamburger-line" aria-hidden="true"></span>
+        <span class="hamburger-line" aria-hidden="true"></span>
+      </button>
       <div id="mobileMenuPanel" aria-label="Mobile menu">
         <a href="#" data-mobile-route="home">Home</a>
         <a href="#" data-mobile-route="about">About</a>
         <a href="#" data-mobile-route="archive">Archive</a>
-        <a href="#" data-mobile-route="community">Community</a>
       </div>
     `;
 
     const brand = qs(".brand", headerRow);
-    if (brand && brand.nextSibling) {
-      headerRow.insertBefore(menuWrap, brand.nextSibling);
+    if (brand) {
+      headerRow.insertBefore(menuWrap, brand);
     } else {
-      headerRow.appendChild(menuWrap);
+      headerRow.prepend(menuWrap);
     }
 
     const btn = qs("#mobileMenuBtn");
@@ -94,6 +97,26 @@
     });
   }
 
+  function ensureCommunityHeroButton() {
+    const hero = qs("#homeHero");
+    if (!hero || qs("#mobileCommunityWrap")) return;
+
+    const wrap = document.createElement("div");
+    wrap.id = "mobileCommunityWrap";
+    wrap.className = "wrap mobile-community-wrap";
+    wrap.innerHTML = `<a href="#" class="mobile-community-btn" data-mobile-route="community">Community</a>`;
+
+    hero.insertAdjacentElement("afterend", wrap);
+
+    const btn = qs(".mobile-community-btn", wrap);
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.body.classList.add("show-community");
+      updateHomeOnlySections();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
   function ensureMobileBottom() {
     let bottom = qs("#mobileBottom");
     if (!bottom) {
@@ -126,17 +149,19 @@
   }
 
   function updateHomeOnlySections() {
+    const route = getActiveRoute();
+    const isHome = (route === "home") && !document.body.classList.contains("show-community");
+
+    document.body.classList.toggle("mobile-home", isHome);
+
     const bottom = qs("#mobileBottom");
     if (!bottom) return;
 
     const banner = qs(".banner", bottom);
     if (!banner) return;
 
-    const route = getActiveRoute();
-
     // Banner solo in Home (e NON in Community)
-    const shouldShow = (route === "home") && !document.body.classList.contains("show-community");
-    banner.style.display = shouldShow ? "" : "none";
+    banner.style.display = isHome ? "" : "none";
   }
 
   function keepExitButtonFixed() {
@@ -161,11 +186,12 @@
 
   function applyMobileBehavior() {
     if (!isMobile()) {
-      document.body.classList.remove("show-community");
+      document.body.classList.remove("show-community", "mobile-home");
       return;
     }
 
     ensureMobileMenu();
+    ensureCommunityHeroButton();
     bindTabClicksForHomeOnly();
     moveFooterSectionsToBottom();
     keepExitButtonFixed();
