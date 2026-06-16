@@ -104,15 +104,29 @@
     const wrap = document.createElement("div");
     wrap.id = "mobileCommunityWrap";
     wrap.className = "wrap mobile-community-wrap";
-    wrap.innerHTML = `<a href="#" class="mobile-community-btn" data-mobile-route="community">Community</a>`;
+    wrap.innerHTML = `
+      <a href="#" class="mobile-community-btn" data-mobile-route="community">Community</a>
+      <a href="#" class="mobile-blog-btn" data-mobile-route="home">Blog</a>
+    `;
 
     hero.insertAdjacentElement("afterend", wrap);
 
-    const btn = qs(".mobile-community-btn", wrap);
-    btn.addEventListener("click", (e) => {
+    const communityBtn = qs(".mobile-community-btn", wrap);
+    const blogBtn = qs(".mobile-blog-btn", wrap);
+
+    communityBtn?.addEventListener("click", (e) => {
       e.preventDefault();
       document.body.classList.add("show-community");
       updateHomeOnlySections();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    blogBtn?.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.body.classList.remove("show-community");
+      const homeTab = qs('#topTabs .tab[data-route="home"]');
+      safeClick(homeTab);
+      setTimeout(updateHomeOnlySections, 30);
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
