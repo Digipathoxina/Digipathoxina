@@ -208,8 +208,8 @@
       /* stesso allineamento orizzontale */
       bottom: 84px;
       /* poco più in alto del txt */
-      display: none;
-      /* compare dopo il ritorno */
+      display: inline-block;
+      /* visibile fin dall'ingresso nella pagina */
     }
 
     .txt-button:hover,
@@ -575,7 +575,7 @@
         void scene.offsetWidth;
         scene.classList.remove('fade-out');
         centerMobileArtwork();
-        /* dopo il ritorno mostra l'icona exit */
+        /* mantiene visibile l'icona exit anche dopo il ritorno */
         exitBtn.style.display = 'inline-block';
         irregularLoop();
       });
