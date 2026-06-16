@@ -39,7 +39,6 @@
         <a href="#" data-mobile-route="home">Home</a>
         <a href="#" data-mobile-route="about">About</a>
         <a href="#" data-mobile-route="archive">Archive</a>
-        <a href="#" data-mobile-route="community">Community</a>
       </div>
     `;
 
@@ -146,6 +145,32 @@
     if (exit.parentNode !== hero) hero.appendChild(exit);
   }
 
+  function ensureCommunityButton() {
+    const hero = qs("#homeHero");
+    if (!hero) return;
+
+    let btn = qs("#mobileCommunityBtn");
+    if (!btn) {
+      btn = document.createElement("button");
+      btn.id = "mobileCommunityBtn";
+      btn.type = "button";
+      btn.textContent = "Community";
+      hero.insertAdjacentElement("afterend", btn);
+    }
+
+    if (!btn.dataset.bound) {
+      btn.dataset.bound = "1";
+      btn.addEventListener("click", () => {
+        const active = document.body.classList.toggle("show-community");
+        btn.classList.toggle("is-active", active);
+        updateHomeOnlySections();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+
+    btn.classList.toggle("is-active", document.body.classList.contains("show-community"));
+  }
+
   function bindTabClicksForHomeOnly() {
     // quando clicchi un tab (desktop hidden ma esiste), aggiorna banner visibility
     const topTabs = qs("#topTabs");
@@ -159,6 +184,39 @@
     });
   }
 
+
+
+  function enhanceMobilePostCards() {
+    if (!isMobile()) return;
+
+    qsa('.post').forEach((post) => {
+      const thumb = qs('.thumb', post);
+      const date = qs('.foot .datetime', post);
+      if (!thumb || !date) return;
+
+      let mobileDate = qs('.mobile-date-under-thumb', post);
+      if (!mobileDate) {
+        mobileDate = document.createElement('div');
+        mobileDate.className = 'mobile-date-under-thumb';
+        thumb.insertAdjacentElement('afterend', mobileDate);
+      }
+      mobileDate.textContent = date.textContent || '';
+    });
+  }
+
+  function observeFeedForMobileCards() {
+    const feed = qs('#feed');
+    if (!feed || feed.dataset.mobileCardsObserved) return;
+    feed.dataset.mobileCardsObserved = '1';
+
+    const obs = new MutationObserver(() => {
+      if (!isMobile()) return;
+      enhanceMobilePostCards();
+    });
+
+    obs.observe(feed, { childList: true, subtree: true });
+  }
+
   function applyMobileBehavior() {
     if (!isMobile()) {
       document.body.classList.remove("show-community");
@@ -167,8 +225,10 @@
 
     ensureMobileMenu();
     bindTabClicksForHomeOnly();
+    observeFeedForMobileCards();
     moveFooterSectionsToBottom();
-    moveExitButtonAboveHero();
+    ensureCommunityButton();
+    enhanceMobilePostCards();
     updateHomeOnlySections();
   }
 
