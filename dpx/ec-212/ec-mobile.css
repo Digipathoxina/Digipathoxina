@@ -81,17 +81,25 @@ body{ font-size: 14px; }
   margin: 0 auto;
 }
 
-/* EXIT sopra immagine (tap facile) */
+/* EXIT fisso in basso a destra: segue lo scroll dell'utente */
 .exit-btn{
-  position: absolute !important;
-  top: 200px;
-  right: 10px;
-  z-index: 20;
+  position: fixed !important;
+  right: max(14px, env(safe-area-inset-right));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  top: auto !important;
+  left: auto !important;
+  z-index: 1000;
   margin: 0 !important;
   width: auto !important;
-  padding: .50rem .80rem;
+  min-width: 46px;
+  min-height: 46px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: .55rem .78rem;
   border-radius: 999px;
   text-align:center;
+  box-shadow: 0 10px 28px rgba(0,0,0,.38);
 }
 
 /* Layout mobile a colonna */
@@ -106,36 +114,44 @@ body{ font-size: 14px; }
 main#main{ order: 1; }
 .sidebar{ order: 2; }
 
-/* FEED CARDS — FIX VISIBILITÀ */
-.feed{ gap: 15px; }
+/* FEED CARDS — più strette e compatte */
+.feed{
+  gap: 12px;
+}
 
-/* Card verticale + spazio sufficiente */
+/* Card mobile orizzontale: immagine a sinistra, titolo/tag/info a destra */
 .post{
-  display:flex;
-  height: auto;   
-  flex-direction: column;
+  display:grid !important;
+  grid-template-columns: minmax(104px, 34%) 1fr;
+  align-items: stretch;
+  height: auto;
+  min-height: 112px;
   border-radius: 14px;
   overflow:hidden;
 }
 
-/* Immagine MOLTO più piccola */
 .post .thumb{
-  width: 50%;
-  height: auto;           /* << più piccola di prima */
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 112px;
   object-fit: cover;
   display:block;
 }
 
-/* Contenuto: più respiro e contrasto */
+/* Colonna testo a destra: sfrutta lo spazio vuoto vicino all'immagine */
 .post .right{
-  padding: 12px 12px 2px;
+  min-width: 0;
+  padding: 9px 10px 8px;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
 }
 
-/* Titolo: forzato visibile e cliccabile */
 .post .title{
-  margin: 6px 0 8px;
-  font-size: 1.06rem;
-  line-height: 1.2;
+  margin: 0;
+  font-size: .92rem;
+  line-height: 1.13;
 }
 .post .title a{
   display:block;
@@ -144,28 +160,46 @@ main#main{ order: 1; }
 }
 .post .title a:active{ opacity:.75; }
 
-/* Excerpt più compatto */
+/* excerpt compatto: massimo 2 righe, così la card rimane stretta */
 .post .excerpt{
-  margin: 0 0 10px;
-  opacity: .92;
-  font-size: .95rem;
+  margin: 0;
+  opacity: .88;
+  font-size: .78rem;
+  line-height: 1.22;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* Footer della card leggibile */
+/* Tag/data/leggi affiancati nella colonna destra */
 .post .foot{
   display:flex;
+  flex-wrap: wrap;
   align-items:center;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content:flex-start;
+  gap: 5px 8px;
+  margin-top: 2px;
 }
 .post .foot .read{
   font-weight: 900;
   letter-spacing: .02em;
+  font-size: .76rem;
 }
 .post .foot .datetime{
-  opacity: .8;
-  font-size: .86rem;
-  white-space: nowrap;
+  opacity: .78;
+  font-size: .72rem;
+  white-space: normal;
+}
+
+/* Se il JS principale usa meta/tags/categories dentro le card, li rendiamo pill compatte */
+.post .tag,
+.post .tags,
+.post .meta,
+.post .cat,
+.post .category{
+  font-size: .70rem;
+  line-height: 1.1;
 }
 
 /* VIEW page */
@@ -234,245 +268,13 @@ body.show-community main#main{ display:none; }
 }
 
 
-/* ===== Ultimo fix mobile: exit fisso + card ordinate ===== */
-@media (max-width: 900px) {
-  /* Bottone uscita sempre visibile in basso a destra */
-  .exit-btn {
-    position: fixed !important;
-    right: max(14px, env(safe-area-inset-right)) !important;
-    bottom: max(14px, env(safe-area-inset-bottom)) !important;
-    top: auto !important;
-    left: auto !important;
-    z-index: 1000 !important;
-    margin: 0 !important;
-    width: auto !important;
-    padding: .58rem .86rem !important;
-    border-radius: 999px !important;
-    text-align: center !important;
-    box-shadow: 0 10px 26px rgba(0,0,0,.35);
+@media (max-width: 430px){
+  .post{
+    grid-template-columns: 96px 1fr;
+    min-height: 104px;
   }
-
-  /* Card: immagine a sinistra, contenuti leggibili a destra */
-  .post {
-    display: grid !important;
-    grid-template-columns: clamp(130px, 37vw, 168px) minmax(0, 1fr);
-    grid-template-rows: auto auto;
-    column-gap: 12px;
-    row-gap: 7px;
-    align-items: start;
-    height: auto !important;
-    min-height: 0 !important;
-    padding: 10px !important;
-    border-radius: 14px;
-    overflow: hidden;
-  }
-
-  .post .thumb {
-    grid-column: 1;
-    grid-row: 1;
-    width: clamp(130px, 37vw, 168px) !important;
-    height: clamp(130px, 37vw, 168px) !important;
-    max-width: none !important;
-    min-width: 0 !important;
-    object-fit: cover !important;
-    aspect-ratio: 1 / 1 !important;
-    display: block !important;
-    border-radius: 10px;
-  }
-
-  .post .right {
-    grid-column: 2;
-    grid-row: 1 / span 2;
-    padding: 0 !important;
-    min-width: 0;
-    align-self: start;
-  }
-
-  .post .title {
-    margin: 0 0 8px !important;
-    font-size: clamp(1.08rem, 4.7vw, 1.28rem) !important;
-    line-height: 1.12 !important;
-  }
-
-  .post .title a {
-    color: #f9fbff;
-    text-decoration: none;
-  }
-
-  /* Niente abstract/excerpt su mobile */
-  .post .excerpt {
-    display: none !important;
-  }
-
-  /* Le info rimangono leggibili, ma senza allungare la card */
-  .post .foot {
-    margin-top: 8px;
-    display: flex !important;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-start !important;
-    gap: 7px 10px;
-    font-size: .92rem !important;
-    line-height: 1.2;
-  }
-
-  .post .foot .datetime {
-    font-size: .9rem !important;
-    white-space: normal !important;
-    opacity: .82;
-  }
-
-  /* Read more viene duplicato via JS sotto l'immagine */
-  .post .foot .read {
-    display: none !important;
-  }
-
-  .mobile-read-under-thumb {
-    grid-column: 1;
-    grid-row: 2;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: clamp(130px, 37vw, 168px);
-    min-height: 32px;
-    padding: 6px 8px;
-    border-radius: 999px;
-    text-align: center;
-    font-size: .92rem;
-    font-weight: 900;
-    line-height: 1.05;
-    text-decoration: none;
-  }
-
-  /* Riduce spazi morti nella lista */
-  .feed {
-    gap: 12px !important;
-  }
-}
-
-@media (max-width: 420px) {
-  .post {
-    grid-template-columns: 124px minmax(0, 1fr);
-    column-gap: 10px;
-    padding: 9px !important;
-  }
-
-  .post .thumb,
-  .mobile-read-under-thumb {
-    width: 124px !important;
-  }
-
-  .post .thumb {
-    height: 124px !important;
-  }
-
-  .post .title {
-    font-size: 1.04rem !important;
-  }
-
-  .post .foot {
-    font-size: .88rem !important;
-  }
-
-  .mobile-read-under-thumb {
-    font-size: .98rem !important;
-  }
-}
-
-
-/* ===== Safe fix: header + community + card info layout ===== */
-@media (max-width: 900px) {
-  /* Header: menu a sinistra, titolo centrato, lingua a destra */
-  .header-flex.header-with-tabs {
-    position: relative;
-    display: grid !important;
-    grid-template-columns: auto 1fr auto !important;
-    align-items: center;
-    min-height: 52px;
-  }
-
-  .mobile-menu {
-    grid-column: 1;
-    justify-self: start;
-    z-index: 3;
-  }
-
-  .brand {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    white-space: nowrap;
-  }
-
-  .lang-switch {
-    grid-column: 3;
-    justify-self: end;
-    z-index: 3;
-  }
-
-  /* Bottone Community sotto l'immagine iniziale */
-  #mobileCommunityBtn {
-    display: flex;
-    width: min(92%, 420px);
-    margin: 10px auto 4px;
-    justify-content: center;
-    align-items: center;
-    appearance: none;
-    border: 1px solid rgba(255,255,255,.16);
-    background: rgba(255,255,255,.06);
-    color: #eaf2ff;
-    border-radius: 999px;
-    padding: .62rem .9rem;
-    font-weight: 900;
-    letter-spacing: .06em;
-    font-size: .9rem;
-    cursor: pointer;
-  }
-
-  #mobileCommunityBtn:active,
-  #mobileCommunityBtn.is-active {
-    background: rgba(255,255,255,.12);
-  }
-
-  /* Card: read more torna nella colonna testo, data/ora sotto immagine */
-  .post .foot .read {
-    display: inline-flex !important;
-    font-size: 1rem !important;
-    font-weight: 900;
-    letter-spacing: .02em;
-  }
-
-  .post .foot .datetime {
-    display: none !important;
-  }
-
-  .mobile-read-under-thumb {
-    display: none !important;
-  }
-
-  .mobile-date-under-thumb {
-    grid-column: 1;
-    grid-row: 2;
-    display: block;
-    width: clamp(130px, 37vw, 168px);
-    min-height: 24px;
-    font-size: .82rem;
-    line-height: 1.15;
-    opacity: .82;
-    text-align: center;
-    padding-top: 3px;
-  }
-
-  .post .right {
-    grid-row: 1 / span 2;
-  }
-}
-
-@media (max-width: 420px) {
-  .mobile-date-under-thumb {
-    width: 124px !important;
-    font-size: .78rem;
-  }
+  .post .thumb{ min-height: 104px; }
+  .post .right{ padding: 8px 9px; }
+  .post .title{ font-size: .88rem; }
+  .post .excerpt{ font-size: .74rem; -webkit-line-clamp: 2; }
 }
