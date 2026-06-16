@@ -198,9 +198,36 @@
     });
   }
 
+  function cleanupMobileBehavior() {
+    document.body.classList.remove("show-community", "mobile-home");
+
+    const panel = qs("#mobileMenuPanel");
+    const btn = qs("#mobileMenuBtn");
+    if (panel) panel.classList.remove("open");
+    if (btn) btn.setAttribute("aria-expanded", "false");
+
+    const sidebar = qs("aside.sidebar");
+    const bottom = qs("#mobileBottom");
+    if (sidebar && bottom) {
+      const banner = qs("section.banner", bottom);
+      const ad = qs("section.ad-slot", bottom);
+      const tagsSection = qsa("#mobileBottom > section").find(s => qs("#tagCloud", s));
+
+      [banner, ad, tagsSection].forEach(sec => {
+        if (!sec) return;
+        sec.style.display = "";
+        sidebar.appendChild(sec);
+      });
+    }
+
+    qs("#mobileCommunityWrap")?.remove();
+    qs(".mobile-menu")?.remove();
+    qs("#mobileBottom")?.remove();
+  }
+
   function applyMobileBehavior() {
     if (!isMobile()) {
-      document.body.classList.remove("show-community", "mobile-home");
+      cleanupMobileBehavior();
       return;
     }
 
