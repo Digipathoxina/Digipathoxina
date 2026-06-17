@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>IC-CTRL</title>
   <link rel="preload" href="LGM-30A.mp3" as="audio">
-  <link rel="stylesheet" href="ci-styles.css" />
+  <link rel="stylesheet" href="ic-styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -22,9 +22,9 @@
   <meta name="apple-mobile-web-app-title" content="Digipathoxina" />
   <link rel="manifest" href="../../favicon/site.webmanifest" />
     
-  <link rel="stylesheet" href="ci-styles.css">
-  <link rel="stylesheet" href="ci-styles-h.css">
-  <link rel="stylesheet" href="ci-mobile.css" media="(max-width: 768px)">
+  <link rel="stylesheet" href="ic-styles.css">
+  <link rel="stylesheet" href="ic-styles-h.css">
+  <link rel="stylesheet" href="ic-mobile.css" media="(max-width: 768px)">
 </head>
 
 <body>
@@ -55,12 +55,12 @@
 
       if (isMobile) {
         document.documentElement.classList.add('ic-mobile-mode');
-        document.write('<script src="ci-mobile.js"><\/script>');
+        document.write('<script src="ic-mobile.js"><\/script>');
       } else {
         document.documentElement.classList.add('ic-desktop-mode');
-        // Desktop originale: NON caricare intro.js, perché la pre-intro Hello Kitty è già dentro ci-script.js.
-        document.write('<script src="ci-script.js"><\/script>');
-        document.write('<script src="ci-script-h.js"><\/script>');
+        // Desktop originale: NON caricare intro.js, perché la pre-intro Hello Kitty è già dentro ic-script.js.
+        document.write('<script src="ic-script.js"><\/script>');
+        document.write('<script src="ic-script-h.js"><\/script>');
       }
     })();
   </script>

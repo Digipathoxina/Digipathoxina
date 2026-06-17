@@ -61,6 +61,51 @@
       z-index:20;
       cursor:pointer;
     }
+
+
+    /* VERSIONE TELEFONO: ruota video e scritta e usa tutto lo schermo */
+    @media (max-width: 768px) and (orientation: portrait) {
+      body{
+        background:#000;
+      }
+
+      video{
+        position:fixed;
+        top:50%;
+        left:50%;
+
+        /* Dopo la rotazione, 100vh diventa la larghezza visiva
+           e 100vw diventa l'altezza visiva: così non restano bordi. */
+        width:100vh;
+        height:100vw;
+        max-width:none;
+        max-height:none;
+        object-fit:cover;
+
+        transform:translate(-50%, -50%) rotate(90deg);
+        transform-origin:center center;
+      }
+
+      .stamp{
+        position:fixed;
+        left:auto;
+        right:auto;
+        bottom:auto;
+
+        /* La didascalia resta sul bordo destro dello schermo,
+           ruotata come il video e sopra al layer cliccabile. */
+        top: calc(env(safe-area-inset-top, 0px) + 12px);
+        left: calc(100vw - env(safe-area-inset-right, 0px) - 12px);
+        transform: rotate(90deg);
+        transform-origin: top left;
+
+        font-size: clamp(13px, 3.8vw, 17px);
+        padding: 7px 11px;
+        line-height:1;
+        white-space:nowrap;
+        z-index:30;
+      }
+    }
   </style>
 </head>
 

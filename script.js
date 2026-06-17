@@ -389,5 +389,5 @@ setLang('eng');
 
 /* ===== Click sulla pillola: vai alla pagina successiva ===== */
 img.addEventListener('click', () => {
-  window.location.href = 'dpx/ic-ctrl/ci-index.html';
+  window.location.href = 'dpx/ic-ctrl/ic-index.html';
 });
