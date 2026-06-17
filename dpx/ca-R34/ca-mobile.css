@@ -1,0 +1,342 @@
+/* =========================================================
+   MOBILE ONLY - CA-R34
+   File separato per gestire la visualizzazione da telefono.
+   Non modifica la versione desktop.
+   ========================================================= */
+
+@media (max-width: 900px) and (orientation: portrait) {
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  /* Prima del primo click la pagina resta come desktop/mobile normale:
+     si vede solo la donnina, non ancora ruotata. */
+  .mobile-rotate-stage {
+    display: contents;
+  }
+
+  /* Dopo il primo click trasformiamo lo schermo del telefono in una
+     canvas orizzontale: larghezza = altezza telefono, altezza = larghezza telefono. */
+  body.mobile-landscape-active .mobile-rotate-stage {
+    display: block;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 100vh;
+    height: 100vw;
+    overflow: hidden;
+    transform: translate(-50%, -50%) rotate(90deg);
+    transform-origin: center center;
+  }
+
+  /* Gli elementi assoluti continuano a ragionare dentro la canvas ruotata. */
+  body.mobile-landscape-active .mobile-rotate-stage .gruppo,
+  body.mobile-landscape-active .mobile-rotate-stage #donnina,
+  body.mobile-landscape-active .mobile-rotate-stage #abo-container,
+  body.mobile-landscape-active .mobile-rotate-stage .cerchio-container,
+  body.mobile-landscape-active .mobile-rotate-stage #sliders,
+  body.mobile-landscape-active .mobile-rotate-stage #nav-btn,
+  body.mobile-landscape-active .mobile-rotate-stage #fountain {
+    position: absolute;
+  }
+
+  /* =====================================================
+     POSIZIONI MOBILE FACILI DA MODIFICARE
+
+     CERCHI:
+     - valore negativo = sposta verso sinistra
+     - valore positivo = sposta verso destra
+
+     GIF / GRUPPI:
+     - left/top sono la posizione principale
+     - x/y sono micro-spostamenti aggiuntivi
+     - x positivo = destra, x negativo = sinistra
+     - y positivo = giù, y negativo = su
+     ===================================================== */
+  body.mobile-landscape-active {
+    --mobile-cerchi-shift-x: -3vw;
+
+    --g0-left: 3.5%;
+    --g0-top: 0%;
+    --g0-x: 0px;
+    --g0-y: 0px;
+
+    --g1-left: 18%;
+    --g1-top: 0%;
+    --g1-x: 0px;
+    --g1-y: 0px;
+
+    --g2-left: 17.5%;
+    --g2-top: 13%;
+    --g2-x: 0px;
+    --g2-y: 0px;
+
+    --g3-left: 3.5%;
+    --g3-top: 13%;
+    --g3-x: 0px;
+    --g3-y: 0px;
+
+    --g4-left: 3%;
+    --g4-top: 13%;
+    --g4-x: 0px;
+    --g4-y: 0px;
+
+    --g5-left: 16%;
+    --g5-top: 13%;
+    --g5-x: 0px;
+    --g5-y: 0px;
+  }
+
+  body.mobile-landscape-active .cerchio-container {
+    transform: translateX(var(--mobile-cerchi-shift-x));
+  }
+
+  body.mobile-landscape-active .g0 {
+    left: var(--g0-left);
+    top: var(--g0-top);
+    transform: translate(var(--g0-x), var(--g0-y));
+  }
+
+  body.mobile-landscape-active .g1 {
+    left: var(--g1-left);
+    top: var(--g1-top);
+    transform: translate(var(--g1-x), var(--g1-y));
+  }
+
+  body.mobile-landscape-active .g2 {
+    left: var(--g2-left);
+    top: var(--g2-top);
+    transform: translate(var(--g2-x), var(--g2-y));
+  }
+
+  body.mobile-landscape-active .g3 {
+    left: var(--g3-left);
+    top: var(--g3-top);
+    transform: translate(var(--g3-x), var(--g3-y));
+  }
+
+  body.mobile-landscape-active .g4 {
+    left: var(--g4-left);
+    top: var(--g4-top);
+    transform: translate(var(--g4-x), var(--g4-y));
+  }
+
+  body.mobile-landscape-active .g5 {
+    left: var(--g5-left);
+    top: var(--g5-top);
+    transform: translate(var(--g5-x), var(--g5-y));
+  }
+
+  /* Scala mobile: qui riduciamo tutti gli elementi dopo il primo click.
+     Se li vuoi ancora più piccoli, abbassa questi valori. */
+  body.mobile-landscape-active .gruppo {
+    width: min(70rem, 80vh);
+  }
+
+  body.mobile-landscape-active #donnina {
+    /* Più piccola per non sovrapporsi ai cerchi laterali. */
+    width: min(280px, 24vh);
+  }
+
+  body.mobile-landscape-active .cerchio {
+    width: 118px;
+  }
+
+  body.mobile-landscape-active .cerchio-btn {
+    width: 30px;
+    left: 59px;
+    top: 41px;
+  }
+
+  body.mobile-landscape-active .slider {
+    width: 18px;
+    height: 220px;
+  }
+
+  /* Verticali laterali leggermente più grandi rispetto alla versione precedente. */
+  body.mobile-landscape-active .slider:not(.horizontal) {
+    width: 18px;
+    height: 198px;
+  }
+
+  /* Più area invisibile intorno agli slider: su touch è molto più facile prenderli. */
+  body.mobile-landscape-active .slider::before {
+    content: "";
+    position: absolute;
+    left: -24px;
+    right: -24px;
+    top: -34px;
+    bottom: -34px;
+    z-index: 0;
+  }
+
+  body.mobile-landscape-active .slider .asta,
+  body.mobile-landscape-active .slider .cursore,
+  body.mobile-landscape-active .slider .btn-top,
+  body.mobile-landscape-active .slider .btn-bottom {
+    z-index: 1;
+  }
+
+  body.mobile-landscape-active .slider .cursore {
+    width: 300%;
+    min-width: 50px;
+    transform: translateX(-18px);
+    touch-action: none;
+  }
+
+  body.mobile-landscape-active .slider .btn-top {
+    top: -25px;
+  }
+
+  body.mobile-landscape-active .slider .btn-bottom {
+    bottom: -25px;
+  }
+
+
+  body.mobile-landscape-active .slider:not(.horizontal)::before {
+    left: -42px;
+    right: -42px;
+    top: -42px;
+    bottom: -42px;
+  }
+
+  body.mobile-landscape-active .slider:not(.horizontal) .cursore {
+    min-width: 62px;
+    width: 330%;
+    transform: translateX(-21px);
+  }
+
+  /* Slider laterali più in alto e più separati: prima i cursori finivano troppo vicino al bordo. */
+  body.mobile-landscape-active #slider-1 {
+    left: 5.8%;
+    top: 25%;
+  }
+
+  body.mobile-landscape-active #slider-2 {
+    left: 12.5%;
+    top: 22%;
+  }
+
+  body.mobile-landscape-active #slider-3 {
+    right: 5.8%;
+    top: 25%;
+  }
+
+  body.mobile-landscape-active #slider-4 {
+    right: 12.5%;
+    top: 22%;
+  }
+
+  /* Slider orizzontali: più grandi, più distanziati e con area touch più comoda. */
+  body.mobile-landscape-active #slider-5,
+  body.mobile-landscape-active #slider-6 {
+    height: 235px;
+    width: 18px;
+    left: 50%;
+  }
+
+  body.mobile-landscape-active #slider-5 {
+    top: 70%;
+  }
+
+  body.mobile-landscape-active #slider-6 {
+    top: 83%;
+  }
+
+  body.mobile-landscape-active .slider.horizontal::before {
+    left: -52px;
+    right: -52px;
+    top: -58px;
+    bottom: -58px;
+  }
+
+  body.mobile-landscape-active .slider.horizontal .cursore {
+    min-width: 54px;
+    width: 300%;
+    transform: translateX(-18px);
+  }
+
+
+  /* La fontana dei link deve ragionare dentro la canvas orizzontale ruotata,
+     non sulla viewport verticale del telefono. */
+  body.mobile-landscape-active #fountain {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  /* Animazione guida dopo inattività. */
+  body.mobile-landscape-active .mobile-idle-demo-circle {
+    animation: mobileDemoCircle 1.2s ease-in-out 1;
+  }
+
+  body.mobile-landscape-active .mobile-idle-demo-cursor {
+    animation: mobileDemoCursor 1.2s ease-in-out 1;
+  }
+
+  @keyframes mobileDemoCircle {
+    0%, 100% { transform: rotate(0deg); }
+    45% { transform: rotate(28deg); }
+    70% { transform: rotate(-14deg); }
+  }
+
+  @keyframes mobileDemoCursor {
+    0%, 100% { margin-top: 0; }
+    45% { margin-top: -46px; }
+    70% { margin-top: -18px; }
+  }
+
+  /* Il bottone rosso non deve restare ancorato alla viewport verticale del telefono. */
+  body.mobile-landscape-active #nav-btn {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+  }
+}
+
+/* Se il telefono viene già ruotato fisicamente in landscape, non forziamo la rotazione CSS. */
+@media (max-width: 900px) and (orientation: landscape) {
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .mobile-rotate-stage {
+    display: contents;
+  }
+}
+
+/* =========================================================
+   FIX CERCHI MOBILE - forzato
+   Questa sezione sta in fondo al file apposta:
+   sovrascrive tutte le regole precedenti dei cerchi.
+
+   Modifica questi valori se vuoi ritoccare:
+   - left del cerchio sinistro: più basso = più a sinistra
+   - top: più basso = più in alto
+   ========================================================= */
+@media (max-width: 900px) and (orientation: portrait) {
+  body.mobile-landscape-active .mobile-rotate-stage > .cerchio-container.left,
+  body.mobile-landscape-active .cerchio-container.left {
+    left: 20.5% !important;
+    right: auto !important;
+    top: 28.2% !important;
+    transform: none !important;
+  }
+
+  body.mobile-landscape-active .mobile-rotate-stage > .cerchio-container.right,
+  body.mobile-landscape-active .cerchio-container.right {
+    left: 62% !important;
+    right: auto !important;
+    top: 28.2% !important;
+    transform: none !important;
+  }
+}
