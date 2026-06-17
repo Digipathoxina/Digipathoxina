@@ -1,0 +1,237 @@
+:root{
+  --bg:#fff;
+  --fg:#000;
+  --fg-sub:#9c9c9c;
+  --fade-ms:900ms;
+}
+
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--fg);
+  font-family:"Public Sans", sans-serif;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+}
+
+#titles{
+  text-align:center;
+  opacity:0;
+  transition:opacity var(--fade-ms) ease;
+  cursor:pointer;
+  padding:24px;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
+#titles.show{opacity:1; visibility:visible}
+#titles.fadeout{opacity:0; transition-duration:700ms}
+#titles.clickable{cursor:pointer}
+#titles *{
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
+
+#title-big{
+  margin:0;
+  letter-spacing:.01em;
+  line-height:.9;
+  font-size:clamp(52px, 12vw, 128px);
+  color:var(--fg);
+}
+
+h1#title-big span.lgm{
+  font-family:"Public Sans", sans-serif !important;
+  font-weight:700 !important;
+}
+h1#title-big span.thirty{
+  font-family:"Roboto", sans-serif !important;
+  font-weight:900 !important;
+}
+#title-big span{font-variant-ligatures:none}
+
+#title-small{
+  margin:3em 0 0;
+  font-weight:700;
+  letter-spacing:0em;
+  text-transform:uppercase;
+  font-size:clamp(8px, 2.4vw, 14px);
+  color:var(--fg-sub);
+}
+
+.hidden{visibility:hidden}
+
+#lgm-stage{
+  position:fixed;
+  inset:0;
+  z-index:20;
+  background:#fff;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+/* Riquadro grigio interrotto: non arriva a fullscreen, viene sovrapposto dalla pagina bianca */
+.lgm-grey-window{
+  position:fixed;
+  left:50%;
+  top:50%;
+  width:var(--lgm-base-size, 22px);
+  height:var(--lgm-base-size, 22px);
+  background:#d9d9d9;
+  border:none;
+  border-radius:0;
+  transform:translate3d(-50%, -50%, 0) scale(1);
+  transform-origin:center center;
+  opacity:1;
+  z-index:34;
+  transition:
+    transform var(--lgm-open-ms, 330ms) cubic-bezier(.16,.82,.2,1),
+    opacity 50ms linear;
+  will-change:transform, opacity;
+  backface-visibility:hidden;
+  contain:layout paint style;
+}
+
+.lgm-grey-window.open{
+  transform:translate3d(-50%, -50%, 0) scale(var(--lgm-final-scale, 46));
+}
+
+.lgm-grey-window.interrupted{
+  opacity:.78;
+}
+
+.lgm-grey-window.clear{
+  opacity:0;
+}
+
+/* Pagina bianca sopra al grigio: dà l'idea della nuova pagina che interrompe quella precedente */
+.lgm-white-page{
+  position:fixed;
+  inset:0;
+  background:#fff;
+  opacity:0;
+  z-index:38;
+  transition:opacity 45ms ease;
+}
+
+.lgm-white-page.show{
+  opacity:1;
+}
+
+.lgm-white-page.hide{
+  opacity:0;
+}
+
+/* Immagini: entrano dentro la pagina, con zoom più evidente e rapido */
+.lgm-center-image{
+  position:fixed;
+  left:50%;
+  top:50%;
+  display:block;
+  max-width:min(62vw, 430px);
+  max-height:min(58vh, 360px);
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  transform:translate(-50%, -50%) scale(.92);
+  opacity:0;
+  z-index:42;
+  user-select:none;
+  -webkit-user-drag:none;
+  transition:opacity 50ms ease, transform 50ms ease;
+}
+
+.lgm-center-image.is-png{
+  transform:translate(-50%, -50%) scale(.48);
+  transition:opacity 55ms ease, transform 210ms cubic-bezier(.08,.86,.18,1.24);
+}
+
+.lgm-center-image.is-final{
+  max-width:min(70vw, 520px);
+  max-height:min(62vh, 430px);
+}
+
+.lgm-center-image.show{
+  opacity:1;
+  transform:translate(-50%, -50%) scale(1);
+}
+
+.lgm-center-image.hide{
+  opacity:0;
+  transform:translate(-50%, -50%) scale(.92);
+}
+
+.lgm-center-image.is-png.hide{
+  transform:translate(-50%, -50%) scale(.86);
+}
+
+@media (max-width:768px){
+  #titles{
+    width:100%;
+    box-sizing:border-box;
+  }
+
+  #title-big{
+    font-size:clamp(48px, 18vw, 86px);
+  }
+
+  #title-small{
+    margin-top:2.4em;
+    font-size:clamp(8px, 3vw, 12px);
+  }
+
+  .lgm-center-image{
+    max-width:min(78vw, 360px);
+    max-height:48vh;
+  }
+
+  .lgm-center-image.is-final{
+    max-width:min(82vw, 390px);
+    max-height:54vh;
+  }
+}
+
+
+/* Bottone uscita finale: appare 2 secondi dopo la GIF */
+.lgm-exit-button{
+  position:fixed;
+  right:clamp(18px, 5vw, 42px);
+  bottom:clamp(18px, 5vw, 42px);
+  width:clamp(48px, 12vw, 76px);
+  height:clamp(48px, 12vw, 76px);
+  z-index:80;
+  opacity:0;
+  pointer-events:auto;
+  display:block;
+  transition:opacity 650ms ease, transform 650ms ease;
+  transform:translateY(8px) scale(.9);
+}
+
+.lgm-exit-button.show{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+
+.lgm-exit-button img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+
+@media (min-width:769px){
+  .lgm-exit-button{
+    width:52px;
+    height:52px;
+    right:28px;
+    bottom:28px;
+  }
+}

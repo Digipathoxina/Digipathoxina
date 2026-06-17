@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IC-CTRL — versione parallela</title>
+  <link rel="preload" href="audio_ic.mp3" as="audio">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/png" href="../../favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="../../favicon/favicon.svg" />
+  <link rel="shortcut icon" href="../../favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Digipathoxina" />
+  <link rel="manifest" href="../../favicon/site.webmanifest" />
+
+  <!-- Versione parallela: CSS unico, niente ic-styles-h.css -->
+  <link rel="stylesheet" href="ic-styles-parallelo.css" />
+</head>
+
+<body>
+  <!-- Audio iniziale della versione parallela -->
+  <audio id="intro-audio" src="audio_ic.mp3" preload="auto"></audio>
+
+  <!-- Titoli iniziali -->
+  <div id="titles" class="hidden" role="button" aria-label="Avvia audio" tabindex="0">
+    <h1 id="title-big">
+      <span class="lgm">LGM</span>-<span class="thirty">30A</span>
+    </h1>
+    <h2 id="title-small">ISMAELE SORAPERRA</h2>
+  </div>
+
+  <!-- Versione parallela: niente intro.js, niente ic-script-h.js, niente popup -->
+  <script src="ic-script-parallelo.js"></script>
+</body>
+
+</html>
