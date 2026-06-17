@@ -24,6 +24,7 @@
     
   <link rel="stylesheet" href="ci-styles.css">
   <link rel="stylesheet" href="ci-styles-h.css">
+  <link rel="stylesheet" href="ci-mobile.css" media="(max-width: 768px)">
 </head>
 
 <body>
@@ -48,8 +49,21 @@
   <button class="lang" data-lang="ita" aria-pressed="false">🇮🇹</button>
 </div>
 
-  <script src="ci-script.js"></script>
-  <script src="ci-script-h.js"></script>
+  <script>
+    (function () {
+      var isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+
+      if (isMobile) {
+        document.documentElement.classList.add('ic-mobile-mode');
+        document.write('<script src="ci-mobile.js"><\/script>');
+      } else {
+        document.documentElement.classList.add('ic-desktop-mode');
+        // Desktop originale: NON caricare intro.js, perché la pre-intro Hello Kitty è già dentro ci-script.js.
+        document.write('<script src="ci-script.js"><\/script>');
+        document.write('<script src="ci-script-h.js"><\/script>');
+      }
+    })();
+  </script>
 </body>
 
 </html>
