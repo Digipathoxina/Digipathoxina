@@ -85,6 +85,74 @@ function clamp01(x) { return Math.max(0, Math.min(1, x)); }
 
 let loadingChars = []; // array di <span> per ogni lettera
 
+/* ====== SOTTOTITOLO: alternanza con dissolvenza ====== */
+const SUBTITLE_TEXTS = ['Headphones recommended', 'Click to enter'];
+const SUBTITLE_VISIBLE_MS = 5000;
+const SUBTITLE_FADE_MS = 900;
+const SUBTITLE_HIDDEN_GAP_MS = 140;
+
+let subtitleIndex = 0;
+let subtitleTimer = null;
+
+function fadeLoadingSubTo(text, onComplete) {
+  if (!loadingSub || loadingSub.textContent === text) {
+    if (typeof onComplete === 'function') onComplete();
+    return;
+  }
+
+  // 1) la scritta vecchia esce completamente: opacity 0 + blur
+  loadingSub.classList.add('is-changing');
+
+  window.setTimeout(() => {
+    if (!loadingSub) return;
+
+    // 2) quando è invisibile, cambio testo
+    loadingSub.textContent = text;
+
+    // 3) resta invisibile per un istante, così il browser registra davvero lo stato di uscita
+    window.setTimeout(() => {
+      if (!loadingSub) return;
+
+      // forza il reflow: rende affidabile il fade-in anche su mobile
+      void loadingSub.offsetWidth;
+
+      // 4) la nuova scritta entra: opacity piena + blur che torna a 0
+      loadingSub.classList.remove('is-changing');
+
+      if (typeof onComplete === 'function') {
+        window.setTimeout(onComplete, SUBTITLE_FADE_MS);
+      }
+    }, SUBTITLE_HIDDEN_GAP_MS);
+  }, SUBTITLE_FADE_MS);
+}
+
+function scheduleNextLoadingSubtitleSwitch() {
+  subtitleTimer = window.setTimeout(() => {
+    subtitleIndex = (subtitleIndex + 1) % SUBTITLE_TEXTS.length;
+
+    fadeLoadingSubTo(SUBTITLE_TEXTS[subtitleIndex], () => {
+      // dopo l'entrata completa, la scritta rimane visibile prima del prossimo cambio
+      scheduleNextLoadingSubtitleSwitch();
+    });
+  }, SUBTITLE_VISIBLE_MS);
+}
+
+function startLoadingSubtitleLoop() {
+  if (!loadingSub) return;
+
+  stopLoadingSubtitleLoop();
+  loadingSub.textContent = SUBTITLE_TEXTS[0];
+  loadingSub.classList.remove('is-changing');
+  subtitleIndex = 0;
+
+  scheduleNextLoadingSubtitleSwitch();
+}
+
+function stopLoadingSubtitleLoop() {
+  if (subtitleTimer) window.clearTimeout(subtitleTimer);
+  subtitleTimer = null;
+}
+
 function setupLoadingLetters() {
   if (!loadingBtn) return;
 
@@ -156,7 +224,7 @@ function updateLoaderByProgress(p) {
     loader.classList.add('is-loaded');
     loadingBtn.classList.add('is-ready');
     loadingBtn.disabled = false;
-    loadingBtn.setAttribute('aria-label', 'Start binaural sound');
+    loadingBtn.setAttribute('aria-label', 'Click to enter');
 
     // sicurezza: tutte nitide
     updateLettersByProgress(1);
@@ -176,6 +244,7 @@ function startAutoRotateNow() {
 function activateExperience() {
   if (!userActivated) {
     userActivated = true;
+    appendAllAnimationsOnce();
     startAutoRotateNow();
   }
 }
@@ -202,6 +271,7 @@ if (loadingBtn) loadingBtn.addEventListener('click', async () => {
   if (!modelLoaded) return; // cliccabile solo dopo load completo
   const ok = await startAudioFromClick();
   if (ok) {
+    stopLoadingSubtitleLoop();
     loader.classList.add('is-started');
     setTimeout(() => loader.remove(), 520);
   }
@@ -216,6 +286,7 @@ viewer.addEventListener('camera-change', onUserInteractsWithModel);
 
 window.addEventListener('DOMContentLoaded', () => {
   setupLoadingLetters();
+  startLoadingSubtitleLoop();
   lastP = 0;
   updateLettersByProgress(0);
 });
@@ -226,7 +297,6 @@ viewer.addEventListener('progress', (e) => {
 });
 
 viewer.addEventListener('load', () => {
-  appendAllAnimationsOnce();
   viewer.autoRotate = false;
   updateLoaderByProgress(1);
 });

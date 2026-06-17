@@ -12,6 +12,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
 
+  <link rel="icon" type="image/png" href="../../favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="../../favicon/favicon.svg" />
+  <link rel="shortcut icon" href="../../favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Digipathoxina" />
+  <link rel="manifest" href="../../favicon/site.webmanifest" />
+
   <!-- Model Viewer -->
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
@@ -24,7 +31,7 @@
   <model-viewer id="viewer" src="room-brainrot.glb" camera-controls interaction-prompt="none"
     camera-orbit="10deg 82deg 13m" camera-target="0m 1m 0m" min-camera-orbit="auto auto 0.1m"
     max-camera-orbit="auto auto 100m" field-of-view="65deg" environment-image="moon.hdr" exposure="0.6"
-    shadow-intensity="0.3" autoplay>
+    shadow-intensity="0.3">
   </model-viewer>
 
   <div class="phase-glitch" aria-hidden="true"></div>
@@ -33,7 +40,7 @@
     <button id="loadingBtn" class="loading-btn" type="button" aria-label="Loading" disabled>Loading</button>
     <div id="loadingSub" class="loader__sub" aria-hidden="true">Headphones recommended</div>
   </div>
-<!-- Exit (next page) -->
+  <!-- Exit (next page) -->
   <a id="exitBtn" class="exit-btn" href="ca-pill/ca-pill-index.html" aria-label="Go to next page">
     <img src="exit.png" alt="Exit" />
   </a>
@@ -47,4 +54,5 @@
   <script src="dd-script.js"></script>
 
 </body>
+
 </html>

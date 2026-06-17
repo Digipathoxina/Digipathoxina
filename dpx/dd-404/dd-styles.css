@@ -165,6 +165,16 @@ model-viewer {
   transition: filter 260ms ease, opacity 240ms ease, text-shadow 240ms ease;
 }
 
+/* leggero cambio continuo di opacità mentre il modello sta caricando */
+.loader:not(.is-loaded) .loading-btn {
+  animation: loadingOpacityPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes loadingOpacityPulse {
+  0%, 100% { opacity: calc(0.45 + (var(--p) * 0.65)); }
+  50% { opacity: calc(0.28 + (var(--p) * 0.50)); }
+}
+
 /* finché carica non è cliccabile */
 .loading-btn:disabled {
   cursor: default;
@@ -190,10 +200,26 @@ model-viewer {
   font-size: 12px;
   letter-spacing: 0.4px;
   opacity: 0.55;
+  filter: blur(0px);
   text-align: center;
   max-width: 80vw;
   line-height: 1.2;
-  transition: opacity 360ms ease;
+  transition:
+    opacity 900ms ease,
+    filter 900ms ease;
+}
+
+.loader.is-loaded .loader__sub {
+  opacity: 0.72;
+}
+
+/* Stato invisibile: usato sia per fade-out sia prima del fade-in.
+   La regola è più specifica di .loader.is-loaded .loader__sub,
+   così la dissolvenza funziona anche quando il modello è già caricato. */
+.loader .loader__sub.is-changing,
+.loader.is-loaded .loader__sub.is-changing {
+  opacity: 0;
+  filter: blur(8px);
 }
 
 /* ===== EXIT BUTTON (bottom-right, click -> next page) ===== */
