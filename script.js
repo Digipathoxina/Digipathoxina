@@ -389,5 +389,10 @@ setLang('eng');
 
 /* ===== Click sulla pillola: vai alla pagina successiva ===== */
 img.addEventListener('click', () => {
-  window.location.href = 'dpx/ic-ctrl/ic-index.html';
+  const isMobileLike = window.matchMedia
+    && window.matchMedia('(max-width: 768px), (hover: none) and (pointer: coarse)').matches;
+
+  window.location.href = isMobileLike
+    ? 'dpx/ic-ctrl/ic-index-parallelo.html'
+    : 'dpx/ic-ctrl/ic-index.html';
 });
