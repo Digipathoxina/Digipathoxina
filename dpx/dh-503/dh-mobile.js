@@ -36,6 +36,72 @@
     cardVideo.muted = true;
   }
 
+
+
+  function avoidAsciiCenterForStartKeys() {
+    if (!mobileQuery.matches) return;
+
+    const keysField = document.getElementById('keysField');
+    if (!keysField) return;
+
+    const keys = [...keysField.querySelectorAll('.access-key:not(.is-correct)')];
+    const ascii = keysField.querySelector('.access-key.is-correct');
+
+    // Scritta ASCII sempre al centro dello schermo.
+    if (ascii) {
+      ascii.style.position = 'absolute';
+      ascii.style.left = '50%';
+      ascii.style.top = '50%';
+      ascii.style.transform = 'translate(-50%, -50%)';
+      ascii.style.textAlign = 'center';
+      ascii.style.zIndex = '3';
+    }
+
+    if (!keys.length) return;
+
+    // Zona vietata: il centro dove c'è la scritta ASCII.
+    // Più allarghi questi valori, più le chiavi stanno lontane dal centro.
+    const forbidden = {
+      leftMin: 18,
+      leftMax: 82,
+      topMin: 40,
+      topMax: 60
+    };
+
+    function randomBetween(min, max) {
+      return min + Math.random() * (max - min);
+    }
+
+    function randomSafePosition() {
+      let left;
+      let top;
+      let attempts = 0;
+
+      do {
+        left = randomBetween(6, 88);
+        top = randomBetween(22, 78);
+        attempts += 1;
+      } while (
+        attempts < 80 &&
+        left > forbidden.leftMin &&
+        left < forbidden.leftMax &&
+        top > forbidden.topMin &&
+        top < forbidden.topMax
+      );
+
+      return { left, top };
+    }
+
+    keys.forEach((key) => {
+      const pos = randomSafePosition();
+      key.style.position = 'absolute';
+      key.style.left = `${pos.left}%`;
+      key.style.top = `${pos.top}%`;
+      key.style.transform = 'translate(-50%, -50%)';
+      key.style.zIndex = '2';
+    });
+  }
+
   function refreshMobileLayout() {
     applyViewportHeight();
     markMode();
@@ -44,6 +110,9 @@
     setTimeout(placeMobileBottomUI, 0);
     setTimeout(placeMobileBottomUI, 80);
     setTimeout(placeMobileBottomUI, 220);
+    setTimeout(avoidAsciiCenterForStartKeys, 0);
+    setTimeout(avoidAsciiCenterForStartKeys, 120);
+    setTimeout(avoidAsciiCenterForStartKeys, 300);
   }
 
   window.addEventListener('load', refreshMobileLayout);

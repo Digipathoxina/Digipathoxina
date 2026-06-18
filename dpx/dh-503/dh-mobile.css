@@ -2,7 +2,8 @@
    Mobile-only overrides: keep the same experience, but arrange it as a split screen.
    Load this file after dh-styles.css. */
 
-@media (max-width: 900px), (hover: none) and (pointer: coarse) {
+@media (max-width: 900px),
+(hover: none) and (pointer: coarse) {
   :root {
     --dh-mobile-gap: 10px;
     /* Card Luca in alto: larga/orizzontale, non più verticale. */
@@ -10,10 +11,11 @@
     --card-w: min(92vw, 520px);
     --card-h: min(30dvh, calc(var(--card-w) * 0.48));
 
-    /* Video principale in basso: largo quanto lo schermo e appoggiato al fondo. */
-    --dh-mobile-video-h: min(56.25vw, 46dvh);
+    /* Video principale in basso: leggermente più grande e centrato in basso.
+       --dh-game-w controlla la grandezza: aumenta/diminuisci 108vw se vuoi rifinirlo. */
+    --dh-game-w: 500vw;
+    --dh-mobile-video-h: min(60.75vw, 50dvh);
     --dh-mobile-video-top: calc(100dvh - var(--dh-mobile-video-h));
-    --dh-game-w: 100vw;
     --dh-game-h: var(--dh-mobile-video-h);
   }
 
@@ -97,129 +99,137 @@
   }
 
   .dh-game-box {
-    width: 100vw;
+    width: var(--dh-game-w);
     height: var(--dh-mobile-video-h);
     max-height: var(--dh-mobile-video-h);
     aspect-ratio: 16 / 9;
     overflow: hidden;
     background: url('dc-desktop.jpg') center/cover no-repeat;
+    transform: scale(1.28);
+    transform-origin: bottom center;
   }
+}
 
-  .dh-game-box video {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    background: #000;
-  }
+.dh-game-box video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
 
-  /* In caso il JS usi fullscreen mode in futuro. */
-  #dhGameFull.bg-video {
-    position: fixed;
-    top: auto;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
-    height: var(--dh-mobile-video-h);
-    object-fit: contain;
-    background: #000;
-  }
+/* In caso il JS usi fullscreen mode in futuro. */
+#dhGameFull.bg-video {
+  position: fixed;
+  top: auto;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--dh-game-w);
+  height: var(--dh-mobile-video-h);
+  object-fit: contain;
+  background: #000;
+}
 
-  /* Comandi adattati alla metà bassa. */
-  .continue-btn {
-    position: fixed !important;
-    left: 50% !important;
-    top: calc(var(--dh-mobile-video-top) + min(24dvh, 35vw)) !important;
-    transform: translate(-50%, -50%) !important;
-    padding: 10px 24px;
-    min-width: 96px;
-    min-height: 34px;
-    border-radius: 8px;
-    font-size: 10px;
-    z-index: 220;
-  }
+/* Comandi adattati alla metà bassa. */
+.continue-btn {
+  position: fixed !important;
+  left: 50% !important;
+  top: calc(var(--dh-mobile-video-top) + min(24dvh, 35vw)) !important;
+  transform: translate(80%, -200%) !important;
+  padding: 10px 24px;
+  width: 10px;
+  height: 10px;
+  border-radius: 0px;
+  border-color: #5eff0000;
+  font-size: 10px;
+  z-index: 220;
+}
 
-  .checkpoint-red {
-    position: fixed !important;
-    left: 50% !important;
-    top: calc(var(--dh-mobile-video-top) + min(28dvh, 38vw)) !important;
-    transform: translate(-50%, -50%) !important;
-    width: min(34vw, 160px);
-    height: min(12dvh, 70px);
-    border-radius: 10px;
-    z-index: 221;
-  }
+.checkpoint-red {
+  position: fixed !important;
+  left: 50% !important;
+  top: calc(var(--dh-mobile-video-top) + min(28dvh, 38vw)) !important;
+  transform: translate(-50%, -195%) !important;
+  width: min(34vw, 120px);
+  height: min(12dvh, 40px);
+  border-radius: 10px;
+  z-index: 221;
+}
 
-  .bottom-center {
-    position: fixed !important;
-    left: 50% !important;
-    top: auto !important;
-    bottom: max(14px, env(safe-area-inset-bottom)) !important;
-    width: min(92vw, 520px) !important;
-    transform: translateX(-50%) !important;
-    z-index: 230;
-    gap: 8px;
-  }
+.bottom-center {
+  position: fixed !important;
+  left: 50% !important;
+  top: auto !important;
+  bottom: max(14px, env(safe-area-inset-bottom)) !important;
+  width: min(92vw, 520px) !important;
+  transform: translateX(-50%) !important;
+  z-index: 230;
+  gap: 8px;
+}
 
-  .input-bar {
-    height: 42px;
-    padding: 10px 11px;
-    font-size: 12px;
-    border-radius: 9px;
-  }
+.input-bar {
+  height: 22px;
+  width: 300px;
+  transform: translate(8%, -150%) !important;
+  padding: 10px 11px;
+  font-size: 12px;
+  border-radius: 7px;
+}
 
-  .printed-text {
-    font-size: 11px;
-    transform: none;
-    white-space: normal;
-    line-height: 1.25;
-    max-height: 3.8em;
-  }
+.printed-text {
+  font-size: 9px;
+  transform: none;
+  transform: translate(8%, -430%) !important;
+  white-space: normal;
+  line-height: 1.25;
+  max-height: 3.8em;
+}
 
-  /* Keys start screen più usabile su mobile. */
-  .access-key {
-    font-size: clamp(10px, 3.1vw, 13px);
-    max-width: 88vw;
-    white-space: pre-wrap;
-  }
+/* Keys start screen più usabile su mobile. */
+.access-key {
+  font-size: clamp(10px, 3.1vw, 13px);
+  max-width: 88vw;
+  white-space: pre-wrap;
+}
 
-  .access-key.is-correct {
-    width: min(92vw, 420px);
-    font-size: clamp(9px, 2.5vw, 13px);
-    text-align: left;
-  }
+.access-key.is-correct {
+  width: min(92vw, 420px);
+  font-size: clamp(9px, 2.5vw, 13px);
+  text-align: left;
+}
 
-  /* Final screen adattata al telefono. */
-  .final {
-    padding: max(16px, env(safe-area-inset-top)) 14px max(18px, env(safe-area-inset-bottom));
-  }
+/* Final screen adattata al telefono. */
+.final {
+  padding: max(16px, env(safe-area-inset-top)) 14px max(18px, env(safe-area-inset-bottom));
+}
 
-  .final-layer.final-solo {
-    width: min(112vw, 620px);
-  }
+.final-layer.final-solo {
+  width: min(112vw, 620px);
+}
 
-  .final-actions {
-    position: fixed;
-    left: 50%;
-    top: auto;
-    bottom: max(24px, calc(env(safe-area-inset-bottom) + 18px));
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    z-index: 4;
-  }
+.final-actions {
+  position: fixed;
+  left: 50%;
+  top: auto;
+  bottom: max(24px, calc(env(safe-area-inset-bottom) + 18px));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  z-index: 4;
+}
 
-  .img-btn {
-    width: min(36vw, 145px);
-  }
+.img-btn {
+  width: min(36vw, 145px);
 }
 
 @media (max-width: 480px) {
   :root {
     --card-w: min(94vw, 430px);
     --card-h: min(27dvh, calc(var(--card-w) * 0.46));
-    --dh-mobile-video-h: min(56.25vw, 44dvh);
+    --dh-game-w: 108vw;
+    --dh-mobile-video-h: min(60.75vw, 48dvh);
     --dh-mobile-video-top: calc(100dvh - var(--dh-mobile-video-h));
   }
 
@@ -265,12 +275,32 @@
   }
 
   .dh-game-box {
-    width: min(100vw, 177.77dvh);
+    width: min(108vw, 177.77dvh);
     height: auto;
   }
 
   .bottom-center {
     bottom: 8px !important;
     width: min(58vw, 520px) !important;
+  }
+}
+
+/* Start screen mobile: ASCII centrato, chiavi random ma fuori dal centro. */
+@media (max-width: 900px), (hover: none) and (pointer: coarse) {
+  .start-overlay,
+  .keys-field {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .access-key.is-correct {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: min(92vw, 420px);
+    text-align: center;
+    z-index: 3;
   }
 }
